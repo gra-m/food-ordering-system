@@ -1,5 +1,7 @@
 package com.food.ordering.system.domain.entity;
 
+import java.util.Objects;
+
 /**
  * For entities used to service domain core == internal so get/set
  * @param <ID>
@@ -13,5 +15,23 @@ public ID getId() {
 
 public void setId(ID id) {
       this.id = id;
+}
+
+/**
+ * Used across the board for all extending classes, saving having separate in each entity.
+ * @param o the object to test equality with
+ * @return true if ids are the same
+ */
+@Override
+public boolean equals(Object o) {
+      if( this == o ) return true;
+      if( o == null || getClass() != o.getClass() ) return false;
+      BaseEntity<?> that = ( BaseEntity<?> ) o;
+      return Objects.equals(id, that.id);
+}
+
+@Override
+public int hashCode() {
+      return Objects.hash(id);
 }
 }

@@ -11,11 +11,12 @@
 
     <artifactId>order-domain-core</artifactId>
 
-    <!--Only allowed dependency is internal common-->
+
     <dependencies>
         <dependency>
+            <!-- tbc instead of this add dependencies to aggregate modules [no src]-->
             <groupId>com.food.ordering.system</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>common-domain</artifactId>
         </dependency>
     </dependencies>
 

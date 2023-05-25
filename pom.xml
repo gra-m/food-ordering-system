@@ -38,6 +38,7 @@
     </dependencies>
 
     <dependencyManagement>
+        <!--Note, only modules with src are listed here this seemed to be early pattern-->
         <dependencies>
             <dependency>
                 <groupId>com.food.ordering.system</groupId>
@@ -64,11 +65,11 @@
                 <artifactId>order-messaging</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.food.ordering.system</groupId>
-                <artifactId>common</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+                <dependency>
+                    <groupId>com.food.ordering.system</groupId>
+                    <artifactId>common-domain</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
         </dependencies>
     </dependencyManagement>
 

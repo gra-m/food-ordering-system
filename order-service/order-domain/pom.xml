@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>order-domain</artifactId>
+
     <packaging>pom</packaging>
 
     <modules>
