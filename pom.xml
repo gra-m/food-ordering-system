@@ -6,6 +6,7 @@
 
     <modules>
         <module>order-service</module>
+        <module>common</module>
     </modules>
 
     <!--relative path best practice as below when have external parent 'spring-boot', usually searches locally-->
@@ -61,6 +62,11 @@
             <dependency>
                 <groupId>com.food.ordering.system</groupId>
                 <artifactId>order-messaging</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>common</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
