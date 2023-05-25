@@ -56,11 +56,14 @@ public boolean isGreaterThan(Money money) {
 }
 
 /**
+ ** <p>Question - when two amounts have and have no choice but to be scaled in the constructor, is it necessary
+ *  * to scale again - have done this here though</p>
+ *
  * @param money a money object with an amount to be added to this Money object
  * @return a new money object containing the sum of both object's amounts.
  */
 public Money add(Money money) {
-      return new Money(this.amount.add(money.amount));
+      return new Money(setScale(this.amount.add(money.amount)));
 }
 
 /**
@@ -68,7 +71,7 @@ public Money add(Money money) {
  * @return a new money object containing the remainder of this objects amount after subtraction.
  */
 public Money subtract(Money money) {
-      return new Money(this.amount.subtract(money.amount));
+      return new Money(setScale(this.amount.subtract(money.amount)));
 }
 
 /**
@@ -81,6 +84,7 @@ public Money multiply(int multiplier) {
 
 /**
  * <h3>Scale to two decimal points (transactional value) with HALF_EVEN rounding mode:
+ *
  * <p>Behaves as for RoundingMode.HALF_UP if the digit to the left of the discarded fraction is odd;
  * behaves as for RoundingMode.HALF_DOWN if it's even.
  * <p>Note that this is the rounding mode that statistically minimizes cumulative error when applied repeatedly
