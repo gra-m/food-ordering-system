@@ -1,9 +1,9 @@
 package com.food.ordering.system.domain.event;
 
 /**
- * <h3>Will be generally used as: </h3>
- * T such as Order == the entity from which this Domain event originated
- * but instead of using BaseEntity, T allows flexibility.
+ * <h3>Used as marker interface for Domain Events: </h3>
+ *
+ * OrderCreatedEvent implements DomainEvent{Order}
  *
  * @param <T> is of type entity, the origin of the domain event
  */
