@@ -68,9 +68,9 @@ private void validateItemsPrice() {
 
 /**
  *
- * Check delegated to OrderItem entity with
+ *  Check delegated to OrderItem entity with isPriceValid()
  *
- * @param orderItem
+ * @param orderItem is used to validate its own price
  */
 private void validateItem_Price(OrderItem orderItem) {
        if(!orderItem.isPriceValid()) {
@@ -119,6 +119,82 @@ private void initializeOrderItems() {
 
 }
 
+/**
+ * for order PENDING -> PAID
+ * 1. must first be confirmed as PENDING
+ * 2. payment must have been made/confirmed
+ */
+public void pay() {
+      if (orderStatus != OrderStatus.PENDING) {
+            throw new OrderDomainException("Order is not in correct state for pay operation!");
+      }
+      orderStatus = OrderStatus.PAID;
+}
+
+
+/**
+ * for order PAID -> APPROVED
+ * 1. must first be confirmed as PAID
+ * 2. restaurant must have approved order
+ */
+public void approve() {
+      if (orderStatus != OrderStatus.PAID) {
+            throw new OrderDomainException("Order is not in correct state for approve operation!");
+      }
+      orderStatus = OrderStatus.APPROVED;
+}
+
+/**
+ *
+ * <h3>SAGA PATTERN Compensating transaction</h3>
+ * <p>Example of compensating transaction within SAGA pattern, if Restaurant Service cannot complete order Payment Service
+ * needs to know</p>
+ *
+ * for order PAID -> CANCELLING
+ * 1. must first be confirmed as PAID
+ * 2. restaurant cannot fulfill order
+ *
+ * @param failureMessages -> need failure messages from other services for logs and customer
+ */
+public void initCancel(List<String> failureMessages) {
+      if (orderStatus != OrderStatus.PAID) {
+            throw new OrderDomainException("Order is not in correct state for initCancel operation!");
+      }
+      orderStatus = OrderStatus.CANCELLING;
+      updateFailureMessages(failureMessages);
+}
+
+/**
+ * for order PENDING/CANCELLING -> CANCELLED
+ * 1. must first be confirmed as either PENDING OR CANCELLED
+ * 2. payment must have failed PENDING -> CANCELLED
+ * 2a. order could not be fulfilled CANCELLING -> CANCELLED
+ *
+ *
+ * @param failureMessages -> need failure messages from other services for logs and customer
+ */
+public void cancel(List<String> failureMessages) {
+      if( !(orderStatus == OrderStatus.PENDING || orderStatus == OrderStatus.CANCELLING) ) {
+            throw new OrderDomainException("Order is not in correct state for cancel operation!");
+      }
+      orderStatus = OrderStatus.CANCELLED;
+      updateFailureMessages(failureMessages);
+}
+
+/**
+ * Given that there are new failure messages, check they are not empty and add them to existing failure messages for
+ * this order, or if it is null directly assign parameter to this.failureMessages.
+ *
+ * @param failureMessages possible new list of failure messages, some of which could be empty.
+ */
+private void updateFailureMessages(List<String> failureMessages) {
+      if(this.failureMessages != null && failureMessages != null) {
+            this.failureMessages.addAll(failureMessages.stream().filter(message -> !message.isEmpty()).toList());
+      }
+      if (this.failureMessages == null) {
+            this.failureMessages = failureMessages;
+      }
+}
 
 public CustomerId getCustomerId() {
       return customerId;

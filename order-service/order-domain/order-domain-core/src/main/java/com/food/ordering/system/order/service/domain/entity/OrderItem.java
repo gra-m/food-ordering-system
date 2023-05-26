@@ -54,6 +54,11 @@ public Money getSubTotal() {
       return subTotal;
 }
 
+
+/**
+ *
+ * @return true if greater than zero, price and product price match and price and subtotal match
+ */
 public boolean isPriceValid() {
       return price.isGreaterThanZero() &&
           price.equals(product.getPrice()) &&
