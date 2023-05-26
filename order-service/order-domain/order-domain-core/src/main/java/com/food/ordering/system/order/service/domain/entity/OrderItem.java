@@ -8,6 +8,9 @@ import com.food.ordering.system.order.service.domain.valueobject.OrderItemId;
 /**
  * Order Item uniqueness is only important within context of order, so it does not need UUID, just
  * a number starting at 1.
+ *
+ * @see Product private final Product: this is included as the price from the client, so it can be later tested against the product
+ * price list from the restaurant.
  */
 public class OrderItem extends BaseEntity<OrderItemId> {
       private OrderId orderId;

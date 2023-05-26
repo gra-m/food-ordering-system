@@ -83,7 +83,7 @@ private void validateItem_Price(OrderItem orderItem) {
  * Checking price Money object has been initialized to an amount greater than zero.
  */
 private void validateTotalPrice() {
-      if( price == null && !price.isGreaterThanZero() ) {
+      if( price == null || !price.isGreaterThanZero()) {
             throw new OrderDomainException("Total price must be greater than zero!");
 
       }

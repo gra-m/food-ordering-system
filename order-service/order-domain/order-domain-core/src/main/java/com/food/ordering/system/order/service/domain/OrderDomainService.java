@@ -23,6 +23,9 @@ import java.util.List;
  * use a DomainService so that the Entities are never directly accessed from the application service.
  * Under normal Domain Driven Design principles it would be fine to do this and you would only 'need' a Domain service
  * if there was code required that didn't fit elsewhere or you were handling multiple aggregates.</p>
+ *
+ * ALSO NOTE:
+ * Although logging is available from the Base pom only this domain service uses logging, not the domain core. Another reason?
  */
 public interface OrderDomainService {
 
