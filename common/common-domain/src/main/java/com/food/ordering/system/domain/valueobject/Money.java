@@ -13,6 +13,14 @@ public class Money {
 private final BigDecimal amount;
 
 /**
+ * Constant created for use in reduce method, this Money constant is used as the identity value ** for the accumulator***:
+ * validateItemsPrice()...orderItem ->
+ * ...return orderItem.getSubTotal();
+ * }).reduce(Money.ZERO**, Money::add***)
+ */
+public static final Money ZERO = new Money(BigDecimal.ZERO);
+
+/**
  * Input is first scaled to two decimal places and rounded using bankers method.
  *
  * @param input a BigDecimal that is treated as if it has not been scaled or rounded.

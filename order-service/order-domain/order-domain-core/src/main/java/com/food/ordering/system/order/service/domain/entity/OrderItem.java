@@ -16,6 +16,14 @@ public class OrderItem extends BaseEntity<OrderItemId> {
       private final Money price;
       private final Money subTotal;
 
+/**
+ * Only called from Order during orderInitialization, so package private.
+ */
+void initializeOrderItem(OrderId orderId, OrderItemId orderItemId) {
+      super.setId(orderItemId);
+      this.orderId = orderId;
+
+}
 
 private OrderItem(Builder builder) {
       super.setId(builder.orderItemId);
@@ -44,6 +52,12 @@ public Money getPrice() {
 
 public Money getSubTotal() {
       return subTotal;
+}
+
+public boolean isPriceValid() {
+      return price.isGreaterThanZero() &&
+          price.equals(product.getPrice()) &&
+          price.multiply(quantity).equals(subTotal);
 }
 
 /** <h3>Q: Why not lombok for builder pattern?</h3>
