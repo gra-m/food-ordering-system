@@ -1,6 +1,6 @@
 package com.food.ordering.system.domain.exception;
 
-public class DomainException extends RuntimeException{
+public class DomainException extends RuntimeException {
 /**
  * Constructs a new runtime exception with the specified detail message and
  * cause.  <p>Note that the detail message associated with

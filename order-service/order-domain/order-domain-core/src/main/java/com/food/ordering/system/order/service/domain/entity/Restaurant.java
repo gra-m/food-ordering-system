@@ -6,13 +6,17 @@ import com.food.ordering.system.domain.valueobject.RestaurantId;
 import java.util.List;
 
 public class Restaurant extends AggregateRoot<RestaurantId> {
-      private final List<Product> products;
-      private boolean active;
+private final List<Product> products;
+private boolean active;
 
 private Restaurant(Builder builder) {
       super.setId(builder.restaurantId);
       products = builder.products;
       active = builder.active;
+}
+
+public static Builder builder() {
+      return new Builder();
 }
 
 public List<Product> getProducts() {
@@ -34,17 +38,13 @@ public static final class Builder {
       private Builder() {
       }
 
-      public static Builder builder() {
-            return new Builder();
-      }
-
       /**
        * Sets the {@code id} and returns a reference to this Builder enabling method chaining.
        *
        * @param val the {@code id} to set
        * @return a reference to this Builder
        */
-      public Builder id(RestaurantId val) {
+      public Builder restaurantId(RestaurantId val) {
             restaurantId = val;
             return this;
       }

@@ -20,6 +20,7 @@ public StreetAddress(UUID uuid, String street, String postalCode, String city) {
 
 /**
  * UUID id not required for address equality, but used for tracking in DataLayer.
+ *
  * @param o another object
  * @return true if street postalCode and city are the same
  */

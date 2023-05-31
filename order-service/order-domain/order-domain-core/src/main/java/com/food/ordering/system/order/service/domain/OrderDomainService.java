@@ -5,6 +5,7 @@ import com.food.ordering.system.order.service.domain.entity.Restaurant;
 import com.food.ordering.system.order.service.domain.event.OrderCancelledEvent;
 import com.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
 import com.food.ordering.system.order.service.domain.event.OrderPaidEvent;
+
 import java.util.List;
 
 /**
@@ -13,7 +14,8 @@ import java.util.List;
  * <p>chooses to return domain events from Domain service (bouncing them out of domain core rather than handling them
  * here)
  * <p>The event firing process will be handled by the calling application service. This choice is because:
- * Before firing an event the data should first have been persisted, and he does not want that persistence code held within
+ * Before firing an event the data should first have been persisted, and he does not want that persistence code held
+ * within
  * the domain code. Think about the dependencies! This follows his mantra of domain-core only containing business logic.
  *
  * <p>Domain layer should not know about how to fire an event it only creates and returns them after running the BL.
@@ -23,9 +25,10 @@ import java.util.List;
  * use a DomainService so that the Entities are never directly accessed from the application service.
  * Under normal Domain Driven Design principles it would be fine to do this and you would only 'need' a Domain service
  * if there was code required that didn't fit elsewhere or you were handling multiple aggregates.</p>
- *
+ * <p>
  * ALSO NOTE:
- * Although logging is available from the Base pom only this domain service uses logging, not the domain core. Another reason?
+ * Although logging is available from the Base pom only this domain service uses logging, not the domain core.
+ * Another reason?
  */
 public interface OrderDomainService {
 

@@ -3,7 +3,6 @@ package com.food.ordering.system.order.service.domain.entity;
 import com.food.ordering.system.domain.entity.AggregateRoot;
 import com.food.ordering.system.domain.exception.DomainException;
 import com.food.ordering.system.domain.valueobject.*;
-import com.food.ordering.system.domain.valueobject.OrderId;
 import com.food.ordering.system.order.service.domain.exception.OrderDomainException;
 import com.food.ordering.system.order.service.domain.valueobject.OrderItemId;
 import com.food.ordering.system.order.service.domain.valueobject.StreetAddress;
@@ -26,6 +25,7 @@ private final StreetAddress deliveryAddress;
 private final Money price;
 private final List<OrderItem> items;
 
+// These are set based on the business domain logic
 private TrackingId trackingId;
 private OrderStatus orderStatus;
 private List<String> failureMessages;
@@ -40,6 +40,10 @@ private Order(Builder builder) {
       trackingId = builder.trackingId;
       orderStatus = builder.orderStatus;
       failureMessages = builder.failureMessages;
+}
+
+public static Builder builder() {
+      return new Builder();
 }
 
 public void validateOrder() {
@@ -65,25 +69,23 @@ private void validateItemsPrice() {
 
 }
 
-
 /**
- *
- *  Check delegated to OrderItem entity with isPriceValid()
+ * Check delegated to OrderItem entity with isPriceValid()
  *
  * @param orderItem is used to validate its own price
  */
 private void validateItem_Price(OrderItem orderItem) {
-       if(!orderItem.isPriceValid()) {
-             throw new DomainException(String.format("Order item price: %s is not valid for product: %s",
-                 orderItem.getPrice().getAmount(), orderItem.getProduct().getId().getValue()));
-       }
+      if( !orderItem.isPriceValid() ) {
+            throw new DomainException(String.format("Order item price: %s is not valid for product: %s",
+                orderItem.getPrice().getAmount(), orderItem.getProduct().getId().getValue()));
+      }
 }
 
 /**
  * Checking price Money object has been initialized to an amount greater than zero.
  */
 private void validateTotalPrice() {
-      if( price == null || !price.isGreaterThanZero()) {
+      if( price == null || !price.isGreaterThanZero() ) {
             throw new OrderDomainException("Total price must be greater than zero!");
 
       }
@@ -125,12 +127,11 @@ private void initializeOrderItems() {
  * 2. payment must have been made/confirmed
  */
 public void pay() {
-      if (orderStatus != OrderStatus.PENDING) {
+      if( orderStatus != OrderStatus.PENDING ) {
             throw new OrderDomainException("Order is not in correct state for pay operation!");
       }
       orderStatus = OrderStatus.PAID;
 }
-
 
 /**
  * for order PAID -> APPROVED
@@ -138,18 +139,18 @@ public void pay() {
  * 2. restaurant must have approved order
  */
 public void approve() {
-      if (orderStatus != OrderStatus.PAID) {
+      if( orderStatus != OrderStatus.PAID ) {
             throw new OrderDomainException("Order is not in correct state for approve operation!");
       }
       orderStatus = OrderStatus.APPROVED;
 }
 
 /**
- *
  * <h3>SAGA PATTERN Compensating transaction</h3>
- * <p>Example of compensating transaction within SAGA pattern, if Restaurant Service cannot complete order Payment Service
+ * <p>Example of compensating transaction within SAGA pattern, if Restaurant Service cannot complete order Payment
+ * Service
  * needs to know</p>
- *
+ * <p>
  * for order PAID -> CANCELLING
  * 1. must first be confirmed as PAID
  * 2. restaurant cannot fulfill order
@@ -157,7 +158,7 @@ public void approve() {
  * @param failureMessages -> need failure messages from other services for logs and customer
  */
 public void initCancel(List<String> failureMessages) {
-      if (orderStatus != OrderStatus.PAID) {
+      if( orderStatus != OrderStatus.PAID ) {
             throw new OrderDomainException("Order is not in correct state for initCancel operation!");
       }
       orderStatus = OrderStatus.CANCELLING;
@@ -169,7 +170,6 @@ public void initCancel(List<String> failureMessages) {
  * 1. must first be confirmed as either PENDING OR CANCELLED
  * 2. payment must have failed PENDING -> CANCELLED
  * 2a. order could not be fulfilled CANCELLING -> CANCELLED
- *
  *
  * @param failureMessages -> need failure messages from other services for logs and customer
  */
@@ -188,10 +188,10 @@ public void cancel(List<String> failureMessages) {
  * @param failureMessages possible new list of failure messages, some of which could be empty.
  */
 private void updateFailureMessages(List<String> failureMessages) {
-      if(this.failureMessages != null && failureMessages != null) {
+      if( this.failureMessages != null && failureMessages != null ) {
             this.failureMessages.addAll(failureMessages.stream().filter(message -> !message.isEmpty()).toList());
       }
-      if (this.failureMessages == null) {
+      if( this.failureMessages == null ) {
             this.failureMessages = failureMessages;
       }
 }
@@ -242,9 +242,6 @@ public static final class Builder {
       private Builder() {
       }
 
-      public static Builder builder() {
-            return new Builder();
-      }
 
       public Builder orderId(OrderId val) {
             orderId = val;
