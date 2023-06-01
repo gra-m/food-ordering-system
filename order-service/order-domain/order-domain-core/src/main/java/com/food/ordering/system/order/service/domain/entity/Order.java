@@ -42,6 +42,11 @@ private Order(Builder builder) {
       failureMessages = builder.failureMessages;
 }
 
+@Override
+public OrderId getId() {
+      return (OrderId) super.getId();
+}
+
 public static Builder builder() {
       return new Builder();
 }
