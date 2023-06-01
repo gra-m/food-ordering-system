@@ -18,6 +18,7 @@ public OrderEvent(Order order, ZonedDateTime createdAt) {
       this.createdAt = createdAt;
 }
 
+@Override
 public Order getOrder() {
       return order;
 }

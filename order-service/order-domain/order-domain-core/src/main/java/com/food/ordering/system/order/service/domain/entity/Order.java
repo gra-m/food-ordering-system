@@ -196,6 +196,10 @@ private void updateFailureMessages(List<String> failureMessages) {
       }
 }
 
+@Override
+public OrderId getId(){
+      return (OrderId) super.getId();
+}
 public CustomerId getCustomerId() {
       return customerId;
 }

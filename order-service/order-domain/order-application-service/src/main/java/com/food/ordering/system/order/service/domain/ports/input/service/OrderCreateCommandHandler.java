@@ -29,16 +29,22 @@ private final OrderRepository orderRepository;
 private final CustomerRepository customerRepository;
 private final RestaurantRepository restaurantRepository;
 private final OrderDataMapper orderDataMapper;
+private final ApplicatioinDomainEventPublisher applicatioinDomainEventPublisher;
 
-public OrderCreateCommandHandler(OrderDomainService orderDomainService, OrderRepository orderRepository,
-                                 CustomerRepository customerRepository, RestaurantRepository restaurantRepository,
-                                 OrderDataMapper orderDataMapper) {
+public OrderCreateCommandHandler(OrderDomainService orderDomainService,
+                                 OrderRepository orderRepository,
+                                 CustomerRepository customerRepository,
+                                 RestaurantRepository restaurantRepository,
+                                 OrderDataMapper orderDataMapper,
+                                 ApplicatioinDomainEventPublisher applicatioinDomainEventPublisher) {
       this.orderDomainService = orderDomainService;
       this.orderRepository = orderRepository;
       this.customerRepository = customerRepository;
       this.restaurantRepository = restaurantRepository;
       this.orderDataMapper = orderDataMapper;
+      this.applicatioinDomainEventPublisher = applicatioinDomainEventPublisher;
 }
+
 
 
 /**
@@ -55,12 +61,10 @@ public CreateOrderResponse createOrder(CreateOrderCommand createOrderCommand) {
       OrderCreatedEvent orderCreatedEvent = orderDomainService.validateAndInitiateOrder(order, restaurant);
       Order orderResult = saveOrder(order);
       log.info("Order with id: {} created", orderResult.getId());
+      applicatioinDomainEventPublisher.publish(orderCreatedEvent);
 
       return orderDataMapper.orderToCreateOrderResponse(orderResult);
 }
-
-
-
 
 /**
  * Given that a CreateOrderCommand has been received, it will be used to create a bare-bones [id and product
