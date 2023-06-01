@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
  * <p>From a DDD perspective you could consider this the 'Factory' as creation of and conversion of Domain
  * objects and DTO's is delegated to this Mapper Class</p>
  */
+
 @Component
 public class OrderDataMapper {
 

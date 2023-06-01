@@ -68,7 +68,7 @@ private void validateItemsPrice() {
       }).reduce(Money.ZERO, Money::add);
 
       if( !price.equals(orderItemsTotal) )
-            throw new OrderDomainException(String.format("Total price: %s is not equal to Order Items Total: %s !",
+            throw new OrderDomainException(String.format("Total price: %s is not equal to Order Items Total: %s!",
                 price.getAmount(), orderItemsTotal.getAmount()));
 
 
@@ -81,7 +81,7 @@ private void validateItemsPrice() {
  */
 private void validateItem_Price(OrderItem orderItem) {
       if( !orderItem.isPriceValid() ) {
-            throw new DomainException(String.format("Order item price: %s is not valid for product: %s",
+            throw new OrderDomainException(String.format("Order item price: %s is not valid for product: %s",
                 orderItem.getPrice().getAmount(), orderItem.getProduct().getId().getValue()));
       }
 }

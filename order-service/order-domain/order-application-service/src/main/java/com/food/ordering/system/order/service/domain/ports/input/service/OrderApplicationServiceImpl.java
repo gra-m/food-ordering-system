@@ -12,7 +12,7 @@ import org.springframework.validation.annotation.Validated;
 /**
  * Implementation of OrderApplicationService. Encapsulated with package private as both
  * impl and interface are in the same package. This class is simplified with the use of two
- * 'helper' @Components OrderCreateCommandHandler and
+ * 'helper' @Components OrderCreateCommandHandler and     ...
  */
 @Slf4j
 @Validated
@@ -32,7 +32,7 @@ public OrderApplicationServiceImpl(OrderCreateCommandHandler orderCreateCommandH
  * @return
  */
 @Override
-public CreateOrderResponse CreateOrder(CreateOrderCommand createOrderCommand) {
+public CreateOrderResponse createOrder(CreateOrderCommand createOrderCommand) {
       return orderCreateCommandHandler.createOrder(createOrderCommand);
 }
 
