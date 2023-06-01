@@ -32,16 +32,18 @@ public OrderCreateCommandHandler(OrderCreateHelper orderCreateHelper,
  * @param createOrderCommand
  * @return
  * @ Current commit 21 refactor branch persistOrder logic moved to OrderCreateHelper, once persisted the
- * orderCreatedEvent is published in the orderCreatedPaymentRequestMessagePublisher, all messaging is separated from
- * domain logic.
- *
- *
+ * orderCreatedEvent is published in the orderCreatedPaymentRequestMessagePublisher, all messaging is
+ * separated from domain logic.
  */
 public CreateOrderResponse createOrder(CreateOrderCommand createOrderCommand) {
-     OrderCreatedEvent orderCreatedEvent = orderCreateHelper.persistOrder(createOrderCommand);
-     log.info("Order with id {} was created", orderCreatedEvent.getOrder().getId().getValue());
-     orderCreatedPaymentRequestMessagePublisher.publish(orderCreatedEvent);
-     return orderDataMapper.orderToCreateOrderResponse(orderCreatedEvent.getOrder());
+      OrderCreatedEvent orderCreatedEvent = orderCreateHelper.persistOrder(createOrderCommand);
+      log.info("Order with id {} was created", orderCreatedEvent
+          .getOrder()
+          .getId()
+          .getValue());
+      orderCreatedPaymentRequestMessagePublisher.publish(orderCreatedEvent);
+      return orderDataMapper.orderToCreateOrderResponse(orderCreatedEvent.getOrder(), "Order created " +
+          "successfully");
 
 }
 
