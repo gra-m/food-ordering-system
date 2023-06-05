@@ -11,4 +11,46 @@
 
     <artifactId>kafka-model</artifactId>
 
+    <dependencies>
+
+
+
+
+        <dependency>
+            <!--The leading serialization format for record data.-->
+            <groupId>org.apache.avro</groupId>
+            <artifactId>avro</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.avro</groupId>
+                <artifactId>avro-maven-plugin</artifactId>
+                <version>${avro.version}</version>
+                <configuration>
+                    <stringType>String</stringType>
+                    <!--required for price fields-->
+                    <enableDecimalLogicalType>true</enableDecimalLogicalType>
+                </configuration>
+                <executions>
+                    <execution>
+                        <!--Avro classes made here @ maven install:-->
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <!--Avro classes made from-->
+                            <goal>schema</goal>
+                        </goals>
+                        <configuration>
+                            <!--Where avro schema files will be-->
+                            <sourceDirectory>src/main/resources/avro</sourceDirectory>
+                            <outputDirectory>src/main/java</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
