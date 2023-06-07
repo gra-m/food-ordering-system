@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * @Enumerated allows use of Java Enum in db, will be postgresql table with enum strings
+ */
 @Getter
 @Setter
 @Builder
@@ -24,6 +27,7 @@ private UUID customerId;
 private UUID restaurantId;
 private UUID trackingId;
 private BigDecimal price;
+@Enumerated(EnumType.STRING)
 private OrderStatus orderStatus;
 private String failureMessages;
 
