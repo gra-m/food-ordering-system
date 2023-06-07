@@ -10,15 +10,17 @@ import com.food.ordering.system.order.service.domain.valueobject.TrackingId;
 
 import java.util.List;
 import java.util.UUID;
-// fixme probably going to have version issues with compile as the aggregate [M] have do not have their children
-//  listed as dependencies
-
 
 /**
+ * Order Domain Objects are passed around the domain logic, OrderEntities are retrieved from an persisted to db, they
+ * are mapped to one another via mapper objects.
  * No setters though not immutable -> state changes will be through well named methods.
  * Note -> issues with OrderID as parameter was not added to AggregateRoot
  */
 public class Order extends AggregateRoot<OrderId> {
+
+public static final String FAILURE_MESSAGE_DELIMITER = ",";
+
 private final CustomerId customerId;
 private final RestaurantId restaurantId;
 private final StreetAddress deliveryAddress;
@@ -70,7 +72,6 @@ private void validateItemsPrice() {
       if( !price.equals(orderItemsTotal) )
             throw new OrderDomainException(String.format("Total price: %s is not equal to Order Items Total: %s!",
                 price.getAmount(), orderItemsTotal.getAmount()));
-
 
 }
 

@@ -37,7 +37,7 @@ public int hashCode() {
       return Objects.hash(street, postalCode, city);
 }
 
-public UUID getUuid() {
+public UUID getId() {
       return uuid;
 }
 
