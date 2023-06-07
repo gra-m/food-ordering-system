@@ -37,11 +37,6 @@
     </properties>
 
     <dependencies>
-        <!-- <dependency>
-             <groupId>org.springframework.boot</groupId>
-             <artifactId>spring-boot-starter-logging</artifactId>
-         </dependency>-->
-        <!--provided == don't package with app, I already have-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -50,6 +45,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-logging</artifactId>
+            <scope>provided</scope>
         </dependency>
     <!--    <dependency>
             &lt;!&ndash; https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-configuration-processor &ndash;&gt;
@@ -63,6 +59,11 @@
     <dependencyManagement>
         <!--Non - pom packaged-->
         <dependencies>
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>common-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.food.ordering.system</groupId>
                 <artifactId>order-domain-core</artifactId>

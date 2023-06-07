@@ -11,12 +11,13 @@
 
     <artifactId>common-domain</artifactId>
     <dependencies>
-        <dependency>
+        <!--added automatically? removed as test todo compiled ok after removal when did it appear?????-->
+      <!--  <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>17.0.0</version>
             <scope>compile</scope>
-        </dependency>
+        </dependency>-->
     </dependencies>
 
 
