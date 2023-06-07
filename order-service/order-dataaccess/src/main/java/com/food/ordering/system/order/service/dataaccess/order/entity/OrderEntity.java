@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
@@ -35,4 +36,16 @@ private OrderAddressEntity address;
 @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 private List<OrderItemEntity> items;
 
+@Override
+public boolean equals(Object o) {
+      if( this == o ) return true;
+      if( o == null || getClass() != o.getClass() ) return false;
+      OrderEntity that = ( OrderEntity ) o;
+      return Objects.equals(id, that.id);
+}
+
+@Override
+public int hashCode() {
+      return Objects.hash(id);
+}
 }
