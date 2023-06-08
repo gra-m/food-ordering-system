@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
+ * This repository will be used internally to complete database operations
  *   JpaRepository[T, ID] is extended all the way up to Repository[T, ID] via etc..
  *
  *   Behind the scenes with @Repository Spring creates a dedicated Repository proxy class that will handle the
