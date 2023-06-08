@@ -1,0 +1,11 @@
+
+1: remove orphans cleans previous
+docker compose -f common.yml -f zookeeper.yml up --remove-orphans
+1a: check zookeeper OK, set to run on 2181
+echo ruok | nc localhost 2181
+2: start cluster
+docker compose -f common.yml -f kafka_cluster.yml up
+3: note, do not leave cluster running for too long before running the below
+docker compose -f common.yml -f init_kafka.yml up
+
+last run successfully 08062023
