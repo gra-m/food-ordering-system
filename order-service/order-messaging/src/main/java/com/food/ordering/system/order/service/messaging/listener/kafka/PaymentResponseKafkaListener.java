@@ -45,8 +45,8 @@ public PaymentResponseKafkaListener(PaymentResponseMessageListener paymentRespon
  * @param offsets    A list of Longs that are the offsets
  */
 @Override
-@KafkaListener(id = "${kafka-consumer-config.payment-consumer-group-id}", topics = "${order-service.payment" +
-    "-response-topic-name")
+@KafkaListener(id = "${kafka-consumer-config.payment-consumer-group-id}",
+topics = "${order-service.payment-response-topic-name")
 public void receive(@Payload List<PaymentResponseAvroModel> messages,
                     @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) List<Long> keys,
                     @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,

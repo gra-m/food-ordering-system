@@ -5,6 +5,7 @@ import com.food.ordering.system.kafka.order.avro.model.RestaurantApprovalRespons
 import com.food.ordering.system.order.service.domain.ports.input.message.listener.restaurantapproval.RestaurantApprovalResponseMessageListener;
 import com.food.ordering.system.order.service.messaging.mapper.OrderMessagingDataMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -39,6 +40,8 @@ OrderMessagingDataMapper orderMessagingDataMapper) {
  * @param offsets    A list of Longs that are the offsets
  */
 @Override
+@KafkaListener(id = "${kafka-consumer-config.restaurant-approval-consumer-group-id}",
+topics = "${restaurant-service.restaurant-approval-response-topic-name}")
 public void receive(@Payload List<RestaurantApprovalResponseAvroModel> messages,
                     @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) List<Long> keys,
                     @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,
