@@ -1,13 +1,15 @@
 package com.food.ordering.system.order.service.messaging.mapper;
 
-import com.food.ordering.system.kafka.order.avro.model.PaymentOrderStatus;
-import com.food.ordering.system.kafka.order.avro.model.PaymentRequestAvroModel;
+import com.food.ordering.system.kafka.order.avro.model.*;
+import com.food.ordering.system.order.service.domain.entity.Order;
 import com.food.ordering.system.order.service.domain.event.OrderCancelledEvent;
 import com.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
-import com.food.ordering.system.order.service.domain.entity.Order;
+import com.food.ordering.system.order.service.domain.event.OrderPaidEvent;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Mapping received order events to PaymentRequestAvroModel objects for Kafka
@@ -15,12 +17,40 @@ import java.util.UUID;
 @Component
 public class OrderMessagingDataMapper {
 
+public RestaurantApprovalRequestAvroModel orderPaidEventToRestaurantApprovalRequestAvroModel(OrderPaidEvent orderPaidEvent) {
+      Order order = orderPaidEvent.getOrder();
+      return RestaurantApprovalRequestAvroModel
+          .newBuilder()
+          .setId(UUID.randomUUID().toString())
+          .setSagaId("")
+          .setOrderId(order.getId().getValue().toString())
+          .setRestaurantId(order.getRestaurantId().getValue().toString())
+          .setRestaurantOrderStatus(RestaurantOrderStatus.valueOf(order.getOrderStatus().name()))
+          .setProducts(createProductListFromItems(order))
+          .setPrice(order.getPrice().getAmount())
+          .setCreatedAt(orderPaidEvent.getCreatedAt().toInstant())
+          .setRestaurantOrderStatus(RestaurantOrderStatus.PAID)
+          .build();
+}
+
+private List<Product> createProductListFromItems(Order order) {
+      return order
+          .getItems()
+          .stream()
+          .map(item -> Product
+              .newBuilder()
+              .setId(item.getProduct().getId().getValue().toString())
+              .setQuantity(item.getQuantity())
+              .build())
+          .collect(Collectors.toList());
+
+}
+
 
 /**
  * Retrieve order, set new avro fields and set retrieved order fields, payment status set to PENDING.
  * <p>New into avroObject ==  set random Id, set Saga id payment [todo implement SAGA] status PENDING</p>
  * <p>The rest of the fields are from retrieved Order</p>
- *
  *
  * @param orderCreatedEvent containing order details
  * @return PaymentRequestAvroModel for Kafka with PENDING status
@@ -29,7 +59,8 @@ public PaymentRequestAvroModel orderCreatedEventToPaymentRequestAvroModel(OrderC
 
       Order order = orderCreatedEvent.getOrder();
 
-      return PaymentRequestAvroModel.newBuilder()
+      return PaymentRequestAvroModel
+          .newBuilder()
           .setId(UUID.randomUUID().toString())
           .setSagaId("")
           .setCustomerId(order.getCustomerId().getValue().toString())
@@ -47,7 +78,6 @@ public PaymentRequestAvroModel orderCreatedEventToPaymentRequestAvroModel(OrderC
  * <p>New into avroObject ==  set random Id, set Saga id payment [to be implemented] status CANCELLED</p>
  * <p>The rest of the fields are from retrieved Order</p>
  *
- *
  * @param orderCancelledEvent containing order details
  * @return PaymentRequestAvroModel for Kafka with CANCELLED status
  */
@@ -55,15 +85,16 @@ public PaymentRequestAvroModel orderCancelledEventToPaymentRequestAvroModel(Orde
 
       Order order = orderCancelledEvent.getOrder();
 
-      return PaymentRequestAvroModel.newBuilder()
-                                    .setId(UUID.randomUUID().toString())
-                                    .setSagaId("")
-                                    .setCustomerId(order.getCustomerId().getValue().toString())
-                                    .setOrderId(order.getId().getValue().toString())
-                                    .setPrice(order.getPrice().getAmount())
-                                    .setCreatedAt(orderCancelledEvent.getCreatedAt().toInstant())
-                                    .setPaymentOrderStatus(PaymentOrderStatus.CANCELLED)
-                                    .build();
+      return PaymentRequestAvroModel
+          .newBuilder()
+          .setId(UUID.randomUUID().toString())
+          .setSagaId("")
+          .setCustomerId(order.getCustomerId().getValue().toString())
+          .setOrderId(order.getId().getValue().toString())
+          .setPrice(order.getPrice().getAmount())
+          .setCreatedAt(orderCancelledEvent.getCreatedAt().toInstant())
+          .setPaymentOrderStatus(PaymentOrderStatus.CANCELLED)
+          .build();
 
 }
 
