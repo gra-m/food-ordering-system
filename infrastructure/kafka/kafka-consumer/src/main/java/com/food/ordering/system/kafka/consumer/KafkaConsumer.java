@@ -19,6 +19,6 @@ public interface KafkaConsumer <T extends SpecificRecordBase> {
  * @param partitions A list of Integers that are the partitions
  * @param offsets A list of Longs that are the offsets
  */
-void receive(List<T> messages, List<Long> keys, List<Integer> partitions, List<Long> offsets);
+void receive(List<T> messages, List<String> keys, List<Integer> partitions, List<Long> offsets);
       
 }
