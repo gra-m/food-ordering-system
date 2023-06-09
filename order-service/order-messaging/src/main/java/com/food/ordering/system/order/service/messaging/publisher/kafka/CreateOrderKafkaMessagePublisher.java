@@ -51,7 +51,8 @@ public void publish(OrderCreatedEvent domainEvent) {
             kafkaProducer.send(orderServiceConfigData.getPaymentRequestTopicName(),
                 orderId,
                 paymentRequestAvroModel,
-                orderKafkaMessageHelper.getKafkaCallback(orderServiceConfigData.getPaymentRequestTopicName(), paymentRequestAvroModel));
+                orderKafkaMessageHelper.getKafkaCallback(orderServiceConfigData.getPaymentRequestTopicName(),
+                    paymentRequestAvroModel, orderId, "PaymentRequestAvroModel"));
 
             log.info("PaymentRequestAvroModel sent to Kafka for order id: {}", paymentRequestAvroModel.getOrderId());
       }

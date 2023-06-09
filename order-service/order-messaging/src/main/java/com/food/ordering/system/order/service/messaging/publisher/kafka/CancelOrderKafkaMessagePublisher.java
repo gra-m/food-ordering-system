@@ -53,7 +53,7 @@ public void publish(OrderCancelledEvent domainEvent) {
                 orderId,
                 paymentRequestAvroModel,
                 orderKafkaMessageHelper.getKafkaCallback(orderServiceConfigData.getPaymentRequestTopicName(),
-                    paymentRequestAvroModel));
+                    paymentRequestAvroModel, orderId, "PaymentRequestAvroModel"));
 
             log.info("PaymentRequestAvroModel sent to Kafka for order id: {}", paymentRequestAvroModel.getOrderId());
       }

@@ -11,15 +11,56 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 @Component
 public class OrderKafkaMessageHelper {
 
+
 /**
  * Async callback will at present just confirm that publishing failed with a log error or was successful, in which
  * case the metadata from the SendResult is logged.
+ *
+ * @param responseTopicName retrieved from orderServiceConfigData
+ * @param requestAvroModel  created in the publish method
+ * @return a ListenableFutureCallback, currently just logging [fixme]
+ */
+public <T> ListenableFutureCallback<SendResult<String, T>> getKafkaCallback(String responseTopicName,
+                                                                            T requestAvroModel,
+                                                                            String orderId,
+                                                                            String requestAvroModelName) {
+
+      return new ListenableFutureCallback<SendResult<String, T>>() {
+            @Override
+            public void onFailure(Throwable ex) {
+                  log.error("Error while sending {} message {} to topic {}",
+                      requestAvroModelName,
+                      requestAvroModel.toString(),
+                      responseTopicName,
+                      ex);
+            }
+
+            @Override
+            public void onSuccess(SendResult<String, T> result) {
+                  RecordMetadata metadata = result.getRecordMetadata();
+                  log.info("Received successful response from Kafka for order id: {}" + " Topic: {} Partition {} " +
+                          "Offset: {} Timestamp: {}",
+                      orderId,
+                      metadata.topic(),
+                      metadata.partition(),
+                      metadata.offset(),
+                      metadata.timestamp());
+
+            }
+      };
+}
+
+
+/**
+ * Async callback will at present just confirm that publishing failed with a log error or was successful, in which
+ * case the metadata from the SendResult is logged.
+ *
  * @param paymentResponseTopicName retrieved from orderServiceConfigData
  * @param paymentRequestAvroModel  created in the publish method
  * @return a ListenableFutureCallback, currently just logging [fixme]
  */
-public ListenableFutureCallback<SendResult<String, PaymentRequestAvroModel>> getKafkaCallback(String paymentResponseTopicName,
-                                                                                               PaymentRequestAvroModel paymentRequestAvroModel) {
+public ListenableFutureCallback<SendResult<String, PaymentRequestAvroModel>> getKafkaCallbackOriginal(String paymentResponseTopicName,
+                                                                                                      PaymentRequestAvroModel paymentRequestAvroModel) {
 
       return new ListenableFutureCallback<SendResult<String, PaymentRequestAvroModel>>() {
             @Override
