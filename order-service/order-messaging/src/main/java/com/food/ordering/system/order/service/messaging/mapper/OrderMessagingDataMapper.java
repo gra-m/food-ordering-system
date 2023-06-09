@@ -51,7 +51,7 @@ public PaymentRequestAvroModel orderCreatedEventToPaymentRequestAvroModel(OrderC
  * @param orderCancelledEvent containing order details
  * @return PaymentRequestAvroModel for Kafka with CANCELLED status
  */
-public PaymentRequestAvroModel orderCanelledEventToPaymentRequestAvroModel(OrderCancelledEvent orderCancelledEvent) {
+public PaymentRequestAvroModel orderCancelledEventToPaymentRequestAvroModel(OrderCancelledEvent orderCancelledEvent) {
 
       Order order = orderCancelledEvent.getOrder();
 
