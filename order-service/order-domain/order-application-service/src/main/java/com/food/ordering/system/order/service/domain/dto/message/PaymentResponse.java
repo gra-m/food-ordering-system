@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.List;
 
 @Getter
@@ -16,8 +18,8 @@ private String sagaId;
 private String orderId;
 private String paymentId;
 private String customerId;
-private String price;
-private String createdAt;
+private BigDecimal price;
+private Instant createdAt;
 private PaymentStatus paymentStatus;
 private List<String> failureMessages;
 

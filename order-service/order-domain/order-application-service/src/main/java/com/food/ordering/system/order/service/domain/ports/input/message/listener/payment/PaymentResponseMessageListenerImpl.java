@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 /**
+ * Adapter.
+ *
+ * fixme - early note
  * Triggered by other domain events from other bound contexts BeanA [here] to BeanB[@Transactional] in
  * separate helper. SAGA complete once implemented
  */
