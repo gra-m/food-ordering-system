@@ -39,10 +39,10 @@
         </dependency>
     </dependencies>
 
-    <!--In order to create a runnable jar file for this microservice-->
     <build>
         <plugins>
             <plugin>
+                <!--In order to create a runnable jar file for this microservice-->
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
@@ -54,6 +54,7 @@
                     <execution>
                         <phase>install</phase>
                         <goals>
+                            <!-- and a docker image created @ install phase-->
                             <goal>build-image</goal>
                         </goals>
                     </execution>

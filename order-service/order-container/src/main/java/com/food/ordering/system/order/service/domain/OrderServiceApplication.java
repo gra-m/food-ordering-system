@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * scanBasePackages: important when working with multiple modules any module in project will be scanned by Spring as
  * long as it starts with "com.food.ordering.system".
  * EntityScan
- * basePackages: requirement for multi-module project the jpa entity classes are strictly held in the dataaccess package
+ * basePackages: requirement for multimodule project the jpa entity classes are strictly held in the dataaccess package
  * EnableJpaRepositories
  * basePackages: dataaccess repos are also strictly held in dataacess package
  *
@@ -27,7 +27,7 @@ public class OrderServiceApplication {
  *
  * @param args as required for the business logic of this Spring microservice
  */
-static void main(String[] args) {
+public static void main(String[] args) {
     SpringApplication.run(OrderServiceApplication.class, args);
 }
 }

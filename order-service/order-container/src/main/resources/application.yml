@@ -51,25 +51,40 @@ kafka-producer-config:
   linger-ms: 5
   request-timeout-ms: 60000
   retry-count: 5
-#
+# value-deserializer of correct type required e.g. see PaymentResponseKafkaListener PaymentResponseAvroModel
+# payment-consumer-group-id: enables consumer to start from correct offset, rather from 0 every time
+# auto-offset-reset: earliest empty == from beginning of partition
+# specific-avro-reader: as avro data type is used when holding data on Kafka == true
+# batch-listener: allows for batches, not just single
+# auto-startup: if false will kafka listener will not start automatically
+# concurrency-level - 3 is equal to number of partitions
+# set-timeout-ms - time within which broker must receive a heartbeat (I'm alive) from the consumer
+# heartbeat-interval-ms - heartbeats sent to broker every 3 seconds (tries three times before timing out
+# max-poll-interval-ms - for user threads if messaging processing too heavy it may take longer than this time, and the co-ordinator will mark this consumer as dead
+# the above should be marked according to the processing time requirements of your application
+# max-poll-records - max records to fetch at a time
+# max...fetch-bytes - max bytes that can be fetched in each poll 1mb
+# boost.. for tuning of above
+# poll-timeout-ms - when consumer tries to fetch data and there is nothing there its waiting will block the client code
+# this property sets for how long this is allowed. too large == too longer block, too small == cpu stall
 kafka-consumer-config:
   key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
   value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
-  payment-consumer-group-id:
-  restaurant-approval-consumer-group-id:
-  customer-group-id:
+  payment-consumer-group-id: payment-topic-consumer
+  restaurant-approval-consumer-group-id: restaurant-approval-topic-consumer
+  customer-group-id: customer-topic-consumer
   auto-offset-reset: earliest
   specific-avro-reader-key: specific.avro.reader
   specific-avro-reader: true
   batch-listener: true
   auto-startup: true
-  concurrency-level:
-  session-timeout-ms:
-  heartbeat-interval-ms:
-  max-poll-interval-ms:
-  poll-timeout-ms:
-  max-poll-records:
-  max-partition-fetch-bytes-default:
-  max-partition-fetch-bytes-boost-factor:
+  concurrency-level: 3
+  session-timeout-ms: 10000
+  heartbeat-interval-ms: 3000
+  max-poll-interval-ms: 300000
+  poll-timeout-ms: 150
+  max-poll-records: 500
+  max-partition-fetch-bytes-default: 1048576
+  max-partition-fetch-bytes-boost-factor:  1
 
 
