@@ -8,6 +8,7 @@
         <module>order-service</module>
         <module>common</module>
         <module>infrastructure</module>
+        <module>customer-service</module>
     </modules>
 
     <!--relative path best practice as below when have external parent 'spring-boot', usually searches locally-->
