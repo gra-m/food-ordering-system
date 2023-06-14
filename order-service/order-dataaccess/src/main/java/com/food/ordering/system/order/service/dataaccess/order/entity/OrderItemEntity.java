@@ -21,7 +21,6 @@ public class OrderItemEntity {
 @Id
 private Long id;
 
-
 /**
  * Uniqueness guaranteeable only with primary and secondary keys together, presumably order item id is Long and not
  * UUID for another reason (poss simple numbering of items on a bill? why not int?)

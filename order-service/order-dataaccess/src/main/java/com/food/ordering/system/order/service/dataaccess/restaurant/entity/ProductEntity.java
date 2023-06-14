@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
+
 @Getter
 @Setter
 @Builder
@@ -19,10 +20,6 @@ public class ProductEntity {
 private UUID productId;
 private String name;
 private BigDecimal price;
-
-@ManyToOne(cascade = CascadeType.ALL)
-@JoinColumn(name = "RESTAURANT_ID")
-private RestaurantEntity restaurant;
 
 @Override
 public boolean equals(Object o) {
