@@ -29,9 +29,11 @@ spring:
     url: jdbc:postgresql://localhost:5432/food_ordering_system?currentSchema=order&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
     username: orion
     driver-class-name: org.postgresql.Driver
-    platform: postgres
-    schema: classpath:init-schema.sql
-    initialization-mode: always
+  sql:
+    init:
+      platform: postgres
+      schema-locations: classpath:init-schema.sql
+      mode: always
 # kafka values for kafka config classes: Module Kafka/kafka-config-data com.food.ordering.system.kafka.config.data;
 kafka-config:
   bootstrap-servers: localhost:19092, localhost:29092, localhost:39092
