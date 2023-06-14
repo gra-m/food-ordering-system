@@ -1,0 +1,27 @@
+server:
+  port: 8184
+
+# open in view = true:forces persistence context to stay open slowing performance
+# datasource localhost default for postgreSQL = 5432
+# datasource/binaryTransfer = quicker when kept in binary     jdbc server -> postgres server
+# datasource/BatchedInserts = quicker, single insert statement with multiple values, rather than 121
+# datasource/stringtype = all strings are sent un-typed stops string checking on UUID type on postgres (it would recognise UUID otherwise)
+# basic username pword for now
+# leaving deprecated in for now, try suggestions when working.
+spring:
+  jpa:
+    open-in-view: false
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL9Dialect
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=customer&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
+    username: postgres
+    password: admin
+    driver-class-name: org.postgresql.Driver
+    platform: postgres
+    schema: classpath:init-schema.sql
+    data: classpath:init-data.sql
+    initialization-mode: always
