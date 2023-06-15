@@ -1,7 +1,5 @@
 package com.food.ordering.system.order.service.domain;
 
-import com.food.ordering.system.domain.valueobject.OrderId;
-import com.food.ordering.system.domain.valueobject.RestaurantId;
 import com.food.ordering.system.order.service.domain.entity.Order;
 import com.food.ordering.system.order.service.domain.entity.Product;
 import com.food.ordering.system.order.service.domain.entity.Restaurant;
@@ -20,7 +18,7 @@ import java.util.List;
  */
 @Slf4j
 public class OrderDomainServiceImpl implements OrderDomainService {
-private final String UTC = "UTC";
+private final String UTCBRU = "UTC+2";
 
 
 /**
@@ -41,8 +39,8 @@ public OrderCreatedEvent validateAndInitiateOrder(Order order, Restaurant restau
       setOrderProductInformation(order, restaurant);
       order.validateOrder();
       order.initializeOrder();
-      log.info("Order with id: {} is initiated", (( OrderId ) order.getId()).getValue());
-      return new OrderCreatedEvent(order, ZonedDateTime.now(ZoneId.of(UTC)));
+      log.info("Order with id: {} is initiated", order.getId().getValue());
+      return new OrderCreatedEvent(order, ZonedDateTime.now(ZoneId.of(UTCBRU)));
 }
 
 /**
@@ -54,8 +52,8 @@ public OrderCreatedEvent validateAndInitiateOrder(Order order, Restaurant restau
 @Override
 public OrderPaidEvent payOrder(Order order) {
       order.pay();
-      log.info("Order no {} has been paid", (( OrderId ) order.getId()).getValue());
-      return new OrderPaidEvent(order, ZonedDateTime.now(ZoneId.of(UTC)));
+      log.info("Order no {} has been paid", order.getId().getValue());
+      return new OrderPaidEvent(order, ZonedDateTime.now(ZoneId.of(UTCBRU)));
 }
 
 /**
@@ -72,7 +70,7 @@ public OrderPaidEvent payOrder(Order order) {
 @Override
 public void approveOrder(Order order) {
       order.approve();
-      log.info("Order no {} has been approved", (( OrderId ) order.getId()).getValue());
+      log.info("Order no {} has been approved", order.getId().getValue());
 }
 
 /**
@@ -91,8 +89,8 @@ public void approveOrder(Order order) {
 @Override
 public OrderCancelledEvent cancelOrderPayment(Order order, List<String> failureMessages) {
       order.initCancel(failureMessages);
-      log.info("Order payment is cancelling for id: {}", (( OrderId ) order.getId()).getValue());
-      return new OrderCancelledEvent(order, ZonedDateTime.now(ZoneId.of(UTC)));
+      log.info("Order payment is cancelling for id: {}", order.getId().getValue());
+      return new OrderCancelledEvent(order, ZonedDateTime.now(ZoneId.of(UTCBRU)));
 }
 
 /**
@@ -107,7 +105,7 @@ public OrderCancelledEvent cancelOrderPayment(Order order, List<String> failureM
 @Override
 public void cancelOrder(Order order, List<String> failureMessages) {
       order.cancel(failureMessages);
-      log.info("Order with id: {} is cancelled", (( OrderId ) order.getId()).getValue());
+      log.info("Order with id: {} is cancelled", order.getId().getValue());
 }
 
 /**
@@ -119,7 +117,7 @@ public void cancelOrder(Order order, List<String> failureMessages) {
 private void validateRestaurant(Restaurant restaurant) {
       if( !restaurant.isActive() ) {
             throw new OrderDomainException(String.format("Restaurant with id %s is currently not active!",
-                (( RestaurantId ) restaurant.getId()).getValue()));
+                restaurant.getId().getValue()));
       }
 
 }

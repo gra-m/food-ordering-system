@@ -8,4 +8,12 @@ docker compose -f common.yml -f kafka_cluster.yml up
 3: note, do not leave cluster running for too long before running the below
 docker compose -f common.yml -f init_kafka.yml up
 
-last run successfully 08062023
+Order API working 15/06/23
+
+kcat -C -b localhost:19092 -t payment-request
+   Hed205c43-920c-43aa-97ca-9ed54a09edcdHd215b5f8-0249-4dc5-89a3-51fd148cfb41H12230dd9-5f76-4789-addf-1648d68f8201N Ė���b
+   H10bf5147-6030-4bee-ba65-541aa0799a06Hd215b5f8-0249-4dc5-89a3-51fd148cfb41Hd6188c46-afcf-4f40-87d6-236e4c0c3801N ���ߗb
+   H921c7feb-44a3-4f6a-8546-c3dee14f1922Hd215b5f8-0249-4dc5-89a3-51fd148cfb41H1cf44694-face-4392-81eb-4f03d6c6092fN �����b
+   % Reached end of topic payment-request [1] at offset 0
+   % Reached end of topic payment-request [2] at offset 1
+   % Reached end of topic payment-request [0] at offset 2

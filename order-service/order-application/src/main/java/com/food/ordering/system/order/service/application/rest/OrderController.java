@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 /**
- * In order to communicate with the domain layer: OrderController -> DomainService interface(order-applicatin-service)
+ * In order to communicate with the domain layer: OrderController -> DomainService interface(order-application-service)
  * -> Domain entities and domain related business code.
  *
- * Why applicationi/vnd.api.v1+json?  and not application/json. vnd.api uses JSONAPI protocol which is a framework
+ * Why application/vnd.api.v1+json?  and not application/json. vnd.api uses JSONAPI protocol which is a framework
  * for building APIs that allows the client to fetch and modify interrelated entities...
  * <a href="https://stackoverflow.com/questions/28055526/header-value-application-vnd-apijson">StackOverflow...</a>
  *
@@ -24,7 +24,7 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/orders", produces = "application/vnd.api.v1+json")
+@RequestMapping(value = "/orders", produces = "application/vnd.api.v1+json", consumes = "application/json")
 public class OrderController {
 
 
