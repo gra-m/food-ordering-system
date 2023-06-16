@@ -4,6 +4,7 @@ import com.food.ordering.system.domain.valueobject.PaymentStatus;
 import com.food.ordering.system.payment.service.domain.entity.CreditEntry;
 import com.food.ordering.system.payment.service.domain.entity.CreditHistory;
 import com.food.ordering.system.payment.service.domain.entity.Payment;
+import com.food.ordering.system.payment.service.domain.event.PaymentCancelledEvent;
 import com.food.ordering.system.payment.service.domain.event.PaymentCompletedEvent;
 import com.food.ordering.system.payment.service.domain.event.PaymentEvent;
 import com.food.ordering.system.payment.service.domain.event.PaymentFailedEvent;
@@ -59,8 +60,8 @@ public PaymentEvent validateAndInitiatePayment(Payment payment,
  *
  * @param creditEntry the CreditEntry to be validated
  * @param creditHistories a List of credit histories belonging to the customer this CreditEntry relates to
- * @param failureMessages a List of failureMessages linked to this action/attempted action todo add context (origin)
- *
+ * @param failureMessages at point of entry an empty List of failureMessages if the CreditHistory to be validated
+ *                        fails the logic of this method the list will no longer be empty.
  */
 private void validateCreditHistory(CreditEntry creditEntry,
                                    List<CreditHistory> creditHistories,
@@ -98,19 +99,46 @@ private Money getTotalHistoryAmount(List<CreditHistory> creditHistories, Transac
 
 
 /**
+ * Cancellation success:
+ * Given the payment has been cancelled the amount debited must be reimbursed/credited back to the customer's
+ * CreditEntry and their CreditHistory  updated to reflect this -> PaymentCancelledEvent returned
+ * Cancellation failure:
+ * Given that the payment fails validation and has a failure message fixme the same happens but it is wrapped in failed
+ * is this reverted later?
+ *
  * @param payment         the payment to be validated and cancelled
  * @param creditEntry     the creditEntry (and so credit amount via creditEntry.getTotalCreditAmount()) that is to be
  *                        validated and cancelled
- * @param creditHistories
- * @param failureMessages
- * @return
+ * @param creditHistories a List of credit histories belonging to the customer this CreditEntry relates to
+ * @param failureMessages at point of entry an empty List of failureMessages if the CreditHistory to be validated
+ *                        fails the logic of this method the list will no longer be empty.
+ *
+ * @return PaymentEvent -> PaymentCancelledEvent || PaymentFailedEvent
  */
 @Override
 public PaymentEvent validateAndCancelPayment(Payment payment,
                                              CreditEntry creditEntry,
                                              List<CreditHistory> creditHistories,
                                              List<String> failureMessages) {
-    return null;
+    payment.validatePayment(failureMessages);
+    addCreditEntry(payment, creditEntry);
+    updateCreditHistory(payment, creditHistories, TransactionType.CREDIT);
+
+    if (failureMessages.isEmpty()) {
+        log.info("Payment is cancelled for order id: {}", payment.getOrderId().getValue());
+
+        payment.updateStatus(PaymentStatus.CANCELLED);
+        return new PaymentCancelledEvent(payment, ZonedDateTime.now(ZoneId.of(UTCBRU)));
+    } else {
+        log.info("Payment cancellation failed for order id: {}", payment.getOrderId().getValue());
+
+        payment.updateStatus(PaymentStatus.FAILED);
+        return new PaymentFailedEvent(payment, ZonedDateTime.now(ZoneId.of(UTCBRU)), failureMessages);
+    }
+}
+
+private void addCreditEntry(Payment payment, CreditEntry creditEntry) {
+    creditEntry.addCreditAmount(payment.getPrice());
 }
 
 private void validateCreditEntry(Payment payment, CreditEntry creditEntry, List<String> failureMessages) {
