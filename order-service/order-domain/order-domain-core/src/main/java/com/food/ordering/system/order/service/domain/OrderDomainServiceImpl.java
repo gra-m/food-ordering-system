@@ -13,12 +13,13 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 
+import static com.food.ordering.system.domain.DomainConstants.UTCBRU;
+
 /**
  * Used in this example to isolate Entities from the order application
  */
 @Slf4j
 public class OrderDomainServiceImpl implements OrderDomainService {
-private final String UTCBRU = "UTC+2";
 
 
 /**

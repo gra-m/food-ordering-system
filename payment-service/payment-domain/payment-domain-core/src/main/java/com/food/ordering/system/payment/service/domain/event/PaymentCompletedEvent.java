@@ -3,14 +3,19 @@ package com.food.ordering.system.payment.service.domain.event;
 import com.food.ordering.system.payment.service.domain.entity.Payment;
 
 import java.time.ZonedDateTime;
-import java.util.List;
+import java.util.Collections;
 
 public class PaymentCompletedEvent extends PaymentEvent {
 
-protected PaymentCompletedEvent(Payment payment,
-                                ZonedDateTime createdAt,
-                                List<String> failureMessages) {
-    super(payment, createdAt, failureMessages);
+/**
+ * Given that a fresh PaymentEvent has an <i>empty</i> list of failureMessages. The existence of a failure message is
+ * a trigger for non-completion.
+ *
+ * @param payment The Payment belonging to this PaymentEvent
+ * @param createdAt The time that this PaymentEvent was created at ZoneDateTime
+ */
+public PaymentCompletedEvent(Payment payment, ZonedDateTime createdAt) {
+    super(payment, createdAt, Collections.emptyList());
 }
 
 

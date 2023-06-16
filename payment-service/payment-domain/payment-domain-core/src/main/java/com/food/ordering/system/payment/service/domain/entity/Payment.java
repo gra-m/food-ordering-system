@@ -12,6 +12,8 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import static com.food.ordering.system.domain.DomainConstants.UTCBRU;
+
 public class Payment extends AggregateRoot<PaymentId> {
 private final OrderId orderId;
 private final CustomerId customerId;
@@ -19,7 +21,6 @@ private final Money price;
 
 private  PaymentStatus paymentStatus;
 private  ZonedDateTime createdAt;
-private final String UTCBRU = "UTC+2";
 
 public void initializePayment() {
     setId(new PaymentId(UUID.randomUUID()));

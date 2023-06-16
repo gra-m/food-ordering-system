@@ -32,6 +32,10 @@ public TransactionType getTransactionType() {
     return transactionType;
 }
 
+public static Builder builder() {
+    return new Builder();
+}
+
 /**
  * {@code CreditHistory} builder static inner class.
  */
@@ -44,9 +48,7 @@ public static final class Builder {
     private Builder() {
     }
 
-    public static Builder builder() {
-        return new Builder();
-    }
+
 
     /**
      * Sets the {@code id} and returns a reference to this Builder enabling method chaining.
