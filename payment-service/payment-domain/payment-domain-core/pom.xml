@@ -13,11 +13,10 @@
 
     <dependencies>
         <dependency>
-            <!--BaseClasses and Interfaces-->
+            <!--BaseClasses and Interfaces are only dependencies-->
             <groupId>com.food.ordering.system</groupId>
             <artifactId>common-domain</artifactId>
         </dependency>
     </dependencies>
-
 
 </project>

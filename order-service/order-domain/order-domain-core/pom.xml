@@ -11,14 +11,12 @@
 
     <artifactId>order-domain-core</artifactId>
 
-
     <dependencies>
         <dependency>
-            <!-- tbc instead of this add dependencies to aggregate modules [no src]-->
+            <!--BaseClasses and Interfaces are only dependencies-->
             <groupId>com.food.ordering.system</groupId>
             <artifactId>common-domain</artifactId>
         </dependency>
     </dependencies>
-
 
 </project>
