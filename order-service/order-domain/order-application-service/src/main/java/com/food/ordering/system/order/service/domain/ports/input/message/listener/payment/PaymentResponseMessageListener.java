@@ -3,7 +3,12 @@ package com.food.ordering.system.order.service.domain.ports.input.message.listen
 import com.food.ordering.system.order.service.domain.dto.message.PaymentResponse;
 
 /**
- * A listening port in the domain layer
+ * Ports?: These are nothing but interfaces that need to be implemented with adapters; there are two types of ports in
+ * hexagonal architecture input and output.
+ *
+ * Input ports == Implemented here in the order-application-service
+ * whereas output ports are implemented in infrastructure (currently kafka) via order-messaging
+ *
  */
 public interface PaymentResponseMessageListener {
 
