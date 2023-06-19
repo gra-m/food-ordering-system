@@ -68,6 +68,14 @@ public ZonedDateTime getCreatedAt() {
     return createdAt;
 }
 
+/**
+ * allows for Payment.builder().build() semantics;
+ * @return Builder
+ */
+public static Builder builder(){
+    return new Builder();
+}
+
 
 public static final class Builder {
     private PaymentId paymentId;
