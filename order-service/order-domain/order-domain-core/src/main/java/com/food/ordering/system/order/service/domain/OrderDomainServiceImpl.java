@@ -1,5 +1,6 @@
 package com.food.ordering.system.order.service.domain;
 
+import com.food.ordering.system.domain.event.publisher.DomainEventPublisher;
 import com.food.ordering.system.order.service.domain.entity.Order;
 import com.food.ordering.system.order.service.domain.entity.Product;
 import com.food.ordering.system.order.service.domain.entity.Restaurant;
@@ -30,31 +31,36 @@ public class OrderDomainServiceImpl implements OrderDomainService {
  * todo testthis: note there is no need for explicit casting in the code he shows (OrderId) strange that required
  * here did not work full stop until refactored BaseEntity to use BaseId.
  *
- * @param order      the order that has been created by the client
- * @param restaurant the restaurant for which the order has been created
+ * @param order                                 the order that has been created by the client
+ * @param restaurant                            the restaurant for which the order has been created
+ * @param orderCreatedPaymentRequestMessagePublisherDomainEventPublisher
  * @return An OrderCreatedEvent for further processing
  */
 @Override
-public OrderCreatedEvent validateAndInitiateOrder(Order order, Restaurant restaurant) {
+public OrderCreatedEvent validateAndInitiateOrder(Order order, Restaurant restaurant,
+                                                  DomainEventPublisher<OrderCreatedEvent> orderCreatedPaymentRequestMessagePublisherDomainEventPublisher) {
       validateRestaurant(restaurant);
       setOrderProductInformation(order, restaurant);
       order.validateOrder();
       order.initializeOrder();
       log.info("Order with id: {} is initiated", order.getId().getValue());
-      return new OrderCreatedEvent(order, ZonedDateTime.now(ZoneId.of(UTCBRU)));
+      return new OrderCreatedEvent(order, ZonedDateTime.now(ZoneId.of(UTCBRU)),
+      orderCreatedPaymentRequestMessagePublisherDomainEventPublisher);
 }
 
 /**
  * Given that (Order) has been confirmed as paid for
  *
- * @param order the order that has been paid
+ * @param order                              the order that has been paid
+ * @param orderPaidRestaurantRequestMessagePublisherDomainEventPublisher
  * @return an OrderPaidEvent for further actioning.
  */
 @Override
-public OrderPaidEvent payOrder(Order order) {
+public OrderPaidEvent payOrder(Order order,
+                               DomainEventPublisher<OrderPaidEvent> orderPaidRestaurantRequestMessagePublisherDomainEventPublisher) {
       order.pay();
       log.info("Order no {} has been paid", order.getId().getValue());
-      return new OrderPaidEvent(order, ZonedDateTime.now(ZoneId.of(UTCBRU)));
+      return new OrderPaidEvent(order, ZonedDateTime.now(ZoneId.of(UTCBRU)), orderPaidRestaurantRequestMessagePublisherDomainEventPublisher);
 }
 
 /**
@@ -84,14 +90,17 @@ public void approveOrder(Order order) {
  * 1. must first be confirmed as PAID
  * 2. restaurant cannot fulfill order
  *
- * @param order           the order that is being rolled back from PAID to CANCELLING
- * @param failureMessages -> need failure messages from other services for logs and customer
+ * @param order                                   the order that is being rolled back from PAID to CANCELLING
+ * @param failureMessages                         -> need failure messages from other services for logs and customer
+ * @param orderCancelledPaymentRequestMessagePublisherDomainEventPublisher
  */
 @Override
-public OrderCancelledEvent cancelOrderPayment(Order order, List<String> failureMessages) {
+public OrderCancelledEvent cancelOrderPayment(Order order, List<String> failureMessages,
+                                              DomainEventPublisher<OrderCancelledEvent> orderCancelledPaymentRequestMessagePublisherDomainEventPublisher) {
       order.initCancel(failureMessages);
       log.info("Order payment is cancelling for id: {}", order.getId().getValue());
-      return new OrderCancelledEvent(order, ZonedDateTime.now(ZoneId.of(UTCBRU)));
+      return new OrderCancelledEvent(order, ZonedDateTime.now(ZoneId.of(UTCBRU)),
+      orderCancelledPaymentRequestMessagePublisherDomainEventPublisher);
 }
 
 /**
