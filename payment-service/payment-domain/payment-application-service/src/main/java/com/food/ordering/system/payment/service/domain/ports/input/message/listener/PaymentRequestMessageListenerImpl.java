@@ -58,8 +58,8 @@ public void cancelPayment(PaymentRequest paymentRequest) {
 }
 
 /**
- * Given that a paymentEvent has been created by the business logic of paymentRequestHelper publish an event of the
- * correct kind.
+ * Note: refactored so paymentEvent is 'self-firing' negating need to check for type here. All new events should be
+ * implemented in the same way see commits 49-49b for detail.
  *
  * @param paymentEvent the paymentEvent received back from internal business logic.
  */
@@ -70,8 +70,6 @@ private void fireEvent(PaymentEvent paymentEvent) {
 
     paymentEvent.fire();
 
-     if( paymentEvent instanceof PaymentFailedEvent ) {
-        paymentFailedMessagePublisher.publish(( PaymentFailedEvent ) paymentEvent);
     }
 }
 

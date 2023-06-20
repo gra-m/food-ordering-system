@@ -29,6 +29,7 @@ public class PaymentDomainServiceImpl implements PaymentDomainService {
  * @param creditHistories
  * @param failureMessages
  * @param paymentCompletedEventDomainEventPublisher
+ * @param paymentFailedEventDomainEventPublisher
  * @return
  */
 @Override
@@ -36,7 +37,8 @@ public PaymentEvent validateAndInitiatePayment(Payment payment,
                                                CreditEntry creditEntry,
                                                List<CreditHistory> creditHistories,
                                                List<String> failureMessages,
-                                               DomainEventPublisher<PaymentCompletedEvent> paymentCompletedEventDomainEventPublisher) {
+                                               DomainEventPublisher<PaymentCompletedEvent> paymentCompletedEventDomainEventPublisher,
+                                               DomainEventPublisher<PaymentFailedEvent> paymentFailedEventDomainEventPublisher) {
     payment.validatePayment(failureMessages);
     payment.initializePayment();
     validateCreditEntry(payment, creditEntry, failureMessages);
@@ -52,7 +54,8 @@ public PaymentEvent validateAndInitiatePayment(Payment payment,
     } else {
         log.info("Payment failed for order id: {}", payment.getOrderId().getValue());
         payment.updateStatus(PaymentStatus.FAILED);
-        return new PaymentFailedEvent(payment, ZonedDateTime.now(ZoneId.of(UTCBRU)), failureMessages);
+        return new PaymentFailedEvent(payment, ZonedDateTime.now(ZoneId.of(UTCBRU)), failureMessages,
+        paymentFailedEventDomainEventPublisher);
     }
 }
 
@@ -117,6 +120,7 @@ private Money getTotalHistoryAmount(List<CreditHistory> creditHistories, Transac
  * @param failureMessages                           at point of entry an empty List of failureMessages if the CreditHistory to be validated
  *                                                  fails the logic of this method the list will no longer be empty.
  * @param paymentCancelledEventDomainEventPublisher
+ * @param paymentFailedEventDomainEventPublisher
  * @return PaymentEvent -> PaymentCancelledEvent || PaymentFailedEvent
  */
 @Override
@@ -124,7 +128,8 @@ public PaymentEvent validateAndCancelPayment(Payment payment,
                                              CreditEntry creditEntry,
                                              List<CreditHistory> creditHistories,
                                              List<String> failureMessages,
-                                             DomainEventPublisher<PaymentCancelledEvent> paymentCancelledEventDomainEventPublisher) {
+                                             DomainEventPublisher<PaymentCancelledEvent> paymentCancelledEventDomainEventPublisher,
+                                             DomainEventPublisher<PaymentFailedEvent> paymentFailedEventDomainEventPublisher) {
     payment.validatePayment(failureMessages);
     addCreditEntry(payment, creditEntry);
     updateCreditHistory(payment, creditHistories, TransactionType.CREDIT);
@@ -139,7 +144,8 @@ public PaymentEvent validateAndCancelPayment(Payment payment,
         log.info("Payment cancellation failed for order id: {}", payment.getOrderId().getValue());
 
         payment.updateStatus(PaymentStatus.FAILED);
-        return new PaymentFailedEvent(payment, ZonedDateTime.now(ZoneId.of(UTCBRU)), failureMessages);
+        return new PaymentFailedEvent(payment, ZonedDateTime.now(ZoneId.of(UTCBRU)), failureMessages,
+        paymentFailedEventDomainEventPublisher);
     }
 }
 
