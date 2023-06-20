@@ -7,12 +7,12 @@ import java.time.ZonedDateTime;
 
 public class OrderPaidEvent extends OrderEvent {
 
-private final DomainEventPublisher<OrderPaidEvent> orderPaidRestaurantRequestMessagePublisherDomainEventPublisher;
+private final DomainEventPublisher<OrderPaidEvent> orderPaidEventDomainEventPublisher;
 
 public OrderPaidEvent(Order order, ZonedDateTime createdAt,
-                      DomainEventPublisher<OrderPaidEvent> orderPaidRestaurantRequestMessagePublisherDomainEventPublisher) {
+                      DomainEventPublisher<OrderPaidEvent> orderPaidEventDomainEventPublisher) {
       super(order, createdAt);
-      this.orderPaidRestaurantRequestMessagePublisherDomainEventPublisher = orderPaidRestaurantRequestMessagePublisherDomainEventPublisher;
+      this.orderPaidEventDomainEventPublisher = orderPaidEventDomainEventPublisher;
 }
 
 /**
@@ -20,7 +20,7 @@ public OrderPaidEvent(Order order, ZonedDateTime createdAt,
  */
 @Override
 public void fire() {
-      orderPaidRestaurantRequestMessagePublisherDomainEventPublisher.publish(this);
+      orderPaidEventDomainEventPublisher.publish(this);
 
 }
 

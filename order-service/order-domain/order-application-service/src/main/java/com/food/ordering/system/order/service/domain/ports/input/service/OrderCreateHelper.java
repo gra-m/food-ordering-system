@@ -28,7 +28,7 @@ private final OrderRepository orderRepository;
 private final CustomerRepository customerRepository;
 private final RestaurantRepository restaurantRepository;
 private final OrderDataMapper orderDataMapper;
-private final OrderCreatedPaymentRequestMessagePublisher orderCreatedPaymentRequestMessagePublisherDomainEventPublisher;
+private final OrderCreatedPaymentRequestMessagePublisher orderCreatedEventDomainEventPublisher;
 
 
 
@@ -37,13 +37,13 @@ public OrderCreateHelper(OrderDomainService orderDomainService,
                          CustomerRepository customerRepository,
                          RestaurantRepository restaurantRepository,
                          OrderDataMapper orderDataMapper,
-                         OrderCreatedPaymentRequestMessagePublisher orderCreatedPaymentRequestMessagePublisherDomainEventPublisher) {
+                         OrderCreatedPaymentRequestMessagePublisher orderCreatedEventDomainEventPublisher) {
       this.orderDomainService = orderDomainService;
       this.orderRepository = orderRepository;
       this.customerRepository = customerRepository;
       this.restaurantRepository = restaurantRepository;
       this.orderDataMapper = orderDataMapper;
-      this.orderCreatedPaymentRequestMessagePublisherDomainEventPublisher = orderCreatedPaymentRequestMessagePublisherDomainEventPublisher;
+      this.orderCreatedEventDomainEventPublisher = orderCreatedEventDomainEventPublisher;
 }
 
 
@@ -60,7 +60,7 @@ public OrderCreatedEvent persistOrder(CreateOrderCommand createOrderCommand) {
       Restaurant restaurant = checkRestaurant(createOrderCommand);
       Order order = orderDataMapper.createOrderCommandToOrder(createOrderCommand);
       OrderCreatedEvent orderCreatedEvent = orderDomainService.validateAndInitiateOrder(order, restaurant,
-      orderCreatedPaymentRequestMessagePublisherDomainEventPublisher);
+      orderCreatedEventDomainEventPublisher);
       saveOrder(order);
       log.info("Order id: {} was created", orderCreatedEvent.getOrder().getId().getValue());
       return orderCreatedEvent;
