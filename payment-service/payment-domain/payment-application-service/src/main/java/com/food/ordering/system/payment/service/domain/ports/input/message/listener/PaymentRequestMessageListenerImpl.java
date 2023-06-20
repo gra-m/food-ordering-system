@@ -68,12 +68,9 @@ private void fireEvent(PaymentEvent paymentEvent) {
     paymentEvent.getPayment().getId().getValue(),
     paymentEvent.getPayment().getOrderId().getValue());
 
-    /**
-     * Potential ever-growing list that requires refactoring to control
-     */
-    if (paymentEvent instanceof PaymentCompletedEvent ) {
-        paymentCompletedMessagePublisher.publish(( PaymentCompletedEvent ) paymentEvent);
-    } else if( paymentEvent instanceof PaymentCancelledEvent ) {
+    paymentEvent.fire();
+
+     if( paymentEvent instanceof PaymentCancelledEvent ) {
         paymentCancelledMessagePublisher.publish(( PaymentCancelledEvent ) paymentEvent);
     } else if( paymentEvent instanceof PaymentFailedEvent ) {
         paymentFailedMessagePublisher.publish(( PaymentFailedEvent ) paymentEvent);
