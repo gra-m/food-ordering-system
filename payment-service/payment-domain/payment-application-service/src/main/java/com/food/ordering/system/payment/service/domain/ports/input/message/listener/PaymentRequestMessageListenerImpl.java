@@ -70,9 +70,7 @@ private void fireEvent(PaymentEvent paymentEvent) {
 
     paymentEvent.fire();
 
-     if( paymentEvent instanceof PaymentCancelledEvent ) {
-        paymentCancelledMessagePublisher.publish(( PaymentCancelledEvent ) paymentEvent);
-    } else if( paymentEvent instanceof PaymentFailedEvent ) {
+     if( paymentEvent instanceof PaymentFailedEvent ) {
         paymentFailedMessagePublisher.publish(( PaymentFailedEvent ) paymentEvent);
     }
 }

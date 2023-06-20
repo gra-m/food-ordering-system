@@ -4,6 +4,7 @@ import com.food.ordering.system.domain.event.publisher.DomainEventPublisher;
 import com.food.ordering.system.payment.service.domain.entity.CreditEntry;
 import com.food.ordering.system.payment.service.domain.entity.CreditHistory;
 import com.food.ordering.system.payment.service.domain.entity.Payment;
+import com.food.ordering.system.payment.service.domain.event.PaymentCancelledEvent;
 import com.food.ordering.system.payment.service.domain.event.PaymentCompletedEvent;
 import com.food.ordering.system.payment.service.domain.event.PaymentEvent;
 
@@ -30,7 +31,8 @@ PaymentEvent validateAndInitiatePayment(Payment payment,
 PaymentEvent validateAndCancelPayment(Payment payment,
                                       CreditEntry creditEntry,
                                       List<CreditHistory> creditHistories,
-                                      List<String> failureMessages);
+                                      List<String> failureMessages,
+                                      DomainEventPublisher<PaymentCancelledEvent> paymentCancelledEventDomainEventPublisher);
 
 
 }

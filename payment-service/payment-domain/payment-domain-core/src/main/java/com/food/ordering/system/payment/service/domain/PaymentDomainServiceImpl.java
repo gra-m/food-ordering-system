@@ -110,20 +110,21 @@ private Money getTotalHistoryAmount(List<CreditHistory> creditHistories, Transac
  * Given that the payment fails validation and has a failure message fixme the same happens but it is wrapped in failed
  * is this reverted later?
  *
- * @param payment         the payment to be validated and cancelled
- * @param creditEntry     the creditEntry (and so credit amount via creditEntry.getTotalCreditAmount()) that is to be
- *                        validated and cancelled
- * @param creditHistories a List of credit histories belonging to the customer this CreditEntry relates to
- * @param failureMessages at point of entry an empty List of failureMessages if the CreditHistory to be validated
- *                        fails the logic of this method the list will no longer be empty.
- *
+ * @param payment                                   the payment to be validated and cancelled
+ * @param creditEntry                               the creditEntry (and so credit amount via creditEntry.getTotalCreditAmount()) that is to be
+ *                                                  validated and cancelled
+ * @param creditHistories                           a List of credit histories belonging to the customer this CreditEntry relates to
+ * @param failureMessages                           at point of entry an empty List of failureMessages if the CreditHistory to be validated
+ *                                                  fails the logic of this method the list will no longer be empty.
+ * @param paymentCancelledEventDomainEventPublisher
  * @return PaymentEvent -> PaymentCancelledEvent || PaymentFailedEvent
  */
 @Override
 public PaymentEvent validateAndCancelPayment(Payment payment,
                                              CreditEntry creditEntry,
                                              List<CreditHistory> creditHistories,
-                                             List<String> failureMessages) {
+                                             List<String> failureMessages,
+                                             DomainEventPublisher<PaymentCancelledEvent> paymentCancelledEventDomainEventPublisher) {
     payment.validatePayment(failureMessages);
     addCreditEntry(payment, creditEntry);
     updateCreditHistory(payment, creditHistories, TransactionType.CREDIT);
@@ -132,7 +133,8 @@ public PaymentEvent validateAndCancelPayment(Payment payment,
         log.info("Payment is cancelled for order id: {}", payment.getOrderId().getValue());
 
         payment.updateStatus(PaymentStatus.CANCELLED);
-        return new PaymentCancelledEvent(payment, ZonedDateTime.now(ZoneId.of(UTCBRU)));
+        return new PaymentCancelledEvent(payment, ZonedDateTime.now(ZoneId.of(UTCBRU)),
+        paymentCancelledEventDomainEventPublisher);
     } else {
         log.info("Payment cancellation failed for order id: {}", payment.getOrderId().getValue());
 
