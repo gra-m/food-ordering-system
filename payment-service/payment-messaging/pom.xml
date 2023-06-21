@@ -11,5 +11,26 @@
 
     <artifactId>payment-messaging</artifactId>
 
+    <dependencies>
+        <!--payment-application-service is in domain layer and holds output ports that will be configured with adapters
+        in this payment-messaging module-->
+        <dependency>
+            <groupId>com.food.ordering.system</groupId>
+            <artifactId>payment-application-service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.food.ordering.system</groupId>
+            <artifactId>kafka-producer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.food.ordering.system</groupId>
+            <artifactId>kafka-consumer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.food.ordering.system</groupId>
+            <artifactId>kafka-model</artifactId>
+        </dependency>
+    </dependencies>
+
 
 </project>
