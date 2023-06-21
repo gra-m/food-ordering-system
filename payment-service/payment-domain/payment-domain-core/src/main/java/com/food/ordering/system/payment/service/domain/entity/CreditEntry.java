@@ -36,6 +36,10 @@ public Money getTotalCreditAmount() {
     return totalCreditAmount;
 }
 
+public static Builder builder(){
+        return Builder.builder();
+}
+
 /**
  * {@code CreditEntry} builder static inner class.
  */

@@ -11,8 +11,8 @@
 
     <artifactId>payment-application-service</artifactId>
 
-    <!--here just for interest, does not need to be mentioned in main pom, as long as its dependency payment-domain-core
-    is listed there-->
+    <!--interest point, does not need to be mentioned in main pom, as long as its dependency payment-domain-core
+    is listed there, [it is later listed in main pom anyway] -->
     <dependencies>
         <dependency>
             <groupId>com.food.ordering.system</groupId>
