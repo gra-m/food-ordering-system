@@ -6,6 +6,9 @@
 /order-service/order-domain/order-domain-core/target/
 /order-service/order-messaging/target/
 #/infrastructure/docker-compose/volumes/
+.iml
+/.iml
+*.iml
 /idea
 .idea/
 /common/common-application/target/
@@ -15,6 +18,7 @@
 #/infrastructure/kafka/kafka-consumer/target/
 #/infrastructure/kafka/kafka-model/target/
 #/infrastructure/kafka/kafka-producer/target/
+/target
 /*/target
 /*/*/target
 /*/*/*/target
