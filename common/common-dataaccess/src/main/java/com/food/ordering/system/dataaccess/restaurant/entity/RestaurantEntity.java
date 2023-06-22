@@ -1,10 +1,9 @@
-package com.food.ordering.system.order.service.dataaccess.restaurant.entity;
+package com.food.ordering.system.dataaccess.restaurant.entity;
 
 import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -30,6 +29,7 @@ private String restaurantName;
 private Boolean restaurantActive;
 private String productName;
 private BigDecimal productPrice;
+private Boolean productAvailable;
 
 @Override
 public boolean equals(Object o) {

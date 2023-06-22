@@ -15,9 +15,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * EnableJpaRepositories
  * basePackages: dataaccess repos are also strictly held in dataacess package
  *
+ * Note: following the move of common restaurant dataaccess code to new module common/common-dataaccess:
+ * new basePackage scan required:
+ *
  */
-@EnableJpaRepositories(basePackages = "com.food.ordering.system.order.service.dataaccess")
-@EntityScan(basePackages = "com.food.ordering.system.order.service.dataaccess")
+@EnableJpaRepositories(basePackages = {"com.food.ordering.system.order.service.dataaccess", "com.food.ordering.system.dataaccess"})
+@EntityScan(basePackages = {"com.food.ordering.system.order.service.dataaccess", "com.food.ordering.system.dataaccess"})
 @SpringBootApplication(scanBasePackages = "com.food.ordering.system")
 public class OrderServiceApplication {
 
