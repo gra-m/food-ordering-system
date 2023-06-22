@@ -1,6 +1,7 @@
 package com.food.ordering.system.restaurant.service.domain;
 
 import com.food.ordering.system.domain.valueobject.OrderId;
+import com.food.ordering.system.domain.valueobject.RestaurantId;
 import com.food.ordering.system.restaurant.service.domain.dto.RestaurantApprovalRequest;
 import com.food.ordering.system.restaurant.service.domain.entity.Restaurant;
 import com.food.ordering.system.restaurant.service.domain.event.OrderApprovalEvent;
@@ -50,8 +51,10 @@ public OrderApprovalEvent persistOrderApproval(RestaurantApprovalRequest restaur
     List<String> failureMessages = Collections.emptyList();
     Restaurant restaurant = findRestaurant(restaurantApprovalRequest);
 
-    OrderApprovalEvent orderApprovalEvent = restaurantDomainService.validateOrder(restaurant, failureMessages,
-    orderApprovedMessagePublisher,orderRejectedMessagePublisher);
+    OrderApprovalEvent orderApprovalEvent = restaurantDomainService.validateOrder(restaurant,
+    failureMessages,
+    orderApprovedMessagePublisher,
+    orderRejectedMessagePublisher);
 
     orderApprovalRepository.save(restaurant.getOrderApproval());
 
@@ -59,34 +62,47 @@ public OrderApprovalEvent persistOrderApproval(RestaurantApprovalRequest restaur
 }
 
 private Restaurant findRestaurant(RestaurantApprovalRequest restaurantApprovalRequest) {
-    Restaurant restaurant =
-    restaurantDataMapper.restaurantApprovalRequestToRestaurant(restaurantApprovalRequest);
+    Restaurant restaurant = getRestaurantFromRestaurantApprovalRequest(restaurantApprovalRequest);
+    RestaurantId restaurantId = restaurant.getId();
 
     Optional<Restaurant> restaurantResult = restaurantRepository.findRestaurantInformation(restaurant);
 
-    if(restaurantResult.isEmpty()) {
-        log.error("RestaurantApprovalRequestHelper says: Restaurant with id {} not found!",
-        restaurant.getId().getValue());
+    Restaurant restaurantEntity = checkRestaurantExistsInDb(restaurantResult, restaurantId);
 
-        throw new RestaurantNotFoundException(String.format("Restaurant with id %s not found!",
-        restaurant.getId().getValue()));
-    }
+    return updateRestaurantDomainObjectFromRetrievedEntity(restaurant,
+    restaurantEntity,
+    UUID.fromString(restaurantApprovalRequest.getOrderId()));
 
-    //update the restaurant with up-to-date info from the restaurant database.
-    Restaurant restaurantEntity = restaurantResult.get();
+}
+
+private Restaurant updateRestaurantDomainObjectFromRetrievedEntity(Restaurant restaurant,
+                                                                   Restaurant restaurantEntity,
+                                                                   UUID orderIdFromApprovalRequest) {
     restaurant.setActive(restaurantEntity.isActive());
     restaurant.getOrderDetail().getProducts().forEach(product -> {
         restaurantEntity.getOrderDetail().getProducts().forEach(p -> {
-            if(p.getId().equals(product.getId())) {
+            if( p.getId().equals(product.getId()) ) {
                 product.updateWithConfirmedNamePriceAndAvailability(p.getName(), p.getPrice(), p.isAvailable());
             }
         });
     });
 
-    restaurant.getOrderDetail().setId(new OrderId(UUID.fromString(restaurantApprovalRequest.getOrderId())));
-
+    restaurant.getOrderDetail().setId(new OrderId(orderIdFromApprovalRequest));
     return restaurant;
 
+}
+
+private Restaurant getRestaurantFromRestaurantApprovalRequest(RestaurantApprovalRequest restaurantApprovalRequest) {
+    return restaurantDataMapper.restaurantApprovalRequestToRestaurant(restaurantApprovalRequest);
+}
+
+private Restaurant checkRestaurantExistsInDb(Optional<Restaurant> restaurantResult, RestaurantId restaurantId) {
+    if( restaurantResult.isEmpty() ) {
+        log.error("RestaurantApprovalRequestHelper says: Restaurant with id {} not found!", restaurantId.getValue());
+
+        throw new RestaurantNotFoundException(String.format("Restaurant with id %s not found!",
+        restaurantId.getValue()));
+    } else return restaurantResult.get();
 }
 
 
