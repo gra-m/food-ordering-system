@@ -15,7 +15,7 @@ import java.util.List;
 import static com.food.ordering.system.domain.DomainConstants.UTCBRU;
 
 @Slf4j
-public class RestaurantDomainImpl implements RestaurantDomainService{
+public class RestaurantDomainServiceImpl implements RestaurantDomainService{
 
 /**
  * @param restaurant
