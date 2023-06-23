@@ -17,3 +17,6 @@ kcat -C -b localhost:19092 -t payment-request
    % Reached end of topic payment-request [1] at offset 0
    % Reached end of topic payment-request [2] at offset 1
    % Reached end of topic payment-request [0] at offset 2
+
+mvn install command failed?
+docker system prune cleans all images/urls then try again. Worked 230623
