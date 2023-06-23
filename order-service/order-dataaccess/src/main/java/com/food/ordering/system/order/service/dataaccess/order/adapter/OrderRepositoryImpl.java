@@ -8,6 +8,7 @@ import com.food.ordering.system.order.service.domain.valueobject.TrackingId;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * todo explain
@@ -50,5 +51,16 @@ public Optional<Order> findByTrackingId(TrackingId trackingId) {
       return orderJpaRepository.findByTrackingId(trackingId.getValue()).map(orderDataAccessMapper::orderEntityToOrder);
 
 }
+
+/**
+ *
+ * @param orderId 
+ * @return
+ */
+@Override
+public Optional<Order> findById(String orderId) {
+      return orderJpaRepository.findById(UUID.fromString(orderId)).map(orderEntity -> orderDataAccessMapper.orderEntityToOrder(orderEntity));
+}
+
 
 }
