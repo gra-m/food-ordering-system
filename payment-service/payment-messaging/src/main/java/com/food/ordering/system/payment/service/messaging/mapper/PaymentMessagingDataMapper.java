@@ -78,6 +78,8 @@ public PaymentRequest paymentRequestAvroModelToPaymentRequest(PaymentRequestAvro
     .sagaId(paymentRequestAvroModel.getSagaId())
     .customerId(paymentRequestAvroModel.getCustomerId())
     .orderId(paymentRequestAvroModel.getOrderId())
+    .price(paymentRequestAvroModel.getPrice())
+    .createdAt(paymentRequestAvroModel.getCreatedAt())
     .paymentOrderStatus(PaymentOrderStatus.valueOf(paymentRequestAvroModel.getPaymentOrderStatus().name()))
     .build();
 }

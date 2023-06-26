@@ -9,6 +9,21 @@ docker compose -f common.yml -f kafka_cluster.yml up
 docker compose -f common.yml -f init_kafka.yml up
 
 Order API working 15/06/23
+OK 26th but issues with timing for start up. remove orphans once, delete content of brokers and zookeeper transactions
+in docker compose volumes [poss/prob close VPN].
+
+goto -> localhost:9000
+then -> add cluster
+Cluster Name - food-ordering-system-cluster
+ClusterZookeeperHosts - zookeeper:2181
+then -> save
+
+Then start spring container applications Order
+
+
+
+mvn install command failed?
+docker system prune cleans all images/urls then try again. Worked 230623
 
 kcat -C -b localhost:19092 -t payment-request
    Hed205c43-920c-43aa-97ca-9ed54a09edcdHd215b5f8-0249-4dc5-89a3-51fd148cfb41H12230dd9-5f76-4789-addf-1648d68f8201N Ė���b
@@ -17,6 +32,22 @@ kcat -C -b localhost:19092 -t payment-request
    % Reached end of topic payment-request [1] at offset 0
    % Reached end of topic payment-request [2] at offset 1
    % Reached end of topic payment-request [0] at offset 2
+#################################
+Issues 26th: Takes the order but:
+#################################
+    2023-06-26 18:59:59.494  INFO 406384 --- [nio-8181-exec-1] o.a.k.clients.producer.ProducerConfig    : ProducerConfig values:
+    ...
+    ... etc
+    2023-06-26 18:59:59.496  INFO 406384 --- [nio-8181-exec-1] i.c.k.s.KafkaAvroSerializerConfig        : KafkaAvroSerializerConfig values:
+    ...
+        schema.registry.url = [http://localhost:8081]
+       	use.latest.version = false
+       	use.schema.id = -1
+       	value.subject.name.strategy = class io.confluent.kafka.serializers.subject.TopicNameStrategy
 
-mvn install command failed?
-docker system prune cleans all images/urls then try again. Worked 230623
+       2023-06-26 18:59:59.507  INFO 406384 --- [nio-8181-exec-1] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.0.0
+       2023-06-26 18:59:59.507  INFO 406384 --- [nio-8181-exec-1] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 8cb0a5e9d3441962
+       2023-06-26 18:59:59.507  INFO 406384 --- [nio-8181-exec-1] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1687798799507
+       2023-06-26 18:59:59.511  INFO 406384 --- [ad | producer-1] org.apache.kafka.clients.Metadata        : [Producer clientId=producer-1] Cluster ID: ApZnALyuSp2TsivE0PHtNA
+       2023-06-26 18:59:59.539 ERROR 406384 --- [nio-8181-exec-1] i.c.k.s.client.rest.RestService          : Failed to send HTTP request to endpoint: http://localhost:8081/subjects/payment-request-value/versions?normalize=false
+
