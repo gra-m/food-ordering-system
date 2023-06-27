@@ -1,4 +1,4 @@
-#Make sure you are in docker-compose directory
+#Make sure you are in docker-compose directory, new run/setup    delete broker/data/transactions records
 1: remove orphans cleans previous
 docker compose -f common.yml -f zookeeper.yml up --remove-orphans
 1a: check zookeeper OK, set to run on 2181

@@ -37,7 +37,7 @@ spring:
 
 # kafka values for kafka config classes: Module Kafka/kafka-config-data com.food.ordering.system.kafka.config.data;
 kafka-config:
-  bootstrap-servers: 127.0.0.1:19092, 127.0.01:29092, 127.0.01:39092
+  bootstrap-servers: 127.0.0.1:19092, 127.0.0.1:29092, 127.0.0.1:39092
   schema-registry-url-Key: schema.registry.url
   schema-registry-url: http://127.0.0.1:8081
   num-of-partitions: 3

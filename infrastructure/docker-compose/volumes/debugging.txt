@@ -1,0 +1,11 @@
+ 2023-06-27 07:54:22.246 ERROR 43006 --- [-consumer-0-C-1] .k.PaymentCompletedKafkaMessagePublisher
+
+Error while sending PaymentResponseAvroModel message to kafka with order id:
+ d189ac9a-6ed2-4f74-a206-24c2b8e18116,
+ error: Error registering Avro schema
+ {"type":"record","name":"PaymentResponseAvroModel","namespace":"com.food.ordering.system.kafka.order.avro.model","fields":[{"name":"id","type":{"type":"string","logicalType":"uuid"}},{"name":"sagaId","type":{"type":"string","logicalType":"uuid"}},{"name":"paymentId","type":{"type":"string","logicalType":"uuid"}},{"name":"customerId","type":{"type":"string","logicalType":"uuid"}},{"name":"orderId","type":{"type":"string","logicalType":"uuid"}},{"name":"price","type":{"type":"bytes","logicalType":"decimal","precision":10,"scale":2}},{"name":"createdAt","type":{"type":"long","logicalType":"timestamp-millis"}},{"name":"paymentStatus","type":{"type":"enum","name":"PaymentStatus","symbols":["COMPLETED","CANCELLED","FAILED"]}},{"name":"failureMessages","type":{"type":"array","items":{"type":"string","avro.java.string":"String"}}}]}
+
+Model OK, checked, but then, realised issue @ kafkaProducer.send(...
+
+Typo in local host ip..
+	bootstrap.servers = [127.0.0.1:19092, 127.0.01:29092, 127.0.01:39092]

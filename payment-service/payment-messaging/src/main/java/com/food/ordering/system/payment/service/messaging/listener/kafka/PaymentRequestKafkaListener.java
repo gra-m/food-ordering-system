@@ -1,7 +1,7 @@
 package com.food.ordering.system.payment.service.messaging.listener.kafka;
 
+import com.food.ordering.system.domain.valueobject.PaymentOrderStatus;
 import com.food.ordering.system.kafka.consumer.KafkaConsumer;
-import com.food.ordering.system.kafka.order.avro.model.PaymentOrderStatus;
 import com.food.ordering.system.kafka.order.avro.model.PaymentRequestAvroModel;
 import com.food.ordering.system.payment.service.domain.ports.input.message.listener.PaymentRequestMessageListener;
 import com.food.ordering.system.payment.service.messaging.mapper.PaymentMessagingDataMapper;
@@ -60,15 +60,15 @@ public void receive(@Payload List<PaymentRequestAvroModel> messages,
     partitions.toString(),
     offsets.toString());
 
-    // handle payload: fixme handled with string equals in a.n.other kafka listener, why ok here, but not there?
+    //Changed to .equals name() here as well
     messages.forEach(paymentRequestAvroModel -> {
-        if (paymentRequestAvroModel.getPaymentOrderStatus() == PaymentOrderStatus.PENDING) {
+        if (paymentRequestAvroModel.getPaymentOrderStatus().name().equals(PaymentOrderStatus.PENDING.name())) {
            log.info("Processing payment for order id: {}", paymentRequestAvroModel.getOrderId());
 
            paymentRequestMessageListener.completePayment(paymentMessagingDataMapper
            .paymentRequestAvroModelToPaymentRequest(paymentRequestAvroModel));
 
-        } else if( paymentRequestAvroModel.getPaymentOrderStatus() == PaymentOrderStatus.CANCELLED ) {
+        } else if( paymentRequestAvroModel.getPaymentOrderStatus().name().equals(PaymentOrderStatus.CANCELLED.name())) {
             log.info("Cancelling payment for order id: {}", paymentRequestAvroModel.getOrderId());
 
             paymentRequestMessageListener.cancelPayment(paymentMessagingDataMapper
