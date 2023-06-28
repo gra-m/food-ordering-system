@@ -42,7 +42,7 @@ order/payment/restaurant container application.yml    [3 files]
 
 and   kafka/kafka-model/../resources/avro/avsc files
 
-then the changes will be committed and a new 'debugging' branch made. in this branch the files will be replaced and compared to
+then the changes will be committed and a new 'debuggingt' branch made. in this branch the files will be replaced and compared to
 the course versions.
 
 Thoughts behind this action. I have already spent a considerable time looking into how the confluent schema system works, it is an extra kafka node
