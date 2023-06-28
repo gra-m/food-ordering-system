@@ -9,6 +9,13 @@ payment-service:
   payment-request-topic-name: payment-request
   payment-response-topic-name: payment-response
 
+# open in view = true:forces persistence context to stay open slowing performance
+# datasource localhost default for postgreSQL = 5432
+# datasource/binaryTransfer = quicker when kept in binary     jdbc server -> postgres server
+# datasource/BatchedInserts = quicker, single insert statement with multiple values, rather than 121
+# datasource/stringtype = all strings are sent un-typed stops string checking on UUID type on postgres (it would recognise UUID otherwise)
+# basic username pword for now
+# leaving deprecated in for now, try suggestions when working.
 spring:
   jpa:
     open-in-view: false
@@ -18,22 +25,24 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL9Dialect
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=payment&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
-    username: postgres
-    password: admin
+    url: jdbc:postgresql://localhost:5432/food_ordering_system?currentSchema=payment&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
+    username: orion
     driver-class-name: org.postgresql.Driver
-    platform: postgres
-    schema: classpath:init-schema.sql
-    data: classpath:init-data.sql
-    initialization-mode: always
+  sql:
+    init:
+      platform: postgres
+      schema-locations: classpath:init-schema.sql
+      data-locations: classpath:init-data.sql
+      mode: always
 
+# kafka values for kafka config classes: Module Kafka/kafka-config-data com.food.ordering.system.kafka.config.data;
 kafka-config:
-  bootstrap-servers: localhost:19092, localhost:29092, localhost:39092
+  bootstrap-servers: 127.0.0.1:19092, 127.0.0.1:29092, 127.0.0.1:39092
   schema-registry-url-key: schema.registry.url
-  schema-registry-url: http://localhost:8081
+  schema-registry-url: http://127.0.0.1:8081
   num-of-partitions: 3
   replication-factor: 3
-
+# snappy represents mid-ground compression/performance / acks all == recommended /
 kafka-producer-config:
   key-serializer-class: org.apache.kafka.common.serialization.StringSerializer
   value-serializer-class: io.confluent.kafka.serializers.KafkaAvroSerializer
@@ -44,7 +53,22 @@ kafka-producer-config:
   linger-ms: 5
   request-timeout-ms: 60000
   retry-count: 5
-
+# value-deserializer of correct type required e.g. see PaymentResponseKafkaListener PaymentResponseAvroModel
+# payment-consumer-group-id: enables consumer to start from correct offset, rather from 0 every time
+# auto-offset-reset: earliest empty == from beginning of partition
+# specific-avro-reader: as avro data type is used when holding data on Kafka == true
+# batch-listener: allows for batches, not just single
+# auto-startup: if false will kafka listener will not start automatically
+# concurrency-level - 3 is equal to number of partitions
+# set-timeout-ms - time within which broker must receive a heartbeat (I'm alive) from the consumer
+# heartbeat-interval-ms - heartbeats sent to broker every 3 seconds (tries three times before timing out
+# max-poll-interval-ms - for user threads if messaging processing too heavy it may take longer than this time, and the co-ordinator will mark this consumer as dead
+# the above should be marked according to the processing time requirements of your application
+# max-poll-records - max records to fetch at a time
+# max...fetch-bytes - max bytes that can be fetched in each poll 1mb
+# boost.. for tuning of above
+# poll-timeout-ms - when consumer tries to fetch data and there is nothing there its waiting will block the client code
+# this property sets for how long this is allowed. too large == too longer block, too small == cpu stall
 kafka-consumer-config:
   key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
   value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
@@ -58,7 +82,7 @@ kafka-consumer-config:
   session-timeout-ms: 10000
   heartbeat-interval-ms: 3000
   max-poll-interval-ms: 300000
+  poll-timeout-ms: 150
   max-poll-records: 500
   max-partition-fetch-bytes-default: 1048576
-  max-partition-fetch-bytes-boost-factor: 1
-  poll-timeout-ms: 150
+  max-partition-fetch-bytes-boost-factor:  1

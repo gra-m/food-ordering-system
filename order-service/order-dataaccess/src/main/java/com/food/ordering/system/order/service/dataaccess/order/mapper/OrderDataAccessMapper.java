@@ -112,17 +112,6 @@ private StreetAddress addressEntityToDeliveryAddress(OrderAddressEntity address)
 
 
 private List<OrderItemEntity> orderItemsToOrderItemEntities(List<OrderItem> items) {
-      /*List<OrderItemEntity> returnArrayList = new ArrayList<>(items.size());
-      for( OrderItem item : items ) {
-            returnArrayList.add(OrderItemEntity
-                .builder()
-                .id(item.getId().getValue())
-                .productId(item.getProduct().getId().getValue())
-                .quantity((item.getQuantity()))
-                .price(item.getPrice().getAmount())
-                .subTotal(item.getSubTotal().getAmount())
-                .build());
-      }*/
       return items
           .stream()
           .map(orderItem -> OrderItemEntity
