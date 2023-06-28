@@ -7,7 +7,8 @@ services:
       "
       # block until kafka is reachable
       kafka-topics --bootstrap-server kafka-broker-1:9092 --list
-      
+    
+      # additional value just led to the error stating payment-request-value-value 
       echo -e 'Deleting kafka topics'
       kafka-topics --bootstrap-server kafka-broker-1:9092 --topic payment-request --delete --if-exists
       kafka-topics --bootstrap-server kafka-broker-1:9092 --topic payment-response --delete --if-exists

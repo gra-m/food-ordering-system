@@ -1,0 +1,208 @@
+ 2023-06-27 07:54:22.246 ERROR 43006 --- [-consumer-0-C-1] .k.PaymentCompletedKafkaMessagePublisher
+
+Error while sending PaymentResponseAvroModel message to kafka with order id:
+ d189ac9a-6ed2-4f74-a206-24c2b8e18116,
+ error: Error registering Avro schema
+ {"type":"record","name":"PaymentResponseAvroModel","namespace":"com.food.ordering.system.kafka.order.avro.model","fields":[{"name":"id","type":{"type":"string","logicalType":"uuid"}},{"name":"sagaId","type":{"type":"string","logicalType":"uuid"}},{"name":"paymentId","type":{"type":"string","logicalType":"uuid"}},{"name":"customerId","type":{"type":"string","logicalType":"uuid"}},{"name":"orderId","type":{"type":"string","logicalType":"uuid"}},{"name":"price","type":{"type":"bytes","logicalType":"decimal","precision":10,"scale":2}},{"name":"createdAt","type":{"type":"long","logicalType":"timestamp-millis"}},{"name":"paymentStatus","type":{"type":"enum","name":"PaymentStatus","symbols":["COMPLETED","CANCELLED","FAILED"]}},{"name":"failureMessages","type":{"type":"array","items":{"type":"string","avro.java.string":"String"}}}]}
+
+Model OK, checked, but then, realised issue @ kafkaProducer.send(...
+
+Typo in local host ip..
+	bootstrap.servers = [127.0.0.1:19092, 127.0.01:29092, 127.0.01:39092]
+
+
+
+Latest on top
+
+####################
+26/06/23 after following all advice found round schema issue, and starting to use docker in intellij
+most existing docker repositories were deleted and a clean install run. The schema repository was shown to be building
+the same schema twice in quick succession:
+
+7:31:35,946] INFO Server started, listening for requests... (io.confluent.kafka.schemaregistry.rest.SchemaRegistryMain)
+[HERE------>2023-06-27T17:35:21.629991326Z [2023-06-27 17:35:21,629] INFO Registering new schema: subject payment-request-value, version null, id null, type null, schema size 662 (io.confluent.kafka.schemaregistry.rest.resources.SubjectVersionsResource)
+2023-06-27T17:35:21.668653991Z [2023-06-27 17:35:21,668] INFO Wait to catch up until the offset at 4 (io.confluent.kafka.schemaregistry.storage.KafkaStore)
+2023-06-27T17:35:21.668693521Z [2023-06-27 17:35:21,668] INFO Reached offset at 4 (io.confluent.kafka.schemaregistry.storage.KafkaStore)
+2023-06-27T17:35:21.682495555Z [2023-06-27 17:35:21,682] INFO Wait to catch up until the offset at 5 (io.confluent.kafka.schemaregistry.storage.KafkaStore)
+2023-06-27T17:35:21.684523536Z [2023-06-27 17:35:21,684] INFO Reached offset at 5 (io.confluent.kafka.schemaregistry.storage.KafkaStore)
+2023-06-27T17:35:21.712549025Z [2023-06-27 17:35:21,712] INFO 172.23.0.1 - - [27/Jun/2023:17:35:21 +0000] "POST /subjects/payment-request-value/versions?normalize=false HTTP/1.1" 200 8 "-" "Java/17.0.7" POSTsT (io.confluent.rest-utils.requests)
+2023-06-27T17:35:21.870362867Z [2023-06-27 17:35:21,869] INFO 172.23.0.1 - - [27/Jun/2023:17:35:21 +0000] "GET /schemas/ids/1?fetchMaxId=false&subject=%3A.%3A HTTP/1.1" 200 797 "-" "Java/17.0.7" GETsT (io.confluent.rest-utils.requests)
+[HERE---------->2023-06-27T17:35:22.268689191Z [2023-06-27 17:35:22,268] INFO Registering new schema: subject payment-request-value, version null, id null, type null, schema size 836 (io.confluent.kafka.schemaregistry.rest.resources.SubjectVersionsResource)
+
+
+one has a size of 662 the other 836, so it could be that two schemas are labelled the same?
+
+Action == new branch 'cleaning' will be made where commentary will be cleaned from (allowing for easier version comparison):
+
+init_kafka.yml
+kafka_cluster.yml
+zookeeper.yml
+
+order/payment/restaurant container application.yml    [3 files]
+
+and   kafka/kafka-model/../resources/avro/avsc files
+
+then the changes will be committed and a new 'debugging' branch made. in this branch the files will be replaced and compared to
+the course versions.
+
+Thoughts behind this action. I have already spent a considerable time looking into how the confluent schema system works, it is an extra kafka node
+and the schemas are retrieved/confirmed by schema fingerprint at the beginning of a kafka session. I notice that payment-request-value is missing a version id or type
+this could be as simple as a typo. I hand typed all of these files to get more of a feel for .yml, and to add the commentary.
+
+Yesterday was not wasted. Everything linked to the problem was new or nearly new. I could have followed the route outlined
+above straight away. But then, I could have just watched the videos and downloaded the course code.
+
+
+
+
+
+
+
+
+└─$ sudo lsof -i:8081
+[sudo] password for kali:
+COMMAND      PID USER   FD   TYPE  DEVICE SIZE/OFF NODE NAME
+docker-pr 201579 root    4u  IPv4 1297509      0t0  TCP *:tproxy (LISTEN)
+docker-pr 201586 root    4u  IPv6 1283604      0t0  TCP *:tproxy (LISTEN)
+
+it's listening
+
+starting the below again docker-compose-schema-registry-1 seemed to solve this?:
+
+WARNING: A provider io.confluent.kafka.schemaregistry.rest.resources.ServerMetadataResource registered in SERVER runtime does not implement any provider interfaces applicable in the SERVER runtime. Due to constraint configuration problems the provider io.confluent.kafka.schemaregistry.rest.resources.ServerMetadataResource will be ignored.
+2023-06-27T09:35:30.641556002Z [2023-06-27 09:35:30,641] INFO HV000001: Hibernate Validator 6.1.7.Final (org.hibernate.validator.internal.util.Version)
+2023-06-27T09:35:30.862009160Z [2023-06-27 09:35:30,861] INFO Started o.e.j.s.ServletContextHandler@3b6c624{/,null,AVAILABLE} (org.eclipse.jetty.server.handler.ContextHandler)
+2023-06-27T09:35:30.877361740Z [2023-06-27 09:35:30,877] INFO Started o.e.j.s.ServletContextHandler@2e380628{/ws,null,AVAILABLE} (org.eclipse.jetty.server.handler.ContextHandler)
+2023-06-27T09:35:30.892788910Z [2023-06-27 09:35:30,892] INFO Started NetworkTrafficServerConnector@600b90df{HTTP/1.1, (http/1.1, h2c)}{schema-registry:8081} (org.eclipse.jetty.server.AbstractConnector)
+2023-06-27T09:35:30.893697684Z [2023-06-27 09:35:30,893] INFO Started @5862ms (org.eclipse.jetty.server.Server)
+2023-06-27T09:35:30.894474529Z [2023-06-27 09:35:30,894] INFO Schema Registry version: 7.0.1 commitId: 18606ae284c9b81c006a6560d8141ef80eb27c89 (io.confluent.kafka.schemaregistry.rest.SchemaRegistryMain)
+2023-06-27T09:35:30.894505050Z [2023-06-27 09:35:30,894] INFO Server started, listening for requests... (io.confluent.kafka.schemaregistry.rest.SchemaRegistryMain)
+
+from docker-compose schema registry 1
+              Caused by: io.confluent.kafka.schemaregistry.storage.exceptions.StoreException: Failed to write Noop record to kafka store.
+              2023-06-27T09:04:24.288934443Z 	at io.confluent.kafka.schemaregistry.storage.KafkaStore.getLatestOffset(KafkaStore.java:486)
+              2023-06-27T09:04:24.288942126Z 	at io.confluent.kafka.schemaregistry.storage.KafkaStore.waitUntilKafkaReaderReachesLastOffset(KafkaStore.java:293)
+              2023-06-27T09:04:24.288949110Z 	at io.confluent.kafka.schemaregistry.storage.KafkaSchemaRegistry.setLeader(KafkaSchemaRegistry.java:390)
+              2023-06-27T09:04:24.288955815Z 	... 12 more
+              2023-06-27T09:04:24.288961053Z Caused by: java.util.concurrent.ExecutionException: org.apache.kafka.common.errors.NotLeaderOrFollowerException: For requests intended only for the leader, this error indicates that the broker is not the current leader. For requests intended for any replica, this error indicates that the broker is not a replica of the topic partition.
+              2023-06-27T09:04:24.288968386Z 	at org.apache.kafka.clients.producer.internals.FutureRecordMetadata.valueOrError(FutureRecordMetadata.java:97)
+              2023-06-27T09:04:24.288974532Z 	at org.apache.kafka.clients.producer.internals.FutureRecordMetadata.get(FutureRecordMetadata.java:79)
+              2023-06-27T09:04:24.288981586Z 	at org.apache.kafka.clients.producer.internals.FutureRecordMetadata.get(FutureRecordMetadata.java:30)
+              2023-06-27T09:04:24.288988151Z 	at io.confluent.kafka.schemaregistry.storage.KafkaStore.getLatestOffset(KafkaStore.java:481)
+              2023-06-27T09:04:24.288995694Z 	... 14 more
+              2023-06-27T09:04:24.289001980Z Caused by: org.apache.kafka.common.errors.NotLeaderOrFollowerException: For requests intended only for the leader, this error indicates that the broker is not the current leader. For requests intended for any replica, this error indicates that the broker is not a replica of the topic partition.
+              2023-06-27T09:05:18.747215378Z [2023-06-27 09:05:18,746] ERROR Error starting the schema registry (io.confluent.kafka.schemaregistry.rest.SchemaRegistryRestApplication)
+              2023-06-27T09:05:18.747269225Z io.confluent.kafka.schemaregistry.exceptions.SchemaRegistryInitializationException: io.confluent.kafka.schemaregistry.exceptions.SchemaRegistryTimeoutException: Timed out waiting for join group to complete
+              2023-06-27T09:05:18.747283124Z 	at io.confluent.kafka.schemaregistry.storage.KafkaSchemaRegistry.init(KafkaSchemaRegistry.java:325)
+              2023-06-27T09:05:18.747293600Z 	at io.confluent.kafka.schemaregistry.rest.SchemaRegistryRestApplication.initSchemaRegistry(SchemaRegistryRestApplication.java:75)
+              2023-06-27T09:05:18.747302540Z 	at io.confluent.kafka.schemaregistry.rest.SchemaRegistryRestApplication.configureBaseApplication(SchemaRegistryRestApplication.java:90)
+              2023-06-27T09:05:18.747311270Z 	at io.confluent.rest.Application.configureHandler(Application.java:271)
+              2023-06-27T09:05:18.747320279Z 	at io.confluent.rest.ApplicationServer.doStart(ApplicationServer.java:245)
+              2023-06-27T09:05:18.747329289Z 	at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:73)
+              2023-06-27T09:05:18.747337879Z 	at io.confluent.kafka.schemaregistry.rest.SchemaRegistryMain.main(SchemaRegistryMain.java:44)
+              2023-06-27T09:05:18.747348495Z Caused by: io.confluent.kafka.schemaregistry.exceptions.SchemaRegistryTimeoutException: Timed out waiting for join group to complete
+              2023-06-27T09:05:18.747384184Z 	at io.confluent.kafka.schemaregistry.leaderelector.kafka.KafkaGroupLeaderElector.init(KafkaGroupLeaderElector.java:208)
+              2023-06-27T09:05:18.747393194Z 	at io.confluent.kafka.schemaregistry.storage.KafkaSchemaRegistry.init(KafkaSchemaRegistry.java:320)
+              2023-06-27T09:05:18.747400876Z 	... 6 more
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+################################
+https://stackoverflow.com/questions/55635309/exception-in-kafka-rest-proxy-schema-being-registered-is-incompatible-with-an-e
+despite the correction above failing @ KafkaProducerImpl:
+    ListenableFuture<SendResult<K, V>> kafkaResultFuture = kafkaTemplate.send(topicName, key, message);
+            kafkaResultFuture.addCallback(callback);
+KafkaTemplateSend(producerRecord) is in this state:
+
+ProducerRecord(topic=payment-request, partition=null, headers=RecordHeaders(headers = [], isReadOnly = false),
+key=487b14b0-38b3-4468-9391-17e864769f3c,
+value={"id": "44176734-ad8e-4a9d-9fd8-34de18f7dae3", "sagaId": "", "paymentId": "bd5c66a4-933a-4271-a46a-366678b5b7ef",
+ "customerId": "d215b5f8-0249-4dc5-89a3-51fd148cfb41", "orderId": "487b14b0-38b3-4468-9391-17e864769f3c",
+ "price": 200.00, "createdAt": "2023-06-27T07:42:01.752Z", "paymentStatus": "COMPLETED", "failureMessages": []},
+ timestamp=null)
+
+ Schema being registered is incompatible with an earlier schema for subject "payment-request-value" io.confluent.kafka.schemaregistry.rest.exceptions.RestIncompatibleSchemaException: Schema being registered is incompatible with an earlier schema for subject "payment-request-value"
+ io.confluent.kafka.schemaregistry.rest.exceptions.RestIncompatibleSchemaException: Schema being registered is incompatible with an earlier schema
+ for subject "payment-request-value"
+ 	at io.confluent.kafka.schemaregistry.rest.exceptions.Errors.incompatibleSchemaException(Errors.java:132)
+ 	at io.confluent.kafka.schemaregistry.rest.resources.SubjectVersionsResource.register(SubjectVersionsResource.java:300)
+ 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+ 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+ 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+ 	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+ 	at org.glassfish.jersey.server.model.internal.ResourceMethodInvocationHandlerFactory.lambda$static$0(ResourceMethodInvocationHandlerFactory.java:52)
+ 	at org.glassfish.jersey.server.model.internal.AbstractJavaResourceMethodDispatcher$1.run(AbstractJavaResourceMethodDispatcher.java:124)
+ 	at org.glassfish.jersey.server.model.internal.AbstractJavaResourceMethodDispatcher.invoke(AbstractJavaResourceMethodDispatcher.java:167)
+ 	at org.glassfish.jersey.server.model.internal.JavaResourceMethodDispatcherProvider$VoidOutInvoker.doDispatch(JavaResourceMethodDispatcherProvider.java:159)
+ 	at org.glassfish.jersey.server.model.internal.AbstractJavaResourceMethodDispatcher.dispatch(AbstractJavaResourceMethodDispatcher.java:79)
+ 	at org.glassfish.jersey.server.model.ResourceMethodInvoker.invoke(ResourceMethodInvoker.java:475)
+ 	at org.glassfish.jersey.server.model.ResourceMethodInvoker.apply(ResourceMethodInvoker.java:397)
+ 	at org.glassfish.jersey.server.model.ResourceMethodInvoker.apply(ResourceMethodInvoker.java:81)
+ 	at org.glassfish.jersey.server.ServerRuntime$1.run(ServerRuntime.java:255)
+ 	at org.glassfish.jersey.internal.Errors$1.call(Errors.java:248)
+ 	at org.glassfish.jersey.internal.Errors$1.call(Errors.java:244)
+ 	at org.glassfish.jersey.internal.Errors.process(Errors.java:292)
+ 	at org.glassfish.jersey.internal.Errors.process(Errors.java:274)
+ 	at org.glassfish.jersey.internal.Errors.process(Errors.java:244)
+ 	at org.glassfish.jersey.process.internal.RequestScope.runInScope(RequestScope.java:265)
+ 	at org.glassfish.jersey.server.ServerRuntime.process(ServerRuntime.java:234)
+ 	at org.glassfish.jersey.server.ApplicationHandler.handle(ApplicationHandler.java:680)
+ 	at org.glassfish.jersey.servlet.WebComponent.serviceImpl(WebComponent.java:394)
+ 	at org.glassfish.jersey.servlet.ServletContainer.serviceImpl(ServletContainer.java:386)
+ 	at org.glassfish.jersey.servlet.ServletContainer.doFilter(ServletContainer.java:561)
+ 	at org.glassfish.jersey.servlet.ServletContainer.doFilter(ServletContainer.java:502)
+ 	at org.glassfish.jersey.servlet.ServletContainer.doFilter(ServletContainer.java:439)
+ 	at org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)
+ 	at org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)
+ 	at org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:548)
+ 	at org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:233)
+ 	at org.eclipse.jetty.server.session.SessionHandler.doHandle(SessionHandler.java:1624)
+ 	at org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:233)
+ 	at org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1434)
+ 	at org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:188)
+ 	at org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:501)
+ 	at org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:1594)
+ 	at org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:186)
+ 	at org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1349)
+ 	at org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141)
+ 	at org.eclipse.jetty.server.handler.HandlerCollection.handle(HandlerCollection.java:146)
+ 	at org.eclipse.jetty.server.handler.HandlerCollection.handle(HandlerCollection.java:146)
+ 	at org.eclipse.jetty.server.handler.StatisticsHandler.handle(StatisticsHandler.java:179)
+ 	at org.eclipse.jetty.server.handler.ContextHandlerCollection.handle(ContextHandlerCollection.java:234)
+ 	at org.eclipse.jetty.server.handler.gzip.GzipHandler.handle(GzipHandler.java:763)
+ 	at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)
+ 	at org.eclipse.jetty.server.Server.handle(Server.java:516)
+ 	at org.eclipse.jetty.server.HttpChannel.lambda$handle$1(HttpChannel.java:388)
+ 	at org.eclipse.jetty.server.HttpChannel.dispatch(HttpChannel.java:633)
+ 	at org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:380)
+ 	at org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:277)
+ 	at org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:311)
+ 	at org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:105)
+ 	at org.eclipse.jetty.io.ChannelEndPoint$1.run(ChannelEndPoint.java:104)
+ 	at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.runTask(EatWhatYouKill.java:338)
+ 	at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.doProduce(EatWhatYouKill.java:315)
+ 	at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.tryProduce(EatWhatYouKill.java:173)
+ 	at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.produce(EatWhatYouKill.java:137)
+ 	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:883)
+ 	at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1034)
+ 	at java.base/java.lang.Thread.run(Thread.java:829)
+ Caused by: io.confluent.kafka.schemaregistry.exceptions.IncompatibleSchemaException: New schema is incompatible with an earlier schema.
+ 	at io.confluent.kafka.schemaregistry.storage.KafkaSchemaRegistry.register(KafkaSchemaRegistry.java:549)
+ 	at io.confluent.kafka.schemaregistry.storage.KafkaSchemaRegistry.registerOrForward(KafkaSchemaRegistry.java:604)
+ 	at io.confluent.kafka.schemaregistry.rest.resources.SubjectVersionsResource.register(SubjectVersionsResource.java:284)
+ 	... 60 more
+ ; error code: 409
+
+
+
