@@ -1,0 +1,472 @@
+===> Launching schema-registry ...
+2023-06-28T16:31:09.862127923Z [2023-06-28 16:31:09,861] INFO SchemaRegistryConfig values:
+2023-06-28T16:31:09.862164589Z 	access.control.allow.headers =
+2023-06-28T16:31:09.862172831Z 	access.control.allow.methods =
+2023-06-28T16:31:09.862180862Z 	access.control.allow.origin =
+2023-06-28T16:31:09.862187567Z 	access.control.skip.options = true
+2023-06-28T16:31:09.862195110Z 	authentication.method = NONE
+2023-06-28T16:31:09.862202373Z 	authentication.realm =
+2023-06-28T16:31:09.862228494Z 	authentication.roles = [*]
+2023-06-28T16:31:09.862236735Z 	authentication.skip.paths = []
+2023-06-28T16:31:09.862243440Z 	avro.compatibility.level =
+2023-06-28T16:31:09.862250913Z 	compression.enable = true
+2023-06-28T16:31:09.862258107Z 	csrf.prevention.enable = false
+2023-06-28T16:31:09.862265370Z 	csrf.prevention.token.endpoint = /csrf
+2023-06-28T16:31:09.862272983Z 	csrf.prevention.token.expiration.minutes = 30
+2023-06-28T16:31:09.862280526Z 	csrf.prevention.token.max.entries = 10000
+2023-06-28T16:31:09.862287091Z 	debug = true
+2023-06-28T16:31:09.862294634Z 	dos.filter.delay.ms = 100
+2023-06-28T16:31:09.862301897Z 	dos.filter.enabled = false
+2023-06-28T16:31:09.862309580Z 	dos.filter.insert.headers = true
+2023-06-28T16:31:09.862315726Z 	dos.filter.ip.whitelist = []
+2023-06-28T16:31:09.862322780Z 	dos.filter.managed.attr = false
+2023-06-28T16:31:09.862329973Z 	dos.filter.max.idle.tracker.ms = 30000
+2023-06-28T16:31:09.862337726Z 	dos.filter.max.requests.ms = 30000
+2023-06-28T16:31:09.862344361Z 	dos.filter.max.requests.per.sec = 25
+2023-06-28T16:31:09.862351904Z 	dos.filter.max.wait.ms = 50
+2023-06-28T16:31:09.862358539Z 	dos.filter.remote.port = false
+2023-06-28T16:31:09.862365802Z 	dos.filter.throttle.ms = 30000
+2023-06-28T16:31:09.862372507Z 	dos.filter.throttled.requests = 5
+2023-06-28T16:31:09.862380119Z 	dos.filter.track.global = false
+2023-06-28T16:31:09.862386685Z 	host.name = schema-registry
+2023-06-28T16:31:09.862393878Z 	http2.enabled = true
+2023-06-28T16:31:09.862401142Z 	idle.timeout.ms = 30000
+2023-06-28T16:31:09.862408196Z 	inter.instance.headers.whitelist = []
+2023-06-28T16:31:09.862415319Z 	inter.instance.protocol = http
+2023-06-28T16:31:09.862422932Z 	kafkastore.bootstrap.servers = [PLAINTEXT://kafka-broker-2:9092, LISTENER_LOCAL://localhost:29092]
+2023-06-28T16:31:09.862431662Z 	kafkastore.checkpoint.dir = /tmp
+2023-06-28T16:31:09.862441580Z 	kafkastore.checkpoint.version = 0
+2023-06-28T16:31:09.862451078Z 	kafkastore.connection.url = zookeeper:2181
+2023-06-28T16:31:09.862460716Z 	kafkastore.group.id =
+2023-06-28T16:31:09.862470704Z 	kafkastore.init.timeout.ms = 60000
+2023-06-28T16:31:09.862480202Z 	kafkastore.sasl.kerberos.kinit.cmd = /usr/bin/kinit
+2023-06-28T16:31:09.862490259Z 	kafkastore.sasl.kerberos.min.time.before.relogin = 60000
+2023-06-28T16:31:09.862496964Z 	kafkastore.sasl.kerberos.service.name =
+2023-06-28T16:31:09.862504507Z 	kafkastore.sasl.kerberos.ticket.renew.jitter = 0.05
+2023-06-28T16:31:09.862520291Z 	kafkastore.sasl.kerberos.ticket.renew.window.factor = 0.8
+2023-06-28T16:31:09.862527066Z 	kafkastore.sasl.mechanism = GSSAPI
+2023-06-28T16:31:09.862534120Z 	kafkastore.security.protocol = PLAINTEXT
+2023-06-28T16:31:09.862540685Z 	kafkastore.ssl.cipher.suites =
+2023-06-28T16:31:09.862547320Z 	kafkastore.ssl.enabled.protocols = TLSv1.2,TLSv1.1,TLSv1
+2023-06-28T16:31:09.862554443Z 	kafkastore.ssl.endpoint.identification.algorithm =
+2023-06-28T16:31:09.862561637Z 	kafkastore.ssl.key.password = [hidden]
+2023-06-28T16:31:09.862569110Z 	kafkastore.ssl.keymanager.algorithm = SunX509
+2023-06-28T16:31:09.862575675Z 	kafkastore.ssl.keystore.location =
+2023-06-28T16:31:09.862582799Z 	kafkastore.ssl.keystore.password = [hidden]
+2023-06-28T16:31:09.862591459Z 	kafkastore.ssl.keystore.type = JKS
+2023-06-28T16:31:09.862599072Z 	kafkastore.ssl.protocol = TLS
+2023-06-28T16:31:09.862606685Z 	kafkastore.ssl.provider =
+2023-06-28T16:31:09.862614297Z 	kafkastore.ssl.trustmanager.algorithm = PKIX
+2023-06-28T16:31:09.862621561Z 	kafkastore.ssl.truststore.location =
+2023-06-28T16:31:09.862628196Z 	kafkastore.ssl.truststore.password = [hidden]
+2023-06-28T16:31:09.862635320Z 	kafkastore.ssl.truststore.type = JKS
+2023-06-28T16:31:09.862642862Z 	kafkastore.timeout.ms = 500
+2023-06-28T16:31:09.862649148Z 	kafkastore.topic = _schemas
+2023-06-28T16:31:09.862656342Z 	kafkastore.topic.replication.factor = 3
+2023-06-28T16:31:09.862662977Z 	kafkastore.topic.skip.validation = false
+2023-06-28T16:31:09.862670100Z 	kafkastore.update.handlers = []
+2023-06-28T16:31:09.862676247Z 	kafkastore.write.max.retries = 5
+2023-06-28T16:31:09.862683510Z 	leader.eligibility = true
+2023-06-28T16:31:09.862690704Z 	listeners = [http://schema-registry:8081]
+2023-06-28T16:31:09.862697269Z 	master.eligibility = null
+2023-06-28T16:31:09.862703973Z 	metric.reporters = []
+2023-06-28T16:31:09.862711586Z 	metrics.jmx.prefix = kafka.schema.registry
+2023-06-28T16:31:09.862719339Z 	metrics.num.samples = 2
+2023-06-28T16:31:09.862725904Z 	metrics.sample.window.ms = 30000
+2023-06-28T16:31:09.862732050Z 	metrics.tag.map = []
+2023-06-28T16:31:09.862739243Z 	mode.mutability = true
+2023-06-28T16:31:09.862745459Z 	port = 8081
+2023-06-28T16:31:09.862752234Z 	request.logger.name = io.confluent.rest-utils.requests
+2023-06-28T16:31:09.862758799Z 	request.queue.capacity = 2147483647
+2023-06-28T16:31:09.862765923Z 	request.queue.capacity.growby = 64
+2023-06-28T16:31:09.862773605Z 	request.queue.capacity.init = 128
+2023-06-28T16:31:09.862786107Z 	resource.extension.class = []
+2023-06-28T16:31:09.862794069Z 	resource.extension.classes = []
+2023-06-28T16:31:09.862800215Z 	resource.static.locations = []
+2023-06-28T16:31:09.862807269Z 	response.http.headers.config =
+2023-06-28T16:31:09.862814043Z 	response.mediatype.default = application/vnd.schemaregistry.v1+json
+2023-06-28T16:31:09.862821586Z 	response.mediatype.preferred = [application/vnd.schemaregistry.v1+json, application/vnd.schemaregistry+json, application/json]
+2023-06-28T16:31:09.862828081Z 	rest.servlet.initializor.classes = []
+2023-06-28T16:31:09.862835205Z 	schema.cache.expiry.secs = 300
+2023-06-28T16:31:09.862841910Z 	schema.cache.size = 1000
+2023-06-28T16:31:09.862849104Z 	schema.canonicalize.on.consume = []
+2023-06-28T16:31:09.862855878Z 	schema.compatibility.level = backward
+2023-06-28T16:31:09.862862862Z 	schema.providers = []
+2023-06-28T16:31:09.862869497Z 	schema.registry.group.id = schema-registry
+2023-06-28T16:31:09.862876761Z 	schema.registry.inter.instance.protocol =
+2023-06-28T16:31:09.862882977Z 	schema.registry.resource.extension.class = []
+2023-06-28T16:31:09.862890170Z 	shutdown.graceful.ms = 1000
+2023-06-28T16:31:09.862896735Z 	ssl.cipher.suites = []
+2023-06-28T16:31:09.862902881Z 	ssl.client.auth = false
+2023-06-28T16:31:09.862910634Z 	ssl.client.authentication = NONE
+2023-06-28T16:31:09.862917758Z 	ssl.enabled.protocols = []
+2023-06-28T16:31:09.862924462Z 	ssl.endpoint.identification.algorithm = null
+2023-06-28T16:31:09.862931027Z 	ssl.key.password = [hidden]
+2023-06-28T16:31:09.862937732Z 	ssl.keymanager.algorithm =
+2023-06-28T16:31:09.862944018Z 	ssl.keystore.location =
+2023-06-28T16:31:09.862951561Z 	ssl.keystore.password = [hidden]
+2023-06-28T16:31:09.862957777Z 	ssl.keystore.reload = false
+2023-06-28T16:31:09.862964412Z 	ssl.keystore.type = JKS
+2023-06-28T16:31:09.862971186Z 	ssl.keystore.watch.location =
+2023-06-28T16:31:09.862978380Z 	ssl.protocol = TLS
+2023-06-28T16:31:09.862985434Z 	ssl.provider =
+2023-06-28T16:31:09.862991650Z 	ssl.trustmanager.algorithm =
+2023-06-28T16:31:09.862999262Z 	ssl.truststore.location =
+2023-06-28T16:31:09.863006037Z 	ssl.truststore.password = [hidden]
+2023-06-28T16:31:09.863012672Z 	ssl.truststore.type = JKS
+2023-06-28T16:31:09.863019237Z 	thread.pool.max = 200
+2023-06-28T16:31:09.863025453Z 	thread.pool.min = 8
+2023-06-28T16:31:09.863032228Z 	websocket.path.prefix = /ws
+2023-06-28T16:31:09.863044170Z 	websocket.servlet.initializor.classes = []
+2023-06-28T16:31:09.863050735Z  (io.confluent.kafka.schemaregistry.rest.SchemaRegistryConfig)
+2023-06-28T16:31:09.906371465Z [2023-06-28 16:31:09,906] INFO Logging initialized @735ms to org.eclipse.jetty.util.log.Slf4jLog (org.eclipse.jetty.util.log)
+2023-06-28T16:31:09.952413490Z [2023-06-28 16:31:09,952] INFO Initial capacity 128, increased by 64, maximum capacity 2147483647. (io.confluent.rest.ApplicationServer)
+2023-06-28T16:31:10.039659844Z [2023-06-28 16:31:10,039] INFO Adding listener with HTTP/2: http://schema-registry:8081 (io.confluent.rest.ApplicationServer)
+2023-06-28T16:31:10.272030857Z [2023-06-28 16:31:10,271] WARN Ignoring Kafka broker endpoint LISTENER_LOCAL://localhost:29092 that does not match the setting for kafkastore.security.protocol=PLAINTEXT (io.confluent.kafka.schemaregistry.rest.SchemaRegistryConfig)
+2023-06-28T16:31:10.277018921Z [2023-06-28 16:31:10,276] INFO AdminClientConfig values:
+2023-06-28T16:31:10.277052515Z 	bootstrap.servers = [PLAINTEXT://kafka-broker-2:9092]
+2023-06-28T16:31:10.277062642Z 	client.dns.lookup = use_all_dns_ips
+2023-06-28T16:31:10.277071163Z 	client.id =
+2023-06-28T16:31:10.277079683Z 	connections.max.idle.ms = 300000
+2023-06-28T16:31:10.277087924Z 	default.api.timeout.ms = 60000
+2023-06-28T16:31:10.277097423Z 	host.resolver.class = class org.apache.kafka.clients.DefaultHostResolver
+2023-06-28T16:31:10.277106363Z 	metadata.max.age.ms = 300000
+2023-06-28T16:31:10.277114534Z 	metric.reporters = []
+2023-06-28T16:31:10.277123124Z 	metrics.num.samples = 2
+2023-06-28T16:31:10.277131226Z 	metrics.recording.level = INFO
+2023-06-28T16:31:10.277140236Z 	metrics.sample.window.ms = 30000
+2023-06-28T16:31:10.277147988Z 	receive.buffer.bytes = 65536
+2023-06-28T16:31:10.277156998Z 	reconnect.backoff.max.ms = 1000
+2023-06-28T16:31:10.277165099Z 	reconnect.backoff.ms = 50
+2023-06-28T16:31:10.277173620Z 	request.timeout.ms = 30000
+2023-06-28T16:31:10.277182839Z 	retries = 2147483647
+2023-06-28T16:31:10.277191778Z 	retry.backoff.ms = 100
+2023-06-28T16:31:10.277199880Z 	sasl.client.callback.handler.class = null
+2023-06-28T16:31:10.277208959Z 	sasl.jaas.config = null
+2023-06-28T16:31:10.277216642Z 	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+2023-06-28T16:31:10.277224674Z 	sasl.kerberos.min.time.before.relogin = 60000
+2023-06-28T16:31:10.277231378Z 	sasl.kerberos.service.name = null
+2023-06-28T16:31:10.277238502Z 	sasl.kerberos.ticket.renew.jitter = 0.05
+2023-06-28T16:31:10.277245277Z 	sasl.kerberos.ticket.renew.window.factor = 0.8
+2023-06-28T16:31:10.277251912Z 	sasl.login.callback.handler.class = null
+2023-06-28T16:31:10.277258477Z 	sasl.login.class = null
+2023-06-28T16:31:10.277282991Z 	sasl.login.refresh.buffer.seconds = 300
+2023-06-28T16:31:10.277289486Z 	sasl.login.refresh.min.period.seconds = 60
+2023-06-28T16:31:10.277295144Z 	sasl.login.refresh.window.factor = 0.8
+2023-06-28T16:31:10.277301778Z 	sasl.login.refresh.window.jitter = 0.05
+2023-06-28T16:31:10.277307994Z 	sasl.mechanism = GSSAPI
+2023-06-28T16:31:10.277314769Z 	security.protocol = PLAINTEXT
+2023-06-28T16:31:10.277321893Z 	security.providers = null
+2023-06-28T16:31:10.277328947Z 	send.buffer.bytes = 131072
+2023-06-28T16:31:10.277336559Z 	socket.connection.setup.timeout.max.ms = 30000
+2023-06-28T16:31:10.277344801Z 	socket.connection.setup.timeout.ms = 10000
+2023-06-28T16:31:10.277354369Z 	ssl.cipher.suites = null
+2023-06-28T16:31:10.277361842Z 	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+2023-06-28T16:31:10.277369036Z 	ssl.endpoint.identification.algorithm = https
+2023-06-28T16:31:10.277375321Z 	ssl.engine.factory.class = null
+2023-06-28T16:31:10.277382445Z 	ssl.key.password = null
+2023-06-28T16:31:10.277388172Z 	ssl.keymanager.algorithm = SunX509
+2023-06-28T16:31:10.277395715Z 	ssl.keystore.certificate.chain = null
+2023-06-28T16:31:10.277402420Z 	ssl.keystore.key = null
+2023-06-28T16:31:10.277409683Z 	ssl.keystore.location = null
+2023-06-28T16:31:10.277416248Z 	ssl.keystore.password = null
+2023-06-28T16:31:10.277423372Z 	ssl.keystore.type = JKS
+2023-06-28T16:31:10.277430496Z 	ssl.protocol = TLSv1.3
+2023-06-28T16:31:10.277436852Z 	ssl.provider = null
+2023-06-28T16:31:10.277443975Z 	ssl.secure.random.implementation = null
+2023-06-28T16:31:10.277450121Z 	ssl.trustmanager.algorithm = PKIX
+2023-06-28T16:31:10.277456267Z 	ssl.truststore.certificates = null
+2023-06-28T16:31:10.277462972Z 	ssl.truststore.location = null
+2023-06-28T16:31:10.277470725Z 	ssl.truststore.password = null
+2023-06-28T16:31:10.277476871Z 	ssl.truststore.type = JKS
+2023-06-28T16:31:10.277484413Z  (org.apache.kafka.clients.admin.AdminClientConfig)
+2023-06-28T16:31:10.328736458Z [2023-06-28 16:31:10,328] WARN The configuration 'connection.url' was supplied but isn't a known config. (org.apache.kafka.clients.admin.AdminClientConfig)
+2023-06-28T16:31:10.329951347Z [2023-06-28 16:31:10,329] INFO Kafka version: 7.0.1-ce (org.apache.kafka.common.utils.AppInfoParser)
+2023-06-28T16:31:10.329987525Z [2023-06-28 16:31:10,329] INFO Kafka commitId: 1fd5b634a621c986 (org.apache.kafka.common.utils.AppInfoParser)
+2023-06-28T16:31:10.329996604Z [2023-06-28 16:31:10,329] INFO Kafka startTimeMs: 1687969870328 (org.apache.kafka.common.utils.AppInfoParser)
+2023-06-28T16:31:10.693295920Z [2023-06-28 16:31:10,692] INFO App info kafka.admin.client for adminclient-1 unregistered (org.apache.kafka.common.utils.AppInfoParser)
+2023-06-28T16:31:10.703553090Z [2023-06-28 16:31:10,703] INFO Metrics scheduler closed (org.apache.kafka.common.metrics.Metrics)
+2023-06-28T16:31:10.703595344Z [2023-06-28 16:31:10,703] INFO Closing reporter org.apache.kafka.common.metrics.JmxReporter (org.apache.kafka.common.metrics.Metrics)
+2023-06-28T16:31:10.703648702Z [2023-06-28 16:31:10,703] INFO Metrics reporters closed (org.apache.kafka.common.metrics.Metrics)
+2023-06-28T16:31:10.715224825Z [2023-06-28 16:31:10,715] INFO Registering schema provider for AVRO: io.confluent.kafka.schemaregistry.avro.AvroSchemaProvider (io.confluent.kafka.schemaregistry.storage.KafkaSchemaRegistry)
+2023-06-28T16:31:10.715263726Z [2023-06-28 16:31:10,715] INFO Registering schema provider for JSON: io.confluent.kafka.schemaregistry.json.JsonSchemaProvider (io.confluent.kafka.schemaregistry.storage.KafkaSchemaRegistry)
+2023-06-28T16:31:10.715305072Z [2023-06-28 16:31:10,715] INFO Registering schema provider for PROTOBUF: io.confluent.kafka.schemaregistry.protobuf.ProtobufSchemaProvider (io.confluent.kafka.schemaregistry.storage.KafkaSchemaRegistry)
+2023-06-28T16:31:10.745692873Z [2023-06-28 16:31:10,745] WARN Ignoring Kafka broker endpoint LISTENER_LOCAL://localhost:29092 that does not match the setting for kafkastore.security.protocol=PLAINTEXT (io.confluent.kafka.schemaregistry.rest.SchemaRegistryConfig)
+2023-06-28T16:31:10.745723882Z [2023-06-28 16:31:10,745] INFO Initializing KafkaStore with broker endpoints: PLAINTEXT://kafka-broker-2:9092 (io.confluent.kafka.schemaregistry.storage.KafkaStore)
+2023-06-28T16:31:10.746193495Z [2023-06-28 16:31:10,746] INFO AdminClientConfig values:
+2023-06-28T16:31:10.746224994Z 	bootstrap.servers = [PLAINTEXT://kafka-broker-2:9092]
+2023-06-28T16:31:10.746232117Z 	client.dns.lookup = use_all_dns_ips
+2023-06-28T16:31:10.746238892Z 	client.id =
+2023-06-28T16:31:10.746244619Z 	connections.max.idle.ms = 300000
+2023-06-28T16:31:10.746250346Z 	default.api.timeout.ms = 60000
+2023-06-28T16:31:10.746255025Z 	host.resolver.class = class org.apache.kafka.clients.DefaultHostResolver
+2023-06-28T16:31:10.746261171Z 	metadata.max.age.ms = 300000
+2023-06-28T16:31:10.746266968Z 	metric.reporters = []
+2023-06-28T16:31:10.746272765Z 	metrics.num.samples = 2
+2023-06-28T16:31:10.746278911Z 	metrics.recording.level = INFO
+2023-06-28T16:31:10.746283171Z 	metrics.sample.window.ms = 30000
+2023-06-28T16:31:10.746289317Z 	receive.buffer.bytes = 65536
+2023-06-28T16:31:10.746295533Z 	reconnect.backoff.max.ms = 1000
+2023-06-28T16:31:10.746301400Z 	reconnect.backoff.ms = 50
+2023-06-28T16:31:10.746306149Z 	request.timeout.ms = 30000
+2023-06-28T16:31:10.746313203Z 	retries = 2147483647
+2023-06-28T16:31:10.746319908Z 	retry.backoff.ms = 100
+2023-06-28T16:31:10.746325565Z 	sasl.client.callback.handler.class = null
+2023-06-28T16:31:10.746355597Z 	sasl.jaas.config = null
+2023-06-28T16:31:10.746361882Z 	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+2023-06-28T16:31:10.746368657Z 	sasl.kerberos.min.time.before.relogin = 60000
+2023-06-28T16:31:10.746374244Z 	sasl.kerberos.service.name = null
+2023-06-28T16:31:10.746379901Z 	sasl.kerberos.ticket.renew.jitter = 0.05
+2023-06-28T16:31:10.746385698Z 	sasl.kerberos.ticket.renew.window.factor = 0.8
+2023-06-28T16:31:10.746391425Z 	sasl.login.callback.handler.class = null
+2023-06-28T16:31:10.746397292Z 	sasl.login.class = null
+2023-06-28T16:31:10.746402530Z 	sasl.login.refresh.buffer.seconds = 300
+2023-06-28T16:31:10.746408536Z 	sasl.login.refresh.min.period.seconds = 60
+2023-06-28T16:31:10.746414194Z 	sasl.login.refresh.window.factor = 0.8
+2023-06-28T16:31:10.746419851Z 	sasl.login.refresh.window.jitter = 0.05
+2023-06-28T16:31:10.746426555Z 	sasl.mechanism = GSSAPI
+2023-06-28T16:31:10.746431863Z 	security.protocol = PLAINTEXT
+2023-06-28T16:31:10.746438428Z 	security.providers = null
+2023-06-28T16:31:10.746444016Z 	send.buffer.bytes = 131072
+2023-06-28T16:31:10.746449673Z 	socket.connection.setup.timeout.max.ms = 30000
+2023-06-28T16:31:10.746456378Z 	socket.connection.setup.timeout.ms = 10000
+2023-06-28T16:31:10.746462175Z 	ssl.cipher.suites = null
+2023-06-28T16:31:10.746468879Z 	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+2023-06-28T16:31:10.746475514Z 	ssl.endpoint.identification.algorithm = https
+2023-06-28T16:31:10.746481171Z 	ssl.engine.factory.class = null
+2023-06-28T16:31:10.746488295Z 	ssl.key.password = null
+2023-06-28T16:31:10.746493673Z 	ssl.keymanager.algorithm = SunX509
+2023-06-28T16:31:10.746498911Z 	ssl.keystore.certificate.chain = null
+2023-06-28T16:31:10.746505546Z 	ssl.keystore.key = null
+2023-06-28T16:31:10.746511692Z 	ssl.keystore.location = null
+2023-06-28T16:31:10.746518327Z 	ssl.keystore.password = null
+2023-06-28T16:31:10.746523635Z 	ssl.keystore.type = JKS
+2023-06-28T16:31:10.746529921Z 	ssl.protocol = TLSv1.3
+2023-06-28T16:31:10.746536555Z 	ssl.provider = null
+2023-06-28T16:31:10.746542213Z 	ssl.secure.random.implementation = null
+2023-06-28T16:31:10.746548359Z 	ssl.trustmanager.algorithm = PKIX
+2023-06-28T16:31:10.746554644Z 	ssl.truststore.certificates = null
+2023-06-28T16:31:10.746561349Z 	ssl.truststore.location = null
+2023-06-28T16:31:10.746566517Z 	ssl.truststore.password = null
+2023-06-28T16:31:10.746571825Z 	ssl.truststore.type = JKS
+2023-06-28T16:31:10.746586143Z  (org.apache.kafka.clients.admin.AdminClientConfig)
+2023-06-28T16:31:10.752491851Z [2023-06-28 16:31:10,752] WARN The configuration 'connection.url' was supplied but isn't a known config. (org.apache.kafka.clients.admin.AdminClientConfig)
+2023-06-28T16:31:10.752553451Z [2023-06-28 16:31:10,752] INFO Kafka version: 7.0.1-ce (org.apache.kafka.common.utils.AppInfoParser)
+2023-06-28T16:31:10.752567629Z [2023-06-28 16:31:10,752] INFO Kafka commitId: 1fd5b634a621c986 (org.apache.kafka.common.utils.AppInfoParser)
+2023-06-28T16:31:10.752615401Z [2023-06-28 16:31:10,752] INFO Kafka startTimeMs: 1687969870752 (org.apache.kafka.common.utils.AppInfoParser)
+2023-06-28T16:31:10.773180864Z [2023-06-28 16:31:10,772] INFO Creating schemas topic _schemas (io.confluent.kafka.schemaregistry.storage.KafkaStore)
+2023-06-28T16:31:11.113933948Z [2023-06-28 16:31:11,113] INFO App info kafka.admin.client for adminclient-2 unregistered (org.apache.kafka.common.utils.AppInfoParser)
+2023-06-28T16:31:11.119557428Z [2023-06-28 16:31:11,119] INFO Metrics scheduler closed (org.apache.kafka.common.metrics.Metrics)
+2023-06-28T16:31:11.119588438Z [2023-06-28 16:31:11,119] INFO Closing reporter org.apache.kafka.common.metrics.JmxReporter (org.apache.kafka.common.metrics.Metrics)
+2023-06-28T16:31:11.119687123Z [2023-06-28 16:31:11,119] INFO Metrics reporters closed (org.apache.kafka.common.metrics.Metrics)
+2023-06-28T16:31:11.129291417Z [2023-06-28 16:31:11,129] INFO ProducerConfig values:
+2023-06-28T16:31:11.129341982Z 	acks = -1
+2023-06-28T16:31:11.129349595Z 	batch.size = 16384
+2023-06-28T16:31:11.129354833Z 	bootstrap.servers = [PLAINTEXT://kafka-broker-2:9092]
+2023-06-28T16:31:11.129360490Z 	buffer.memory = 33554432
+2023-06-28T16:31:11.129365728Z 	client.dns.lookup = use_all_dns_ips
+2023-06-28T16:31:11.129370547Z 	client.id = producer-1
+2023-06-28T16:31:11.129375855Z 	compression.type = none
+2023-06-28T16:31:11.129381512Z 	connections.max.idle.ms = 540000
+2023-06-28T16:31:11.129386750Z 	delivery.timeout.ms = 120000
+2023-06-28T16:31:11.129391499Z 	enable.idempotence = true
+2023-06-28T16:31:11.129396248Z 	interceptor.classes = []
+2023-06-28T16:31:11.129401556Z 	key.serializer = class org.apache.kafka.common.serialization.ByteArraySerializer
+2023-06-28T16:31:11.129406864Z 	linger.ms = 0
+2023-06-28T16:31:11.129411614Z 	max.block.ms = 60000
+2023-06-28T16:31:11.129417271Z 	max.in.flight.requests.per.connection = 5
+2023-06-28T16:31:11.129422020Z 	max.request.size = 1048576
+2023-06-28T16:31:11.129427258Z 	metadata.max.age.ms = 300000
+2023-06-28T16:31:11.129431588Z 	metadata.max.idle.ms = 300000
+2023-06-28T16:31:11.129436477Z 	metric.reporters = []
+2023-06-28T16:31:11.129442204Z 	metrics.num.samples = 2
+2023-06-28T16:31:11.129447302Z 	metrics.recording.level = INFO
+2023-06-28T16:31:11.129478312Z 	metrics.sample.window.ms = 30000
+2023-06-28T16:31:11.129483480Z 	partitioner.class = class org.apache.kafka.clients.producer.internals.DefaultPartitioner
+2023-06-28T16:31:11.129489137Z 	receive.buffer.bytes = 32768
+2023-06-28T16:31:11.129494795Z 	reconnect.backoff.max.ms = 1000
+2023-06-28T16:31:11.129499614Z 	reconnect.backoff.ms = 50
+2023-06-28T16:31:11.129504433Z 	request.timeout.ms = 30000
+2023-06-28T16:31:11.129509741Z 	retries = 0
+2023-06-28T16:31:11.129514979Z 	retry.backoff.ms = 100
+2023-06-28T16:31:11.129520147Z 	sasl.client.callback.handler.class = null
+2023-06-28T16:31:11.129525315Z 	sasl.jaas.config = null
+2023-06-28T16:31:11.129530623Z 	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+2023-06-28T16:31:11.129535931Z 	sasl.kerberos.min.time.before.relogin = 60000
+2023-06-28T16:31:11.129540750Z 	sasl.kerberos.service.name = null
+2023-06-28T16:31:11.129546896Z 	sasl.kerberos.ticket.renew.jitter = 0.05
+2023-06-28T16:31:11.129552064Z 	sasl.kerberos.ticket.renew.window.factor = 0.8
+2023-06-28T16:31:11.129557791Z 	sasl.login.callback.handler.class = null
+2023-06-28T16:31:11.129562610Z 	sasl.login.class = null
+2023-06-28T16:31:11.129568407Z 	sasl.login.refresh.buffer.seconds = 300
+2023-06-28T16:31:11.129573087Z 	sasl.login.refresh.min.period.seconds = 60
+2023-06-28T16:31:11.129578395Z 	sasl.login.refresh.window.factor = 0.8
+2023-06-28T16:31:11.129583563Z 	sasl.login.refresh.window.jitter = 0.05
+2023-06-28T16:31:11.129588731Z 	sasl.mechanism = GSSAPI
+2023-06-28T16:31:11.129593061Z 	security.protocol = PLAINTEXT
+2023-06-28T16:31:11.129597950Z 	security.providers = null
+2023-06-28T16:31:11.129604096Z 	send.buffer.bytes = 131072
+2023-06-28T16:31:11.129609334Z 	socket.connection.setup.timeout.max.ms = 30000
+2023-06-28T16:31:11.129615061Z 	socket.connection.setup.timeout.ms = 10000
+2023-06-28T16:31:11.129620229Z 	ssl.cipher.suites = null
+2023-06-28T16:31:11.129625537Z 	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+2023-06-28T16:31:11.129631334Z 	ssl.endpoint.identification.algorithm = https
+2023-06-28T16:31:11.129636083Z 	ssl.engine.factory.class = null
+2023-06-28T16:31:11.129641741Z 	ssl.key.password = null
+2023-06-28T16:31:11.129646560Z 	ssl.keymanager.algorithm = SunX509
+2023-06-28T16:31:11.129650750Z 	ssl.keystore.certificate.chain = null
+2023-06-28T16:31:11.129655569Z 	ssl.keystore.key = null
+2023-06-28T16:31:11.129661366Z 	ssl.keystore.location = null
+2023-06-28T16:31:11.129666185Z 	ssl.keystore.password = null
+2023-06-28T16:31:11.129677988Z 	ssl.keystore.type = JKS
+2023-06-28T16:31:11.129682737Z 	ssl.protocol = TLSv1.3
+2023-06-28T16:31:11.129687487Z 	ssl.provider = null
+2023-06-28T16:31:11.129692864Z 	ssl.secure.random.implementation = null
+2023-06-28T16:31:11.129697125Z 	ssl.trustmanager.algorithm = PKIX
+2023-06-28T16:31:11.129701874Z 	ssl.truststore.certificates = null
+2023-06-28T16:31:11.129707042Z 	ssl.truststore.location = null
+2023-06-28T16:31:11.129711861Z 	ssl.truststore.password = null
+2023-06-28T16:31:11.129717518Z 	ssl.truststore.type = JKS
+2023-06-28T16:31:11.129721918Z 	transaction.timeout.ms = 60000
+2023-06-28T16:31:11.129727226Z 	transactional.id = null
+2023-06-28T16:31:11.129732395Z 	value.serializer = class org.apache.kafka.common.serialization.ByteArraySerializer
+2023-06-28T16:31:11.129737563Z  (org.apache.kafka.clients.producer.ProducerConfig)
+2023-06-28T16:31:11.164653942Z [2023-06-28 16:31:11,164] WARN The configuration 'connection.url' was supplied but isn't a known config. (org.apache.kafka.clients.producer.ProducerConfig)
+2023-06-28T16:31:11.164886653Z [2023-06-28 16:31:11,164] INFO Kafka version: 7.0.1-ce (org.apache.kafka.common.utils.AppInfoParser)
+2023-06-28T16:31:11.164958799Z [2023-06-28 16:31:11,164] INFO Kafka commitId: 1fd5b634a621c986 (org.apache.kafka.common.utils.AppInfoParser)
+2023-06-28T16:31:11.165078437Z [2023-06-28 16:31:11,164] INFO Kafka startTimeMs: 1687969871164 (org.apache.kafka.common.utils.AppInfoParser)
+2023-06-28T16:31:11.181297468Z [2023-06-28 16:31:11,180] INFO [Producer clientId=producer-1] Cluster ID: iZb243RdSgGGK9CumYwqEw (org.apache.kafka.clients.Metadata)
+2023-06-28T16:31:11.194118301Z [2023-06-28 16:31:11,193] INFO Registered kafka:type=kafka.Log4jController MBean (kafka.utils.Log4jControllerRegistration$)
+2023-06-28T16:31:11.194740936Z [2023-06-28 16:31:11,194] INFO Kafka store reader thread starting consumer (io.confluent.kafka.schemaregistry.storage.KafkaStoreReaderThread)
+2023-06-28T16:31:11.203264855Z [2023-06-28 16:31:11,202] INFO ConsumerConfig values:
+2023-06-28T16:31:11.203316258Z 	allow.auto.create.topics = true
+2023-06-28T16:31:11.203326385Z 	auto.commit.interval.ms = 5000
+2023-06-28T16:31:11.203334905Z 	auto.offset.reset = earliest
+2023-06-28T16:31:11.203343496Z 	bootstrap.servers = [PLAINTEXT://kafka-broker-2:9092]
+2023-06-28T16:31:11.203351109Z 	check.crcs = true
+2023-06-28T16:31:11.203359350Z 	client.dns.lookup = use_all_dns_ips
+2023-06-28T16:31:11.203406772Z 	client.id = KafkaStore-reader-_schemas
+2023-06-28T16:31:11.203420112Z 	client.rack =
+2023-06-28T16:31:11.203431217Z 	connections.max.idle.ms = 540000
+2023-06-28T16:31:11.203442042Z 	default.api.timeout.ms = 60000
+2023-06-28T16:31:11.203479198Z 	enable.auto.commit = false
+2023-06-28T16:31:11.203489813Z 	exclude.internal.topics = true
+2023-06-28T16:31:11.203499382Z 	fetch.max.bytes = 52428800
+2023-06-28T16:31:11.203508740Z 	fetch.max.wait.ms = 500
+2023-06-28T16:31:11.203517959Z 	fetch.min.bytes = 1
+2023-06-28T16:31:11.203526480Z 	group.id = schema-registry-schema-registry-8081
+2023-06-28T16:31:11.203535071Z 	group.instance.id = null
+2023-06-28T16:31:11.203542613Z 	heartbeat.interval.ms = 3000
+2023-06-28T16:31:11.203550855Z 	interceptor.classes = []
+2023-06-28T16:31:11.203558886Z 	internal.leave.group.on.close = true
+2023-06-28T16:31:11.203566080Z 	internal.throw.on.fetch.stable.offset.unsupported = false
+2023-06-28T16:31:11.203575090Z 	isolation.level = read_uncommitted
+2023-06-28T16:31:11.203584728Z 	key.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+2023-06-28T16:31:11.203595553Z 	max.partition.fetch.bytes = 1048576
+2023-06-28T16:31:11.203604633Z 	max.poll.interval.ms = 300000
+2023-06-28T16:31:11.203612874Z 	max.poll.records = 500
+2023-06-28T16:31:11.203620906Z 	metadata.max.age.ms = 300000
+2023-06-28T16:31:11.203628448Z 	metric.reporters = []
+2023-06-28T16:31:11.203636620Z 	metrics.num.samples = 2
+2023-06-28T16:31:11.203644861Z 	metrics.recording.level = INFO
+2023-06-28T16:31:11.203652404Z 	metrics.sample.window.ms = 30000
+2023-06-28T16:31:11.203660855Z 	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+2023-06-28T16:31:11.203670772Z 	receive.buffer.bytes = 65536
+2023-06-28T16:31:11.203685090Z 	reconnect.backoff.max.ms = 1000
+2023-06-28T16:31:11.203695426Z 	reconnect.backoff.ms = 50
+2023-06-28T16:31:11.203706321Z 	request.timeout.ms = 30000
+2023-06-28T16:31:11.203716937Z 	retry.backoff.ms = 100
+2023-06-28T16:31:11.203726366Z 	sasl.client.callback.handler.class = null
+2023-06-28T16:31:11.203736842Z 	sasl.jaas.config = null
+2023-06-28T16:31:11.203747458Z 	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+2023-06-28T16:31:11.203758283Z 	sasl.kerberos.min.time.before.relogin = 60000
+2023-06-28T16:31:11.203768829Z 	sasl.kerberos.service.name = null
+2023-06-28T16:31:11.203780772Z 	sasl.kerberos.ticket.renew.jitter = 0.05
+2023-06-28T16:31:11.203791667Z 	sasl.kerberos.ticket.renew.window.factor = 0.8
+2023-06-28T16:31:11.203802213Z 	sasl.login.callback.handler.class = null
+2023-06-28T16:31:11.203812760Z 	sasl.login.class = null
+2023-06-28T16:31:11.203823166Z 	sasl.login.refresh.buffer.seconds = 300
+2023-06-28T16:31:11.203847960Z 	sasl.login.refresh.min.period.seconds = 60
+2023-06-28T16:31:11.203856550Z 	sasl.login.refresh.window.factor = 0.8
+2023-06-28T16:31:11.203865140Z 	sasl.login.refresh.window.jitter = 0.05
+2023-06-28T16:31:11.203873382Z 	sasl.mechanism = GSSAPI
+2023-06-28T16:31:11.203881763Z 	security.protocol = PLAINTEXT
+2023-06-28T16:31:11.203889934Z 	security.providers = null
+2023-06-28T16:31:11.203897128Z 	send.buffer.bytes = 131072
+2023-06-28T16:31:11.203908652Z 	session.timeout.ms = 45000
+2023-06-28T16:31:11.203916125Z 	socket.connection.setup.timeout.max.ms = 30000
+2023-06-28T16:31:11.203924575Z 	socket.connection.setup.timeout.ms = 10000
+2023-06-28T16:31:11.203932747Z 	ssl.cipher.suites = null
+2023-06-28T16:31:11.203940779Z 	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+2023-06-28T16:31:11.203949229Z 	ssl.endpoint.identification.algorithm = https
+2023-06-28T16:31:11.203957261Z 	ssl.engine.factory.class = null
+2023-06-28T16:31:11.203965433Z 	ssl.key.password = null
+2023-06-28T16:31:11.203972137Z 	ssl.keymanager.algorithm = SunX509
+2023-06-28T16:31:11.203979750Z 	ssl.keystore.certificate.chain = null
+2023-06-28T16:31:11.203987782Z 	ssl.keystore.key = null
+2023-06-28T16:31:11.203996442Z 	ssl.keystore.location = null
+2023-06-28T16:31:11.204004125Z 	ssl.keystore.password = null
+2023-06-28T16:31:11.204011737Z 	ssl.keystore.type = JKS
+2023-06-28T16:31:11.204019699Z 	ssl.protocol = TLSv1.3
+2023-06-28T16:31:11.204027452Z 	ssl.provider = null
+2023-06-28T16:31:11.204036042Z 	ssl.secure.random.implementation = null
+2023-06-28T16:31:11.204044633Z 	ssl.trustmanager.algorithm = PKIX
+2023-06-28T16:31:11.204052594Z 	ssl.truststore.certificates = null
+2023-06-28T16:31:11.204060836Z 	ssl.truststore.location = null
+2023-06-28T16:31:11.204069426Z 	ssl.truststore.password = null
+2023-06-28T16:31:11.204077528Z 	ssl.truststore.type = JKS
+2023-06-28T16:31:11.204085071Z 	value.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
+2023-06-28T16:31:11.204093801Z  (org.apache.kafka.clients.consumer.ConsumerConfig)
+2023-06-28T16:31:11.245816562Z [2023-06-28 16:31:11,245] WARN The configuration 'connection.url' was supplied but isn't a known config. (org.apache.kafka.clients.consumer.ConsumerConfig)
+2023-06-28T16:31:11.245854346Z [2023-06-28 16:31:11,245] INFO Kafka version: 7.0.1-ce (org.apache.kafka.common.utils.AppInfoParser)
+2023-06-28T16:31:11.245863705Z [2023-06-28 16:31:11,245] INFO Kafka commitId: 1fd5b634a621c986 (org.apache.kafka.common.utils.AppInfoParser)
+2023-06-28T16:31:11.245871387Z [2023-06-28 16:31:11,245] INFO Kafka startTimeMs: 1687969871245 (org.apache.kafka.common.utils.AppInfoParser)
+2023-06-28T16:31:11.254375471Z [2023-06-28 16:31:11,254] INFO [Consumer clientId=KafkaStore-reader-_schemas, groupId=schema-registry-schema-registry-8081] Cluster ID: iZb243RdSgGGK9CumYwqEw (org.apache.kafka.clients.Metadata)
+2023-06-28T16:31:11.266702526Z [2023-06-28 16:31:11,266] INFO [Consumer clientId=KafkaStore-reader-_schemas, groupId=schema-registry-schema-registry-8081] Subscribed to partition(s): _schemas-0 (org.apache.kafka.clients.consumer.KafkaConsumer)
+2023-06-28T16:31:11.269161777Z [2023-06-28 16:31:11,269] INFO Seeking to beginning for all partitions (io.confluent.kafka.schemaregistry.storage.KafkaStoreReaderThread)
+2023-06-28T16:31:11.269646685Z [2023-06-28 16:31:11,269] INFO [Consumer clientId=KafkaStore-reader-_schemas, groupId=schema-registry-schema-registry-8081] Seeking to EARLIEST offset of partition _schemas-0 (org.apache.kafka.clients.consumer.internals.SubscriptionState)
+2023-06-28T16:31:11.270113714Z [2023-06-28 16:31:11,269] INFO Initialized last consumed offset to -1 (io.confluent.kafka.schemaregistry.storage.KafkaStoreReaderThread)
+2023-06-28T16:31:11.272299956Z [2023-06-28 16:31:11,271] INFO [kafka-store-reader-thread-_schemas]: Starting (io.confluent.kafka.schemaregistry.storage.KafkaStoreReaderThread)
+2023-06-28T16:31:11.548675165Z [2023-06-28 16:31:11,548] INFO Wait to catch up until the offset at 0 (io.confluent.kafka.schemaregistry.storage.KafkaStore)
+2023-06-28T16:31:11.621891105Z [2023-06-28 16:31:11,621] INFO Reached offset at 0 (io.confluent.kafka.schemaregistry.storage.KafkaStore)
+2023-06-28T16:31:11.622209721Z [2023-06-28 16:31:11,622] INFO Joining schema registry with Kafka-based coordination (io.confluent.kafka.schemaregistry.storage.KafkaSchemaRegistry)
+2023-06-28T16:31:11.629223740Z [2023-06-28 16:31:11,629] INFO Kafka version: 7.0.1-ce (org.apache.kafka.common.utils.AppInfoParser)
+2023-06-28T16:31:11.629250350Z [2023-06-28 16:31:11,629] INFO Kafka commitId: 1fd5b634a621c986 (org.apache.kafka.common.utils.AppInfoParser)
+2023-06-28T16:31:11.629255518Z [2023-06-28 16:31:11,629] INFO Kafka startTimeMs: 1687969871629 (org.apache.kafka.common.utils.AppInfoParser)
+2023-06-28T16:31:11.647480670Z [2023-06-28 16:31:11,647] INFO [Schema registry clientId=sr-1, groupId=schema-registry] Cluster ID: iZb243RdSgGGK9CumYwqEw (org.apache.kafka.clients.Metadata)
+2023-06-28T16:31:12.499895362Z [2023-06-28 16:31:12,499] INFO [Schema registry clientId=sr-1, groupId=schema-registry] Discovered group coordinator kafka-broker-2:9092 (id: 2147483645 rack: null) (io.confluent.kafka.schemaregistry.leaderelector.kafka.SchemaRegistryCoordinator)
+2023-06-28T16:31:12.503349572Z [2023-06-28 16:31:12,502] INFO [Schema registry clientId=sr-1, groupId=schema-registry] (Re-)joining group (io.confluent.kafka.schemaregistry.leaderelector.kafka.SchemaRegistryCoordinator)
+2023-06-28T16:31:12.542616155Z [2023-06-28 16:31:12,542] INFO [Schema registry clientId=sr-1, groupId=schema-registry] Request joining group due to: need to re-join with the given member-id (io.confluent.kafka.schemaregistry.leaderelector.kafka.SchemaRegistryCoordinator)
+2023-06-28T16:31:12.543068028Z [2023-06-28 16:31:12,542] INFO [Schema registry clientId=sr-1, groupId=schema-registry] (Re-)joining group (io.confluent.kafka.schemaregistry.leaderelector.kafka.SchemaRegistryCoordinator)
+2023-06-28T16:31:15.572878939Z [2023-06-28 16:31:15,572] INFO [Schema registry clientId=sr-1, groupId=schema-registry] Successfully joined group with generation Generation{generationId=1, memberId='sr-1-b09ce65f-b450-4809-9a7f-e6750c1168de', protocol='v0'} (io.confluent.kafka.schemaregistry.leaderelector.kafka.SchemaRegistryCoordinator)
+2023-06-28T16:31:15.643232085Z [2023-06-28 16:31:15,643] INFO [Schema registry clientId=sr-1, groupId=schema-registry] Successfully synced group in generation Generation{generationId=1, memberId='sr-1-b09ce65f-b450-4809-9a7f-e6750c1168de', protocol='v0'} (io.confluent.kafka.schemaregistry.leaderelector.kafka.SchemaRegistryCoordinator)
+2023-06-28T16:31:15.649104968Z [2023-06-28 16:31:15,648] INFO Finished rebalance with leader election result: Assignment{version=1, error=0, leader='sr-1-b09ce65f-b450-4809-9a7f-e6750c1168de', leaderIdentity=version=1,host=schema-registry,port=8081,scheme=http,leaderEligibility=true} (io.confluent.kafka.schemaregistry.leaderelector.kafka.KafkaGroupLeaderElector)
+2023-06-28T16:31:15.715211414Z [2023-06-28 16:31:15,714] INFO Wait to catch up until the offset at 1 (io.confluent.kafka.schemaregistry.storage.KafkaStore)
+2023-06-28T16:31:15.716506830Z [2023-06-28 16:31:15,716] INFO Reached offset at 1 (io.confluent.kafka.schemaregistry.storage.KafkaStore)
+2023-06-28T16:31:16.143985043Z [2023-06-28 16:31:16,143] INFO jetty-9.4.43.v20210629; built: 2021-06-30T11:07:22.254Z; git: 526006ecfa3af7f1a27ef3a288e2bef7ea9dd7e8; jvm 11.0.13+8-LTS (org.eclipse.jetty.server.Server)
+2023-06-28T16:31:16.251162771Z [2023-06-28 16:31:16,250] INFO DefaultSessionIdManager workerName=node0 (org.eclipse.jetty.server.session)
+2023-06-28T16:31:16.251192314Z [2023-06-28 16:31:16,251] INFO No SessionScavenger set, using defaults (org.eclipse.jetty.server.session)
+2023-06-28T16:31:16.254628924Z [2023-06-28 16:31:16,254] INFO node0 Scavenging every 660000ms (org.eclipse.jetty.server.session)
+2023-06-28T16:31:16.821394183Z Jun 28, 2023 4:31:16 PM org.glassfish.jersey.internal.inject.Providers checkProviderRuntime
+2023-06-28T16:31:16.821447682Z WARNING: A provider io.confluent.kafka.schemaregistry.rest.resources.ConfigResource registered in SERVER runtime does not implement any provider interfaces applicable in the SERVER runtime. Due to constraint configuration problems the provider io.confluent.kafka.schemaregistry.rest.resources.ConfigResource will be ignored.
+2023-06-28T16:31:16.821932450Z Jun 28, 2023 4:31:16 PM org.glassfish.jersey.internal.inject.Providers checkProviderRuntime
+2023-06-28T16:31:16.821984412Z WARNING: A provider io.confluent.kafka.schemaregistry.rest.resources.ContextsResource registered in SERVER runtime does not implement any provider interfaces applicable in the SERVER runtime. Due to constraint configuration problems the provider io.confluent.kafka.schemaregistry.rest.resources.ContextsResource will be ignored.
+2023-06-28T16:31:16.822175777Z Jun 28, 2023 4:31:16 PM org.glassfish.jersey.internal.inject.Providers checkProviderRuntime
+2023-06-28T16:31:16.822190025Z WARNING: A provider io.confluent.kafka.schemaregistry.rest.resources.SubjectsResource registered in SERVER runtime does not implement any provider interfaces applicable in the SERVER runtime. Due to constraint configuration problems the provider io.confluent.kafka.schemaregistry.rest.resources.SubjectsResource will be ignored.
+2023-06-28T16:31:16.822450183Z Jun 28, 2023 4:31:16 PM org.glassfish.jersey.internal.inject.Providers checkProviderRuntime
+2023-06-28T16:31:16.822505079Z WARNING: A provider io.confluent.kafka.schemaregistry.rest.resources.SchemasResource registered in SERVER runtime does not implement any provider interfaces applicable in the SERVER runtime. Due to constraint configuration problems the provider io.confluent.kafka.schemaregistry.rest.resources.SchemasResource will be ignored.
+2023-06-28T16:31:16.822725568Z Jun 28, 2023 4:31:16 PM org.glassfish.jersey.internal.inject.Providers checkProviderRuntime
+2023-06-28T16:31:16.822742120Z WARNING: A provider io.confluent.kafka.schemaregistry.rest.resources.SubjectVersionsResource registered in SERVER runtime does not implement any provider interfaces applicable in the SERVER runtime. Due to constraint configuration problems the provider io.confluent.kafka.schemaregistry.rest.resources.SubjectVersionsResource will be ignored.
+2023-06-28T16:31:16.823007517Z Jun 28, 2023 4:31:16 PM org.glassfish.jersey.internal.inject.Providers checkProviderRuntime
+2023-06-28T16:31:16.823023161Z WARNING: A provider io.confluent.kafka.schemaregistry.rest.resources.CompatibilityResource registered in SERVER runtime does not implement any provider interfaces applicable in the SERVER runtime. Due to constraint configuration problems the provider io.confluent.kafka.schemaregistry.rest.resources.CompatibilityResource will be ignored.
+2023-06-28T16:31:16.823453314Z Jun 28, 2023 4:31:16 PM org.glassfish.jersey.internal.inject.Providers checkProviderRuntime
+2023-06-28T16:31:16.823484323Z WARNING: A provider io.confluent.kafka.schemaregistry.rest.resources.ModeResource registered in SERVER runtime does not implement any provider interfaces applicable in the SERVER runtime. Due to constraint configuration problems the provider io.confluent.kafka.schemaregistry.rest.resources.ModeResource will be ignored.
+2023-06-28T16:31:16.823857765Z Jun 28, 2023 4:31:16 PM org.glassfish.jersey.internal.inject.Providers checkProviderRuntime
+2023-06-28T16:31:16.823881650Z WARNING: A provider io.confluent.kafka.schemaregistry.rest.resources.ServerMetadataResource registered in SERVER runtime does not implement any provider interfaces applicable in the SERVER runtime. Due to constraint configuration problems the provider io.confluent.kafka.schemaregistry.rest.resources.ServerMetadataResource will be ignored.
+2023-06-28T16:31:17.091138732Z [2023-06-28 16:31:17,090] INFO HV000001: Hibernate Validator 6.1.7.Final (org.hibernate.validator.internal.util.Version)
+2023-06-28T16:31:17.653868213Z [2023-06-28 16:31:17,653] INFO Started o.e.j.s.ServletContextHandler@6a9d5dff{/,null,AVAILABLE} (org.eclipse.jetty.server.handler.ContextHandler)
+2023-06-28T16:31:17.707948061Z [2023-06-28 16:31:17,707] INFO Started o.e.j.s.ServletContextHandler@48b22fd4{/ws,null,AVAILABLE} (org.eclipse.jetty.server.handler.ContextHandler)
+2023-06-28T16:31:17.737660776Z [2023-06-28 16:31:17,737] INFO Started NetworkTrafficServerConnector@600b90df{HTTP/1.1, (http/1.1, h2c)}{schema-registry:8081} (org.eclipse.jetty.server.AbstractConnector)
+2023-06-28T16:31:17.739228712Z [2023-06-28 16:31:17,739] INFO Started @8571ms (org.eclipse.jetty.server.Server)
+2023-06-28T16:31:17.740597113Z [2023-06-28 16:31:17,740] INFO Schema Registry version: 7.0.1 commitId: 18606ae284c9b81c006a6560d8141ef80eb27c89 (io.confluent.kafka.schemaregistry.rest.SchemaRegistryMain)
+2023-06-28T16:31:17.740652567Z [2023-06-28 16:31:17,740] INFO Server started, listening for requests... (io.confluent.kafka.schemaregistry.rest.SchemaRegistryMain)

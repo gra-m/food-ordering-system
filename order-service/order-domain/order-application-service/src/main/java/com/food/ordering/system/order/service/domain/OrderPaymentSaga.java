@@ -11,8 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 /**
  * SAGA STEP 1 OrderCreated -> [to PaymentService] "is order paid?" ->  Y/N
  * T == PaymentResponse, the published response that has been consumed from Kafka, the contents of which will
