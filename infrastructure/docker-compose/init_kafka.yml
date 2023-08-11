@@ -26,4 +26,4 @@ services:
       "
       
     networks:
-     - ${GLOBAL_NETWORK:-kafka}
+      - ${GLOBAL_NETWORK:-kafka}

@@ -1,5 +1,6 @@
 package com.food.ordering.system.order.service.dataaccess.order.adapter;
 
+import com.food.ordering.system.domain.valueobject.OrderId;
 import com.food.ordering.system.order.service.dataaccess.order.mapper.OrderDataAccessMapper;
 import com.food.ordering.system.order.service.dataaccess.order.repository.OrderJpaRepository;
 import com.food.ordering.system.order.service.domain.entity.Order;
@@ -21,9 +22,9 @@ public class OrderRepositoryImpl implements OrderRepository {
 private final OrderDataAccessMapper orderDataAccessMapper;
 private final OrderJpaRepository orderJpaRepository;
 
-public OrderRepositoryImpl(OrderDataAccessMapper orderDataAccessMapper, OrderJpaRepository orderJpaRepository) {
-      this.orderDataAccessMapper = orderDataAccessMapper;
-      this.orderJpaRepository = orderJpaRepository;
+public OrderRepositoryImpl(OrderJpaRepository orderJpaRepository, OrderDataAccessMapper orderDataAccessMapper) {
+    this.orderJpaRepository = orderJpaRepository;
+    this.orderDataAccessMapper = orderDataAccessMapper;
 }
 
 /**
@@ -32,8 +33,19 @@ public OrderRepositoryImpl(OrderDataAccessMapper orderDataAccessMapper, OrderJpa
  */
 @Override
 public Order save(Order order) {
-      return orderDataAccessMapper.orderEntityToOrder(
-          orderJpaRepository.save(orderDataAccessMapper.orderToOrderEntity(order)));
+    return orderDataAccessMapper.orderEntityToOrder(orderJpaRepository.save(orderDataAccessMapper.orderToOrderEntity(
+    order)));
+}
+
+/**
+ * @param orderId
+ * @return
+ */
+@Override
+public Optional<Order> findById(OrderId orderId) {
+    return orderJpaRepository
+    .findById(orderId.getValue())
+    .map(orderEntity -> orderDataAccessMapper.orderEntityToOrder(orderEntity));
 }
 
 /**
@@ -45,21 +57,12 @@ public Order save(Order order) {
 @Override
 public Optional<Order> findByTrackingId(TrackingId trackingId) {
       /* I changed back to optional --->
-      return Optional.of(orderDataAccessMapper.orderEntityToOrder(orderJpaRepository.findByTrackingId(trackingId.getValue()).get()));
+      return Optional.of(orderDataAccessMapper.orderEntityToOrder(orderJpaRepository.findByTrackingId(trackingId
+      .getValue()).get()));
       return orderJpaRepository.findByTrackingId(trackingId.getValue()).map(optionalOrderEntity ->
       orderDataAccessMapper.orderEntityToOrder(optionalOrderEntity) );*/
-      return orderJpaRepository.findByTrackingId(trackingId.getValue()).map(orderDataAccessMapper::orderEntityToOrder);
+    return orderJpaRepository.findByTrackingId(trackingId.getValue()).map(orderDataAccessMapper::orderEntityToOrder);
 
-}
-
-/**
- *
- * @param orderId 
- * @return
- */
-@Override
-public Optional<Order> findById(String orderId) {
-      return orderJpaRepository.findById(UUID.fromString(orderId)).map(orderEntity -> orderDataAccessMapper.orderEntityToOrder(orderEntity));
 }
 
 

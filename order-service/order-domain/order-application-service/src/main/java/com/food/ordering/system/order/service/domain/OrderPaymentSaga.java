@@ -27,7 +27,6 @@ private final OrderPaidRestaurantRequestMessagePublisher orderPaidRestaurantRequ
 private final OrderSagaHelper orderSagaHelper;
 
 public OrderPaymentSaga(OrderDomainService orderDomainService,
-                        OrderRepository orderRepository,
                         OrderPaidRestaurantRequestMessagePublisher orderPaidRestaurantRequestMessagePublisher,
                         OrderSagaHelper orderSagaHelper) {
     this.orderDomainService = orderDomainService;
@@ -50,9 +49,7 @@ public OrderPaidEvent process(PaymentResponse paymentResponse) {
 
     Order order = orderSagaHelper.findOrder(orderId);
     OrderPaidEvent domainEvent = orderDomainService.payOrder(order, orderPaidRestaurantRequestMessagePublisher);
-
     orderSagaHelper.saveOrder(order);
-
     log.info("[SAGA1 process payment-response -to-> OrderPaidEvent post-save] Order with id {} is paid [UUID no " +
     "toString]",
     order.getId().getValue());
@@ -71,7 +68,7 @@ public OrderPaidEvent process(PaymentResponse paymentResponse) {
 @Transactional
 public EmptyEvent rollback(PaymentResponse paymentResponse) {
     String orderId = paymentResponse.getOrderId();
-    log.info("[SAGA1 rollback payment-response -to-> EmptyEvent pre-save] Cancelling order with id: {}", orderId );
+    log.info("[SAGA1 rollback payment-response -to-> EmptyEvent pre-save] Cancelling order with id: {}", orderId);
     Order order = orderSagaHelper.findOrder(orderId);
 
     orderSagaHelper.saveOrder(order);

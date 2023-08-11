@@ -36,9 +36,9 @@ spring:
       mode: always
 # kafka values for kafka config classes: Module Kafka/kafka-config-data com.food.ordering.system.kafka.config.data;
 kafka-config:
-  bootstrap-servers: 127.0.0.1:19092, 127.0.0.1:29092, 127.0.0.1:39092
+  bootstrap-servers: localhost:19092, localhost:29092, localhost:39092
   schema-registry-url-key: schema.registry.url
-  schema-registry-url: http://127.0.0.1:8081
+  schema-registry-url: http://localhost:8081
   num-of-partitions: 3
   replication-factor: 3
 # snappy represents mid-ground compression/performance / acks all == recommended /

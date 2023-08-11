@@ -11,7 +11,7 @@ import static com.food.ordering.system.order.service.domain.entity.Order.FAILURE
 
 /**
  * The order messaging module uses this interface after consuming restaurantApprovalResponseKafkaTopic.
- *
+ * <p>
  * Triggered by other domain events from other bound contexts BeanA [here] to BeanB[@Transactional] in
  * separate helper. SAGA complete once implemented
  */
@@ -19,7 +19,7 @@ import static com.food.ordering.system.order.service.domain.entity.Order.FAILURE
 @Slf4j
 @Validated
 @Service
-public class RestaurantApprovalResponseMessageListenerImpl implements RestaurantApprovalResponseMessageListener{
+public class RestaurantApprovalResponseMessageListenerImpl implements RestaurantApprovalResponseMessageListener {
 private final OrderApprovalSaga orderApprovalSaga;
 
 public RestaurantApprovalResponseMessageListenerImpl(OrderApprovalSaga orderApprovalSaga) {
@@ -33,7 +33,7 @@ public RestaurantApprovalResponseMessageListenerImpl(OrderApprovalSaga orderAppr
 @Override
 public void orderApproved(RestaurantApprovalResponse restaurantApprovalResponse) {
     orderApprovalSaga.process(restaurantApprovalResponse);
-    log.info("Order is approved for order id {}", restaurantApprovalResponse.getOrderId());
+    log.info("Order is approved for order id: {}", restaurantApprovalResponse.getOrderId());
 }
 
 /**
@@ -49,4 +49,6 @@ public void orderRejected(RestaurantApprovalResponse restaurantApprovalResponse)
     domainEvent.fire();
 
 }
+
+
 }

@@ -14,13 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * SAGA STEP 2 OrderPaid -> [To RestaurantService] "can order be fulfilled? ->Y/N
  * T == RestaurantApprovalResponse
- *
  */
 @Slf4j
 @Component
 public class OrderApprovalSaga implements SagaStep<RestaurantApprovalResponse, EmptyEvent, OrderCancelledEvent> {
-    private final OrderDomainService orderDomainService;
-    private final OrderSagaHelper orderSagaHelper;
+private final OrderDomainService orderDomainService;
+private final OrderSagaHelper orderSagaHelper;
 private final OrderCancelledPaymentRequestMessagePublisher orderCancelledPaymentRequestMessagePublisher;
 
 public OrderApprovalSaga(OrderDomainService orderDomainService,
@@ -57,28 +56,26 @@ public EmptyEvent process(RestaurantApprovalResponse restaurantApprovalResponse)
 
 }
 
-/**
+/** fixme was missing Transactional
  * Rollback the action for this SAGA step
  *
  * @param restaurantApprovalResponse the data to be 'rolled back'
  * @return the Domain event returned after the rollback.
  */
 @Override
+@Transactional
 public OrderCancelledEvent rollback(RestaurantApprovalResponse restaurantApprovalResponse) {
-    log.info("[SAGA2 rollback restaurantApprovalResponse -to-> OrderCancelledEvent, pre-save] cancelling order with " +
-    "id: {}",
+    log.info("[SAGA2 rollback restaurantApprovalResponse -to-> OrderCancelledEvent, pre-save] cancelling order with " + "id: {}",
     restaurantApprovalResponse.getOrderId());
 
     Order order = orderSagaHelper.findOrder(restaurantApprovalResponse.getOrderId());
     OrderCancelledEvent domainEvent = orderDomainService.cancelOrderPayment(order,
-    restaurantApprovalResponse.getFailureMessages(), orderCancelledPaymentRequestMessagePublisher);
+    restaurantApprovalResponse.getFailureMessages(),
+    orderCancelledPaymentRequestMessagePublisher);
 
     orderSagaHelper.saveOrder(order);
-
-    log.info("[SAGA2 rollback restaurantApprovalResponse -to-> OrderCancelledEvent, post-save] Order with id: {} is " +
-    "cancelled",
-    restaurantApprovalResponse.getOrderId());
-
+    log.info("[SAGA2 rollback restaurantApprovalResponse -to-> OrderCancelledEvent, post-save] Order with id: {} is "
+    + "cancelled", order.getId().getValue());
     return domainEvent;
 }
 

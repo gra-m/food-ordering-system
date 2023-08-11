@@ -13,9 +13,8 @@ public class OrderNotFoundException extends DomainException {
  *                value is permitted, and indicates that the cause is nonexistent or unknown.)
  * @since 1.4
  */
-public OrderNotFoundException(String message,
-                              Throwable cause) {
-      super(message, cause);
+public OrderNotFoundException(String message, Throwable cause) {
+    super(message, cause);
 }
 
 
@@ -27,6 +26,8 @@ public OrderNotFoundException(String message,
  *                method.
  */
 public OrderNotFoundException(String message) {
-      super(message);
+    super(message);
 }
+
+
 }
