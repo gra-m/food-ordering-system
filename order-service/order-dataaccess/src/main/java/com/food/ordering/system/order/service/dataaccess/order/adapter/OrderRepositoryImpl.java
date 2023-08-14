@@ -12,9 +12,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * todo explain
- * Implements output port OrderRepository
- * Spring managed through use of @Component, not a Repository but an adapter class:
+ * Implements output port OrderRepository but not @Repository
+ * Spring managed through use of @Component, not a typical Repository (otherwise @Repository) but an adapter class:
  */
 @Component
 public class OrderRepositoryImpl implements OrderRepository {

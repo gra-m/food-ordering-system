@@ -9,12 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * scanBasePackages: important when working with multiple modules any module in project will be scanned by Spring as
  * long as it starts with "com.food.ordering.system".
  *
- * fixme below needed?
- * EntityScan
- * basePackages: requirement for multimodule project the jpa entity classes are strictly held in the dataaccess package
- * EnableJpaRepositories
- * basePackages: dataaccess repos are also strictly held in dataacess package
- *
  */
 
 

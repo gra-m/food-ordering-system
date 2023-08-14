@@ -1,5 +1,11 @@
- todo come back to this:
+ todo Debugging info:
 
+
+
+
+
+
+#############################
  https://gist.github.com/gra-m/4bc930da335a6ef977c2b951698e919a
 
 

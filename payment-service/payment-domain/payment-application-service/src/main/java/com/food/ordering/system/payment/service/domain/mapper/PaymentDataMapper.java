@@ -21,7 +21,6 @@ import java.util.UUID;
 @Component
 public class PaymentDataMapper {
 
-//fixme failing as passed payment request has null price
 public Payment paymentRequestModelToPayment(PaymentRequest paymentRequest) {
     return Payment
     .builder()

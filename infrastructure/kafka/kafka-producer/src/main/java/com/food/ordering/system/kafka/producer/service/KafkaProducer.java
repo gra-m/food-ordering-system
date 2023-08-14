@@ -8,7 +8,9 @@ import java.io.Serializable;
 
 
 /**
- * Generic interface for sending data to Kafka topics [fixme]
+ * Generic interface for sending data to Kafka topics deals with serialization and plugs in to Avro library to use
+ * SpecificRecordBase.
+ *
  * @param <K> an Object that extends Serializable
  * @param <V> an Object extending Avro's SpecificRecordBase
  */

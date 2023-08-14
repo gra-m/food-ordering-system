@@ -1,4 +1,5 @@
 package com.food.ordering.system.payment.service.domain;
+
 import com.food.ordering.system.domain.event.publisher.DomainEventPublisher;
 import com.food.ordering.system.domain.valueobject.Money;
 import com.food.ordering.system.domain.valueobject.PaymentStatus;
@@ -46,15 +47,18 @@ public PaymentEvent validateAndInitiatePayment(Payment payment,
     updateCreditHistory(payment, creditHistories, TransactionType.DEBIT);
     validateCreditHistory(creditEntry, creditHistories, failureMessages);
 
-    if (failureMessages.isEmpty()) {
+    if( failureMessages.isEmpty() ) {
         log.info("Payment initiated for order id: {}", payment.getOrderId().getValue());
         payment.updateStatus(PaymentStatus.COMPLETED);
-        return new PaymentCompletedEvent(payment, ZonedDateTime.now(ZoneId.of(UTCBRU)),
+        return new PaymentCompletedEvent(payment,
+        ZonedDateTime.now(ZoneId.of(UTCBRU)),
         paymentCompletedEventDomainEventPublisher);
     } else {
         log.info("Payment failed for order id: {}", payment.getOrderId().getValue());
         payment.updateStatus(PaymentStatus.FAILED);
-        return new PaymentFailedEvent(payment, ZonedDateTime.now(ZoneId.of(UTCBRU)), failureMessages,
+        return new PaymentFailedEvent(payment,
+        ZonedDateTime.now(ZoneId.of(UTCBRU)),
+        failureMessages,
         paymentFailedEventDomainEventPublisher);
     }
 }
@@ -65,7 +69,7 @@ public PaymentEvent validateAndInitiatePayment(Payment payment,
  * the customer <i>is</i> equal to the current credit for this customer id <i>and</i> totalDebitHistory <i>is not</i>
  * greater than totalCreditHistory.
  *
- * @param creditEntry the CreditEntry to be validated
+ * @param creditEntry     the CreditEntry to be validated
  * @param creditHistories a List of credit histories belonging to the customer this CreditEntry relates to
  * @param failureMessages at point of entry an empty List of failureMessages if the CreditHistory to be validated
  *                        fails the logic of this method the list will no longer be empty.
@@ -76,16 +80,17 @@ private void validateCreditHistory(CreditEntry creditEntry,
     Money totalCreditHistory = getTotalHistoryAmount(creditHistories, TransactionType.CREDIT);
     Money totalDebitHistory = getTotalHistoryAmount(creditHistories, TransactionType.DEBIT);
 
-    if (totalDebitHistory.isGreaterThan(totalCreditHistory)) {
+    if( totalDebitHistory.isGreaterThan(totalCreditHistory) ) {
 
         log.error("Customer with id: {} doesn't have enough credit according to credit history!",
         creditEntry.getCustomerId().getValue());
 
-        failureMessages.add(String.format("Customer with id= %s doesn't have enough credit according to credit history!",
+        failureMessages.add(String.format("Customer with id= %s doesn't have enough credit according to credit " +
+        "history!",
         creditEntry.getCustomerId().getValue().toString()));
     }
 
-    if(!creditEntry.getTotalCreditAmount().equals(totalCreditHistory.subtract(totalDebitHistory))) {
+    if( !creditEntry.getTotalCreditAmount().equals(totalCreditHistory.subtract(totalDebitHistory)) ) {
 
         log.error("Credit history total is not equal to current credit for customer id: {}!",
         creditEntry.getCustomerId().getValue());
@@ -97,7 +102,8 @@ private void validateCreditHistory(CreditEntry creditEntry,
 }
 
 private Money getTotalHistoryAmount(List<CreditHistory> creditHistories, TransactionType transactionType) {
-    return creditHistories.stream()
+    return creditHistories
+    .stream()
     .filter(creditHistory -> transactionType == creditHistory.getTransactionType())
     .map(CreditHistory::getAmount)
     .reduce(Money.ZERO, Money::add);
@@ -110,14 +116,15 @@ private Money getTotalHistoryAmount(List<CreditHistory> creditHistories, Transac
  * Given the payment has been cancelled the amount debited must be reimbursed/credited back to the customer's
  * CreditEntry and their CreditHistory  updated to reflect this -> PaymentCancelledEvent returned
  * Cancellation failure:
- * Given that the payment fails validation and has a failure message fixme the same happens but it is wrapped in failed
- * is this reverted later?
  *
  * @param payment                                   the payment to be validated and cancelled
- * @param creditEntry                               the creditEntry (and so credit amount via creditEntry.getTotalCreditAmount()) that is to be
+ * @param creditEntry                               the creditEntry (and so credit amount via creditEntry
+ *                                                  .getTotalCreditAmount()) that is to be
  *                                                  validated and cancelled
- * @param creditHistories                           a List of credit histories belonging to the customer this CreditEntry relates to
- * @param failureMessages                           at point of entry an empty List of failureMessages if the CreditHistory to be validated
+ * @param creditHistories                           a List of credit histories belonging to the customer this
+ *                                                  CreditEntry relates to
+ * @param failureMessages                           at point of entry an empty List of failureMessages if the
+ *                                                  CreditHistory to be validated
  *                                                  fails the logic of this method the list will no longer be empty.
  * @param paymentCancelledEventDomainEventPublisher
  * @param paymentFailedEventDomainEventPublisher
@@ -134,17 +141,20 @@ public PaymentEvent validateAndCancelPayment(Payment payment,
     addCreditEntry(payment, creditEntry);
     updateCreditHistory(payment, creditHistories, TransactionType.CREDIT);
 
-    if (failureMessages.isEmpty()) {
+    if( failureMessages.isEmpty() ) {
         log.info("Payment is cancelled for order id: {}", payment.getOrderId().getValue());
 
         payment.updateStatus(PaymentStatus.CANCELLED);
-        return new PaymentCancelledEvent(payment, ZonedDateTime.now(ZoneId.of(UTCBRU)),
+        return new PaymentCancelledEvent(payment,
+        ZonedDateTime.now(ZoneId.of(UTCBRU)),
         paymentCancelledEventDomainEventPublisher);
     } else {
         log.info("Payment cancellation failed for order id: {}", payment.getOrderId().getValue());
 
         payment.updateStatus(PaymentStatus.FAILED);
-        return new PaymentFailedEvent(payment, ZonedDateTime.now(ZoneId.of(UTCBRU)), failureMessages,
+        return new PaymentFailedEvent(payment,
+        ZonedDateTime.now(ZoneId.of(UTCBRU)),
+        failureMessages,
         paymentFailedEventDomainEventPublisher);
     }
 }
@@ -171,12 +181,14 @@ private void subtractCreditEntry(Payment payment, CreditEntry creditEntry) {
 private void updateCreditHistory(Payment payment,
                                  List<CreditHistory> creditHistories,
                                  TransactionType transactionType) {
-    creditHistories.add(CreditHistory.builder()
-                                     .creditHistoryId(new CreditHistoryId(UUID.randomUUID()))
-                                     .customerId(payment.getCustomerId())
-                                     .amount(payment.getPrice())
-                                     .transactionType(transactionType)
-                                     .build());
+    creditHistories.add(CreditHistory
+    .builder()
+    .creditHistoryId(new CreditHistoryId(UUID.randomUUID()))
+    .customerId(payment.getCustomerId())
+    .amount(payment.getPrice())
+    .transactionType(transactionType)
+    .build());
 }
+
 
 }

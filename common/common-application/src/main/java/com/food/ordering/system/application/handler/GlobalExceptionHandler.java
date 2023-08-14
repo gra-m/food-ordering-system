@@ -60,7 +60,6 @@ public ErrorDTO handleException(ValidationException validationException) {
 }
 
 private String extractViolationsFromException(ConstraintViolationException validationException) {
-      StringBuilder sb = new StringBuilder("");
 
       return validationException.getConstraintViolations()
                                 .stream()

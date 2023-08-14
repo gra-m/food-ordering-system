@@ -34,18 +34,10 @@ public class CreditHistoryRepositoryImpl implements CreditHistoryRepository {
     public Optional<List<CreditHistory>> findByCustomerId(CustomerId customerId) {
         Optional<List<CreditHistoryEntity>> creditHistory =
                 creditHistoryJpaRepository.findByCustomerId(customerId.getValue());
-        
-        List<CreditHistoryEntity> creditHistory2 = creditHistory.get();
-
-        creditHistory2.stream().map(creditHistoryDataAccessMapper::creditHistoryEntityToCreditHistory).collect(Collectors.toList());
-
         return creditHistory
                 .map(creditHistoryList ->
                         creditHistoryList.stream()
                                 .map(creditHistoryDataAccessMapper::creditHistoryEntityToCreditHistory)
                                 .collect(Collectors.toList()));
-
-
-
     }
 }

@@ -19,24 +19,8 @@ private final OrderId orderId;
 private final CustomerId customerId;
 private final Money price;
 
-private  PaymentStatus paymentStatus;
-private  ZonedDateTime createdAt;
-
-public void initializePayment() {
-    setId(new PaymentId(UUID.randomUUID()));
-    createdAt = ZonedDateTime.now(ZoneId.of(UTCBRU));
-}
-
-public void validatePayment(List<String> failureMessages) {
-    if (price == null || !price.isGreaterThanZero()) {
-        failureMessages.add("Total price must be greater than zero!");
-    }
-}
-
-public void updateStatus(PaymentStatus paymentStatus) {
-    this.paymentStatus = paymentStatus;
-}
-
+private PaymentStatus paymentStatus;
+private ZonedDateTime createdAt;
 
 private Payment(Builder builder) {
     super.setId(builder.paymentId);
@@ -47,6 +31,24 @@ private Payment(Builder builder) {
     createdAt = builder.createdAt;
 }
 
+public static Builder builder() {
+    return new Builder();
+}
+
+public void initializePayment() {
+    setId(new PaymentId(UUID.randomUUID()));
+    createdAt = ZonedDateTime.now(ZoneId.of(UTCBRU));
+}
+
+public void validatePayment(List<String> failureMessages) {
+    if( price == null || !price.isGreaterThanZero() ) {
+        failureMessages.add("Total price must be greater than zero!");
+    }
+}
+
+public void updateStatus(PaymentStatus paymentStatus) {
+    this.paymentStatus = paymentStatus;
+}
 
 public OrderId getOrderId() {
     return orderId;
@@ -67,11 +69,6 @@ public PaymentStatus getPaymentStatus() {
 public ZonedDateTime getCreatedAt() {
     return createdAt;
 }
-
-public static Builder builder(){
-    return new Builder();
-}
-
 
 public static final class Builder {
     private PaymentId paymentId;
@@ -117,5 +114,9 @@ public static final class Builder {
     public Payment build() {
         return new Payment(this);
     }
+
+
 }
+
+
 }

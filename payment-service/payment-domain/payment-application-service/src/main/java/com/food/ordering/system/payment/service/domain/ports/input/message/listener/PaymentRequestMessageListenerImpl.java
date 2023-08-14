@@ -16,7 +16,7 @@ public class PaymentRequestMessageListenerImpl implements PaymentRequestMessageL
 private final PaymentRequestHelper paymentRequestHelper;
 
 
-public PaymentRequestMessageListenerImpl(PaymentRequestHelper paymentRequestHelper){
+public PaymentRequestMessageListenerImpl(PaymentRequestHelper paymentRequestHelper) {
     this.paymentRequestHelper = paymentRequestHelper;
 }
 

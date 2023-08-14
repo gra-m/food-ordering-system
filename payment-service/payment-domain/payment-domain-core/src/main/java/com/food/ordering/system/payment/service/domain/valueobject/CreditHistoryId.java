@@ -12,4 +12,5 @@ public class CreditHistoryId extends BaseId<UUID> {
 public CreditHistoryId(UUID value) {
     super(value);
 }
+
 }

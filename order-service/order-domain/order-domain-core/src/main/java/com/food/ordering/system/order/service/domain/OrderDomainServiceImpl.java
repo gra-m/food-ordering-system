@@ -28,7 +28,6 @@ public class OrderDomainServiceImpl implements OrderDomainService {
  * be validated before an OrderCreatedEvent can be returned.
  * Uses Order and Restaurant aggregates to check against business requirements for a valid order.
  * </p>
- * todo testthis: note there is no need for explicit casting in the code he shows (OrderId) strange that required
  * here did not work full stop until refactored BaseEntity to use BaseId.
  *
  * @param order                                 the order that has been created by the client

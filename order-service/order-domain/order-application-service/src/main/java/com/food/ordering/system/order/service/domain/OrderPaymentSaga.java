@@ -70,7 +70,7 @@ public EmptyEvent rollback(PaymentResponse paymentResponse) {
     String orderId = paymentResponse.getOrderId();
     log.info("[SAGA1 rollback payment-response -to-> EmptyEvent pre-save] Cancelling order with id: {}", orderId);
     Order order = orderSagaHelper.findOrder(orderId);
-
+    orderDomainService.cancelOrder(order, paymentResponse.getFailureMessages());
     orderSagaHelper.saveOrder(order);
 
     log.info("[SAGA1 rollback payment-response -to-> EmptyEvent post-save] order with id: {} cancelled", orderId);

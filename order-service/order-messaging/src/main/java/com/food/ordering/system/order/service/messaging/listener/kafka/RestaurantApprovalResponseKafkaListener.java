@@ -32,8 +32,6 @@ OrderMessagingDataMapper orderMessagingDataMapper) {
  * Receive a kafka AvroModel and dependent on its status create an APPROVED or REJECTED ApprovalResponse using
  * OrderMessagingDataMapper
  *
- * fixme RestaurantApprovalResponseMessageListenerImpl will be implemented during SAGA refactoring.
- *
  * @param messages   A list of given Type of messages
  * @param keys       A list of Longs that are keys
  * @param partitions A list of Integers that are the partitions

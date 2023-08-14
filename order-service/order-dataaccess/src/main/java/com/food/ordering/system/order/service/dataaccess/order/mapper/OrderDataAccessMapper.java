@@ -108,7 +108,6 @@ private StreetAddress addressEntityToDeliveryAddress(OrderAddressEntity address)
     return new StreetAddress(address.getId(), address.getStreet(), address.getPostalCode(), address.getCity());
 }
 
-  // fixme quantity missing
 private List<OrderItemEntity> orderItemsToOrderItemEntities(List<OrderItem> items) {
     return items
     .stream()

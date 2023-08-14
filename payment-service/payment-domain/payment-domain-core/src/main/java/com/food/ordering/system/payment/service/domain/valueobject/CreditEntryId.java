@@ -11,4 +11,5 @@ public class CreditEntryId extends BaseId<UUID> {
 public CreditEntryId(UUID value) {
     super(value);
 }
+
 }

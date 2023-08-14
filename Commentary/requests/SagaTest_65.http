@@ -1,0 +1,42 @@
+### example with env var/basic auth:
+# @no-cookie-jar
+POST http://localhost:8183/elastic-query-service/documents/get-document-by-text/
+authorization: basic {{username}} {{password}}
+accept: application/vnd.api.v1+json
+content-type: application/json
+
+### 01POST_Order for existing customer creates order tracking id
+POST http://localhost:8181/orders
+content-type: application/json
+Accept: application/vnd.api.v1+json
+
+{
+  "customerId": "d215b5f8-0249-4dc5-89a3-51fd148cfb41",
+  "restaurantId": "d215b5f8-0249-4dc5-89a3-51fd148cfb45",
+  "address": {
+    "street": "street_1",
+    "postalCode": "1000AB",
+    "city": "Amsterdam"
+  },
+  "price": 200.00,
+  "items": [
+    {
+      "productId": "d215b5f8-0249-4dc5-89a3-51fd148cfb48",
+      "quantity": 1,
+      "price": 50.00,
+      "subTotal": 50.00
+    },
+    {
+      "productId": "d215b5f8-0249-4dc5-89a3-51fd148cfb48",
+      "quantity": 3,
+      "price": 50.00,
+      "subTotal": 150.00
+    }
+  ]
+}
+
+### 02GET_FromTrackingId - paste trackingID from 01
+GET http://localhost:8181/orders/10e7750a-edf6-4f97-b398-0972de122c17
+Accept: application/vnd.api.v1+json
+
+

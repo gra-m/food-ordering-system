@@ -28,6 +28,7 @@ public PaymentFailedKafkaMessagePublisher(PaymentMessagingDataMapper paymentMess
     this.paymentServiceConfigData = paymentServiceConfigData;
     this.kafkaMessageHelper = kafkaMessageHelper;
 }
+
 @Override
 public void publish(PaymentFailedEvent domainEvent) {
     String orderId = domainEvent.getPayment().getOrderId().getValue().toString();
@@ -36,10 +37,10 @@ public void publish(PaymentFailedEvent domainEvent) {
 
     try {
         PaymentResponseAvroModel paymentResponseAvroModel =
-        paymentMessagingDataMapper.paymentFailedEventToPaymentResponseAvroModel(domainEvent);
+        paymentMessagingDataMapper.paymentFailedEventToPaymentResponseAvroModel(
+        domainEvent);
 
-        kafkaProducer.send(
-        paymentServiceConfigData.getPaymentRequestTopicName(),
+        kafkaProducer.send(paymentServiceConfigData.getPaymentResponseTopicName(),
         orderId,
         paymentResponseAvroModel,
         kafkaMessageHelper.getKafkaCallback(paymentServiceConfigData.getPaymentResponseTopicName(),
@@ -51,7 +52,8 @@ public void publish(PaymentFailedEvent domainEvent) {
     }
     catch( Exception e ) {
         log.error("Error while sending PaymentResponseAvroModel message to kafka with order id: {}, error: {}",
-        orderId, e.getMessage());
+        orderId,
+        e.getMessage());
     }
 }
 

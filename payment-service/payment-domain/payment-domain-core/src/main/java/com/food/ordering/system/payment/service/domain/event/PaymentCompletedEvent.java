@@ -31,10 +31,6 @@ public PaymentCompletedEvent(Payment payment,
     this.paymentCompletedEventDomainEventPublisher = paymentCompletedEventDomainEventPublisher;
 }
 
-
-/**
- *
- */
 @Override
 public void fire() {
     paymentCompletedEventDomainEventPublisher.publish(this);

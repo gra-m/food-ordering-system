@@ -18,9 +18,6 @@ public PaymentFailedEvent(Payment payment,
     this.paymentFailedEventDomainEventPublisher = paymentFailedEventDomainEventPublisher;
 }
 
-/**
- *
- */
 @Override
 public void fire() {
     paymentFailedEventDomainEventPublisher.publish(this);

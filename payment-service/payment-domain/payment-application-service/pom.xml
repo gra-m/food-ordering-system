@@ -14,10 +14,14 @@
     <!--interest point, does not need to be mentioned in main pom, as long as its dependency payment-domain-core
     is listed there, [it is later listed in main pom anyway] -->
     <dependencies>
+        <!--was missing on comparison but had raised no issue: common domain -->
+        <dependency>
+            <groupId>com.food.ordering.system</groupId>
+            <artifactId>common-domain</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.food.ordering.system</groupId>
             <artifactId>payment-domain-core</artifactId>
-            <version>${project.version}</version>
         </dependency>
     <!--As with order-application service external dependencies are used here to keep payment-domain-core free from them
     payment-domain-core remains free from all external dependencies used here-->
@@ -30,7 +34,7 @@
         <groupId>org.springframework</groupId>
         <artifactId>spring-tx</artifactId>
     </dependency>
-        <!--todo you added these so you could add tests to this microservice too..) -->
+        <!--todo you added these so you could come back and revisit testing) -->
     <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>

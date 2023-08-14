@@ -5,7 +5,6 @@ import com.food.ordering.system.order.service.domain.dto.message.RestaurantAppro
 import com.food.ordering.system.order.service.domain.entity.Order;
 import com.food.ordering.system.order.service.domain.event.OrderCancelledEvent;
 import com.food.ordering.system.order.service.domain.ports.output.message.publisher.payment.OrderCancelledPaymentRequestMessagePublisher;
-import com.food.ordering.system.order.service.domain.ports.output.repository.OrderRepository;
 import com.food.ordering.system.saga.SagaStep;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -23,7 +22,6 @@ private final OrderSagaHelper orderSagaHelper;
 private final OrderCancelledPaymentRequestMessagePublisher orderCancelledPaymentRequestMessagePublisher;
 
 public OrderApprovalSaga(OrderDomainService orderDomainService,
-                         OrderRepository orderRepository,
                          OrderSagaHelper orderSagaHelper,
                          OrderCancelledPaymentRequestMessagePublisher orderCancelledPaymentRequestMessagePublisher) {
     this.orderDomainService = orderDomainService;
@@ -56,7 +54,7 @@ public EmptyEvent process(RestaurantApprovalResponse restaurantApprovalResponse)
 
 }
 
-/** fixme was missing Transactional
+/**
  * Rollback the action for this SAGA step
  *
  * @param restaurantApprovalResponse the data to be 'rolled back'

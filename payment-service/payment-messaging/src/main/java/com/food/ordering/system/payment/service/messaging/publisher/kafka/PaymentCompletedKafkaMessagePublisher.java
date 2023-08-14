@@ -42,11 +42,11 @@ public void publish(PaymentCompletedEvent domainEvent) {
     log.info("Received PaymentCompletedEvent for order id: {}", orderId);
 
     try {
-    PaymentResponseAvroModel paymentResponseAvroModel =
-    paymentMessagingDataMapper.paymentCompletedEventToPaymentResponseAvroModel(domainEvent);
+        PaymentResponseAvroModel paymentResponseAvroModel =
+        paymentMessagingDataMapper.paymentCompletedEventToPaymentResponseAvroModel(
+        domainEvent);
 
-        kafkaProducer.send(
-        paymentServiceConfigData.getPaymentRequestTopicName(),
+        kafkaProducer.send(paymentServiceConfigData.getPaymentResponseTopicName(),
         orderId,
         paymentResponseAvroModel,
         kafkaMessageHelper.getKafkaCallback(paymentServiceConfigData.getPaymentResponseTopicName(),
@@ -58,7 +58,8 @@ public void publish(PaymentCompletedEvent domainEvent) {
     }
     catch( Exception e ) {
         log.error("Error while sending PaymentResponseAvroModel message to kafka with order id: {}, error: {}",
-        orderId, e.getMessage());
+        orderId,
+        e.getMessage());
     }
 
 }

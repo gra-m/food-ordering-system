@@ -35,7 +35,7 @@ public PaymentResponseKafkaListener(PaymentResponseMessageListener paymentRespon
  * directly compared ==.
  *
  * note: @KafkaListener makes a kafka listener of a simple method with a single annotation, id and topics set with
- * config fixme add @see here to config
+ * config.
  * <p>
  * Spring method param annotations @Payload and @Header set the payload and headers to be as expected for Kafka
  *

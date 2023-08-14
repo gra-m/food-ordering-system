@@ -15,11 +15,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-/**
- * fixme
- * Mapping received order events to PaymentRequestAvroModel objects for Kafka ..
- * Or mapping a model to another required object.
- */
 @Component
 public class OrderMessagingDataMapper {
 
@@ -90,7 +85,7 @@ private List<Product> createProductListFromItems(Order order) {
 
 /**
  * Retrieve order, set new avro fields and set retrieved order fields, payment status set to PENDING.
- * <p>New into avroObject ==  set random Id, set Saga id payment [todo implement SAGA] status PENDING</p>
+ * <p>New into avroObject ==  set random Id, set Saga id payment</p>
  * <p>The rest of the fields are from retrieved Order</p>
  *
  * @param orderCreatedEvent containing order details

@@ -13,7 +13,7 @@
 
     <dependencies>
         <dependency>
-            <!--BaseClasses and Interfaces are only dependencies-->
+            <!--BaseClasses and Interfaces are only dependencies domain core is free!-->
             <groupId>com.food.ordering.system</groupId>
             <artifactId>common-domain</artifactId>
         </dependency>
