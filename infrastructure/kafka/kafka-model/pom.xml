@@ -12,10 +12,6 @@
     <artifactId>kafka-model</artifactId>
 
     <dependencies>
-
-
-
-
         <dependency>
             <!--The leading serialization format for record data.-->
             <groupId>org.apache.avro</groupId>

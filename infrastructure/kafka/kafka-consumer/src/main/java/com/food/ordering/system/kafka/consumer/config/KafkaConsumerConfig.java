@@ -28,7 +28,7 @@ public KafkaConsumerConfig(KafkaConfigData kafkaConfigData, KafkaConsumerConfigD
     this.kafkaConsumerConfigData = kafkaConsumerConfigData;
 }
 
-
+@Bean
 public Map<String, Object> consumerConfigs() {
 
     Map<String, Object> props = new HashMap<>();

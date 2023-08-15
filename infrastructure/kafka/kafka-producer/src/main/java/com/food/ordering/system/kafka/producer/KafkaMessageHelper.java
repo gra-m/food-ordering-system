@@ -24,14 +24,14 @@ public <T> ListenableFutureCallback<SendResult<String, T>> getKafkaCallback(Stri
                                                                             String orderId,
                                                                             String avroModelName) {
 
-    return new ListenableFutureCallback<SendResult<String, T>>() {
+    return new ListenableFutureCallback<>() {
         @Override
         public void onFailure(Throwable ex) {
-            log.error("Error while sending {} message {} to topic {}",
+            log.error("Error while sending {} message {} to topic {} with exception message:\n{}",
             avroModelName,
             avroModel.toString(),
             responseTopicName,
-            ex);
+            ex.getMessage());
         }
 
         @Override

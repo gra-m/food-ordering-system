@@ -51,10 +51,8 @@
           "fields": [
             {
               "name": "id",
-              "type": {
-                "type": "string",
-                "logicalType": "uuid"
-              }
+              "type": "string",
+              "logicalType": "uuid"
             },
             {
               "name": "quantity",
