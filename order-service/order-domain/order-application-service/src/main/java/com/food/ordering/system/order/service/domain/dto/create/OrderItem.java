@@ -22,4 +22,5 @@ private final BigDecimal price;
 @NotNull
 private final BigDecimal subTotal;
 
+
 }

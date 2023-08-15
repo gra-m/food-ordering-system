@@ -66,12 +66,14 @@ public OrderApprovalEntity orderApprovalToOrderApprovalEntity(OrderApproval orde
 }
 
 public OrderApproval orderApprovalEntityToOrderApproval(OrderApprovalEntity orderApprovalEntity) {
-    return OrderApproval.builder()
+    return OrderApproval
+    .builder()
     .orderApprovalId(new OrderApprovalId(orderApprovalEntity.getId()))
     .restaurantId(new RestaurantId(orderApprovalEntity.getRestaurantId()))
     .orderId(new OrderId(orderApprovalEntity.getOrderId()))
     .approvalStatus(orderApprovalEntity.getStatus())
-                        .build();
+    .build();
 }
+
 
 }

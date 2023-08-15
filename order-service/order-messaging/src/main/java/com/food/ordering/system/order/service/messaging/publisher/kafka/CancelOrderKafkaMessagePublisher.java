@@ -23,10 +23,10 @@ public CancelOrderKafkaMessagePublisher(OrderMessagingDataMapper orderMessagingD
                                         OrderServiceConfigData orderServiceConfigData,
                                         KafkaProducer<String, PaymentRequestAvroModel> kafkaProducer,
                                         KafkaMessageHelper kafkaMessageHelper) {
-      this.orderMessagingDataMapper = orderMessagingDataMapper;
-      this.orderServiceConfigData = orderServiceConfigData;
-      this.kafkaProducer = kafkaProducer;
-      this.kafkaMessageHelper = kafkaMessageHelper;
+    this.orderMessagingDataMapper = orderMessagingDataMapper;
+    this.orderServiceConfigData = orderServiceConfigData;
+    this.kafkaProducer = kafkaProducer;
+    this.kafkaMessageHelper = kafkaMessageHelper;
 }
 
 
@@ -42,27 +42,29 @@ public CancelOrderKafkaMessagePublisher(OrderMessagingDataMapper orderMessagingD
  */
 @Override
 public void publish(OrderCancelledEvent domainEvent) {
-      String orderId = domainEvent.getOrder().getId().getValue().toString();
-      log.info("Received OrderCancelledEvent for order id: {}", orderId);
+    String orderId = domainEvent.getOrder().getId().getValue().toString();
+    log.info("Received OrderCancelledEvent for order id: {}", orderId);
 
-      try {
-            PaymentRequestAvroModel paymentRequestAvroModel =
-                orderMessagingDataMapper.orderCancelledEventToPaymentRequestAvroModel(
-                domainEvent);
+    try {
+        PaymentRequestAvroModel paymentRequestAvroModel =
+        orderMessagingDataMapper.orderCancelledEventToPaymentRequestAvroModel(
+        domainEvent);
 
-            kafkaProducer.send(orderServiceConfigData.getPaymentRequestTopicName(),
-                orderId,
-                paymentRequestAvroModel,
-                kafkaMessageHelper.getKafkaCallback(orderServiceConfigData.getPaymentRequestTopicName(),
-                    paymentRequestAvroModel, orderId, "PaymentRequestAvroModel"));
+        kafkaProducer.send(orderServiceConfigData.getPaymentRequestTopicName(),
+        orderId,
+        paymentRequestAvroModel,
+        kafkaMessageHelper.getKafkaCallback(orderServiceConfigData.getPaymentRequestTopicName(),
+        paymentRequestAvroModel,
+        orderId,
+        "PaymentRequestAvroModel"));
 
-            log.info("PaymentRequestAvroModel sent to Kafka for order id: {}", paymentRequestAvroModel.getOrderId());
-      }
-      catch( Exception e ) {
-            log.error("Error while sending PaymentRequestAvroModel message to kafka with order id: {}, error: {}",
-                orderId,
-                e.getMessage());
-      }
+        log.info("PaymentRequestAvroModel sent to Kafka for order id: {}", paymentRequestAvroModel.getOrderId());
+    }
+    catch( Exception e ) {
+        log.error("Error while sending PaymentRequestAvroModel message to kafka with order id: {}, error: {}",
+        orderId,
+        e.getMessage());
+    }
 }
 
 

@@ -18,8 +18,7 @@ import java.util.stream.Collectors;
 @Component
 public class OrderMessagingDataMapper {
 
-public RestaurantApprovalResponse approvalResponseAvroModelToApprovalResponse(
-RestaurantApprovalResponseAvroModel restaurantApprovalResponseAvroModel) {
+public RestaurantApprovalResponse approvalResponseAvroModelToApprovalResponse(RestaurantApprovalResponseAvroModel restaurantApprovalResponseAvroModel) {
 
     return RestaurantApprovalResponse
     .builder()
@@ -52,8 +51,7 @@ public PaymentResponse paymentResponseAvroModelToPaymentResponse(PaymentResponse
 }
 
 
-public RestaurantApprovalRequestAvroModel orderPaidEventToRestaurantApprovalRequestAvroModel(
-OrderPaidEvent orderPaidEvent) {
+public RestaurantApprovalRequestAvroModel orderPaidEventToRestaurantApprovalRequestAvroModel(OrderPaidEvent orderPaidEvent) {
     Order order = orderPaidEvent.getOrder();
     return RestaurantApprovalRequestAvroModel
     .newBuilder()
@@ -133,5 +131,6 @@ public PaymentRequestAvroModel orderCancelledEventToPaymentRequestAvroModel(Orde
     .build();
 
 }
+
 
 }

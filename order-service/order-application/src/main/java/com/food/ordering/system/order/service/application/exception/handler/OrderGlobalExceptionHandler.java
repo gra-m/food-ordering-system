@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 
 /**
- * Given that an exception of the given kind shown in @ExceptionHandler is thrown, handle it with this OrderGlobalExceptionHandler class
+ * Given that an exception of the given kind shown in @ExceptionHandler is thrown, handle it with this
+ * OrderGlobalExceptionHandler class
  * <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/ControllerAdvice.html">@ControllerAdvice</a>
- *
  */
 @Slf4j
 @ControllerAdvice
@@ -34,12 +34,13 @@ public class OrderGlobalExceptionHandler extends GlobalExceptionHandler {
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public ErrorDTO handleException(OrderDomainException orderDomainException) {
 
-      log.error(orderDomainException.getMessage(), orderDomainException);
+    log.error(orderDomainException.getMessage(), orderDomainException);
 
-      return ErrorDTO.builder()
-                     .code(HttpStatus.BAD_REQUEST.getReasonPhrase())
-                     .message(orderDomainException.getMessage())
-                     .build();
+    return ErrorDTO
+    .builder()
+    .code(HttpStatus.BAD_REQUEST.getReasonPhrase())
+    .message(orderDomainException.getMessage())
+    .build();
 }
 
 @ResponseBody
@@ -47,14 +48,14 @@ public ErrorDTO handleException(OrderDomainException orderDomainException) {
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public ErrorDTO handleException(OrderNotFoundException orderNotFoundException) {
 
-      log.error(orderNotFoundException.getMessage(), orderNotFoundException);
+    log.error(orderNotFoundException.getMessage(), orderNotFoundException);
 
-      return ErrorDTO.builder()
-                     .code(HttpStatus.NOT_FOUND.getReasonPhrase())
-                     .message(orderNotFoundException.getMessage())
-                     .build();
+    return ErrorDTO
+    .builder()
+    .code(HttpStatus.NOT_FOUND.getReasonPhrase())
+    .message(orderNotFoundException.getMessage())
+    .build();
 }
-
 
 
 }

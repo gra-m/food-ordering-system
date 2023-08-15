@@ -9,9 +9,10 @@ import com.food.ordering.system.restaurant.service.domain.event.OrderRejectedEve
 import java.util.List;
 public interface RestaurantDomainService {
 
-    OrderApprovalEvent validateOrder(Restaurant restaurant,
-                                     List<String> failureMessages,
-                                     DomainEventPublisher<OrderApprovedEvent> orderApprovedEventDomainEventPublisher,
-                                     DomainEventPublisher<OrderRejectedEvent> orderRejectedEventDomainEventPublisher);
+OrderApprovalEvent validateOrder(Restaurant restaurant,
+                                 List<String> failureMessages,
+                                 DomainEventPublisher<OrderApprovedEvent> orderApprovedEventDomainEventPublisher,
+                                 DomainEventPublisher<OrderRejectedEvent> orderRejectedEventDomainEventPublisher);
+
 
 }

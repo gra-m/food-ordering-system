@@ -5,7 +5,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Added spring-boot-configuration-processor to root pom https://docs.spring.io/spring-boot/docs/2.6.4/reference/html/configuration-metadata.html#appendix.configuration-metadata.annotation-processor
+ * Added spring-boot-configuration-processor to root pom https://docs.spring.io/spring-boot/docs/2.6
+ * .4/reference/html/configuration-metadata.html#appendix.configuration-metadata.annotation-processor
  * following IDE message
  */
 @Data
@@ -17,4 +18,6 @@ private String schemaRegistryUrlKey;
 private String schemaRegistryUrl;
 private Integer numOfPartitions;
 private Short replicationFactor;
+
+
 }

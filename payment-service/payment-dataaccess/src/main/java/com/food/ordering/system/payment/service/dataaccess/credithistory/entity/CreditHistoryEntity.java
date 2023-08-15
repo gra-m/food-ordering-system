@@ -17,23 +17,25 @@ import java.util.UUID;
 @Entity
 public class CreditHistoryEntity {
 
-    @Id
-    private UUID id;
-    private UUID customerId;
-    private BigDecimal amount;
-    @Enumerated(EnumType.STRING)
-    private TransactionType type;
+@Id
+private UUID id;
+private UUID customerId;
+private BigDecimal amount;
+@Enumerated(EnumType.STRING)
+private TransactionType type;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CreditHistoryEntity that = (CreditHistoryEntity) o;
-        return id.equals(that.id);
-    }
+@Override
+public boolean equals(Object o) {
+    if( this == o ) return true;
+    if( o == null || getClass() != o.getClass() ) return false;
+    CreditHistoryEntity that = ( CreditHistoryEntity ) o;
+    return id.equals(that.id);
+}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
+@Override
+public int hashCode() {
+    return Objects.hash(id);
+}
+
+
 }

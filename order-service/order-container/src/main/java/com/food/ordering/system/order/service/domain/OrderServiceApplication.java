@@ -14,12 +14,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * basePackages: requirement for multimodule project the jpa entity classes are strictly held in the dataaccess package
  * EnableJpaRepositories
  * basePackages: dataaccess repos are also strictly held in dataacess package
- *
+ * <p>
  * Note: following the move of common restaurant dataaccess code to new module common/common-dataaccess:
  * new basePackage scan required:
- *
  */
-@EnableJpaRepositories(basePackages = {"com.food.ordering.system.order.service.dataaccess", "com.food.ordering.system.dataaccess"})
+@EnableJpaRepositories(basePackages = {"com.food.ordering.system.order.service.dataaccess", "com.food.ordering.system" +
+".dataaccess"})
 @EntityScan(basePackages = {"com.food.ordering.system.order.service.dataaccess", "com.food.ordering.system.dataaccess"})
 @SpringBootApplication(scanBasePackages = "com.food.ordering.system")
 public class OrderServiceApplication {
@@ -33,4 +33,6 @@ public class OrderServiceApplication {
 public static void main(String[] args) {
     SpringApplication.run(OrderServiceApplication.class, args);
 }
+
+
 }

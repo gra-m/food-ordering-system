@@ -15,7 +15,7 @@ import java.util.List;
 import static com.food.ordering.system.domain.DomainConstants.UTCBRU;
 
 @Slf4j
-public class RestaurantDomainServiceImpl implements RestaurantDomainService{
+public class RestaurantDomainServiceImpl implements RestaurantDomainService {
 
 /**
  * @param restaurant
@@ -32,7 +32,7 @@ public OrderApprovalEvent validateOrder(Restaurant restaurant,
     restaurant.validateOrder(failureMessages);
     log.info("Validating order with id: {}", restaurant.getOrderDetail().getId().getValue());
 
-    if (failureMessages.isEmpty()) {
+    if( failureMessages.isEmpty() ) {
         log.info("Order id: {} is approved", restaurant.getOrderDetail().getId().getValue());
         restaurant.constructOrderApproval(OrderApprovalStatus.APPROVED);
 

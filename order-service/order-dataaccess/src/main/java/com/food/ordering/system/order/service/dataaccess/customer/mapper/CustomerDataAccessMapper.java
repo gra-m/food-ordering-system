@@ -8,7 +8,8 @@ import org.springframework.stereotype.Component;
 public class CustomerDataAccessMapper {
 
 public Customer customerEntityToCustomer(CustomerEntity customerEntity) {
-      return new Customer(customerEntity.getId());
+    return new Customer(customerEntity.getId());
 }
+
 
 }

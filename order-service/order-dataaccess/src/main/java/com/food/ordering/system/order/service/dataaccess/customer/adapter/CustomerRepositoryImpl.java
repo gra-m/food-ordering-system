@@ -20,8 +20,8 @@ CustomerDataAccessMapper customerDataAccessMapper;
 
 public CustomerRepositoryImpl(CustomerJpaRepository customerJpaRepository,
                               CustomerDataAccessMapper customerDataAccessMapper) {
-      this.customerJpaRepository = customerJpaRepository;
-      this.customerDataAccessMapper = customerDataAccessMapper;
+    this.customerJpaRepository = customerJpaRepository;
+    this.customerDataAccessMapper = customerDataAccessMapper;
 }
 
 /**
@@ -32,7 +32,8 @@ public CustomerRepositoryImpl(CustomerJpaRepository customerJpaRepository,
  */
 @Override
 public Optional<Customer> findCustomer(UUID customerId) {
-      return customerJpaRepository.findById(customerId)
-          .map(customerDataAccessMapper::customerEntityToCustomer);
+    return customerJpaRepository.findById(customerId).map(customerDataAccessMapper::customerEntityToCustomer);
 }
+
+
 }

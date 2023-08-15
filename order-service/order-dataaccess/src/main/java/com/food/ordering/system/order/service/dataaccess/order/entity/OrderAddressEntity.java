@@ -21,6 +21,7 @@ private UUID id;
 
 /**
  * Child CascadeType.ALL meaning that child OrderAddress will be deleted when an order is deleted.
+ *
  * @JoinColumn to the order_address table will contain an ORDER_ID column, the primary key of order
  */
 @OneToOne(cascade = CascadeType.ALL)
@@ -34,19 +35,22 @@ private String city;
 
 /**
  * Using only primary key
- * @param o   Object for comparison
+ *
+ * @param o Object for comparison
  * @return boolean denoting whether objects are of same class and have the same UUID
  */
 @Override
 public boolean equals(Object o) {
-      if( this == o ) return true;
-      if( o == null || getClass() != o.getClass() ) return false;
-      OrderAddressEntity that = ( OrderAddressEntity ) o;
-      return Objects.equals(id, that.id);
+    if( this == o ) return true;
+    if( o == null || getClass() != o.getClass() ) return false;
+    OrderAddressEntity that = ( OrderAddressEntity ) o;
+    return Objects.equals(id, that.id);
 }
 
 @Override
 public int hashCode() {
-      return Objects.hash(id);
+    return Objects.hash(id);
 }
+
+
 }

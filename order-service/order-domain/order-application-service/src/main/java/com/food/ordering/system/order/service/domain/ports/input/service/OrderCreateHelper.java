@@ -31,19 +31,18 @@ private final OrderDataMapper orderDataMapper;
 private final OrderCreatedPaymentRequestMessagePublisher orderCreatedEventDomainEventPublisher;
 
 
-
 public OrderCreateHelper(OrderDomainService orderDomainService,
                          OrderRepository orderRepository,
                          CustomerRepository customerRepository,
                          RestaurantRepository restaurantRepository,
                          OrderDataMapper orderDataMapper,
                          OrderCreatedPaymentRequestMessagePublisher orderCreatedEventDomainEventPublisher) {
-      this.orderDomainService = orderDomainService;
-      this.orderRepository = orderRepository;
-      this.customerRepository = customerRepository;
-      this.restaurantRepository = restaurantRepository;
-      this.orderDataMapper = orderDataMapper;
-      this.orderCreatedEventDomainEventPublisher = orderCreatedEventDomainEventPublisher;
+    this.orderDomainService = orderDomainService;
+    this.orderRepository = orderRepository;
+    this.customerRepository = customerRepository;
+    this.restaurantRepository = restaurantRepository;
+    this.orderDataMapper = orderDataMapper;
+    this.orderCreatedEventDomainEventPublisher = orderCreatedEventDomainEventPublisher;
 }
 
 
@@ -51,19 +50,21 @@ public OrderCreateHelper(OrderDomainService orderDomainService,
  * Info: Transactional , Spring proxy AOP, has to be invoked through a proxy, i.e. another bean also Transactional must
  * be
  * public. This is the reason for creation o this helper in commit 21 refactor.
+ *
  * @param createOrderCommand
  * @return
  */
 @Transactional
 public OrderCreatedEvent persistOrder(CreateOrderCommand createOrderCommand) {
-      checkCustomer(createOrderCommand.getCustomerId());
-      Restaurant restaurant = checkRestaurant(createOrderCommand);
-      Order order = orderDataMapper.createOrderCommandToOrder(createOrderCommand);
-      OrderCreatedEvent orderCreatedEvent = orderDomainService.validateAndInitiateOrder(order, restaurant,
-      orderCreatedEventDomainEventPublisher);
-      saveOrder(order);
-      log.info("Order id: {} was created", orderCreatedEvent.getOrder().getId().getValue());
-      return orderCreatedEvent;
+    checkCustomer(createOrderCommand.getCustomerId());
+    Restaurant restaurant = checkRestaurant(createOrderCommand);
+    Order order = orderDataMapper.createOrderCommandToOrder(createOrderCommand);
+    OrderCreatedEvent orderCreatedEvent = orderDomainService.validateAndInitiateOrder(order,
+    restaurant,
+    orderCreatedEventDomainEventPublisher);
+    saveOrder(order);
+    log.info("Order id: {} was created", orderCreatedEvent.getOrder().getId().getValue());
+    return orderCreatedEvent;
 }
 
 /**
@@ -73,11 +74,11 @@ public OrderCreatedEvent persistOrder(CreateOrderCommand createOrderCommand) {
  * @param customerId UUID for a customer
  */
 private void checkCustomer(UUID customerId) {
-      Optional<Customer> customer = customerRepository.findCustomer(customerId);
-      if( customer.isEmpty() ) {
-            log.warn("Could not find customer with customer id {}", customerId);
-            throw new OrderDomainException(String.format("Could not find customer with customer id %s", customer));
-      }
+    Optional<Customer> customer = customerRepository.findCustomer(customerId);
+    if( customer.isEmpty() ) {
+        log.warn("Could not find customer with customer id {}", customerId);
+        throw new OrderDomainException(String.format("Could not find customer with customer id %s", customer));
+    }
 }
 
 /**
@@ -89,14 +90,14 @@ private void checkCustomer(UUID customerId) {
  * @return
  */
 private Restaurant checkRestaurant(CreateOrderCommand createOrderCommand) {
-      Restaurant restaurant = orderDataMapper.createOrderCommandToRestaurant(createOrderCommand);
-      Optional<Restaurant> restaurantOpt = restaurantRepository.findRestaurantInformation(restaurant);
-      if( restaurantOpt.isEmpty() ) {
-            UUID restId = createOrderCommand.getRestaurantId();
-            log.warn("Could not find restaurant with restaurant id {}", restId);
-            throw new OrderDomainException(String.format("Could not find restaurant with restaurant id %s", restId));
-      }
-      return restaurantOpt.get();
+    Restaurant restaurant = orderDataMapper.createOrderCommandToRestaurant(createOrderCommand);
+    Optional<Restaurant> restaurantOpt = restaurantRepository.findRestaurantInformation(restaurant);
+    if( restaurantOpt.isEmpty() ) {
+        UUID restId = createOrderCommand.getRestaurantId();
+        log.warn("Could not find restaurant with restaurant id {}", restId);
+        throw new OrderDomainException(String.format("Could not find restaurant with restaurant id %s", restId));
+    }
+    return restaurantOpt.get();
 }
 
 /**
@@ -104,13 +105,13 @@ private Restaurant checkRestaurant(CreateOrderCommand createOrderCommand) {
  * @return
  */
 private Order saveOrder(Order order) {
-      Order savedOrder = orderRepository.save(order);
-      if( Objects.isNull(savedOrder) ) {
-            log.warn("Attempt to save order: {} failed", order);
-            throw new OrderDomainException(String.format("Attempt to save order %s failed", order));
-      }
-      log.info("Order id {} save successful", order.getId());
-      return savedOrder;
+    Order savedOrder = orderRepository.save(order);
+    if( Objects.isNull(savedOrder) ) {
+        log.warn("Attempt to save order: {} failed", order);
+        throw new OrderDomainException(String.format("Attempt to save order %s failed", order));
+    }
+    log.info("Order id {} save successful", order.getId());
+    return savedOrder;
 }
 
 

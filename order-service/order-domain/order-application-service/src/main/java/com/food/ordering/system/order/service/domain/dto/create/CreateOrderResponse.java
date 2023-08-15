@@ -18,4 +18,6 @@ private final UUID orderTrackingId;
 private final OrderStatus orderStatus;
 @NotNull
 private final String message;
+
+
 }

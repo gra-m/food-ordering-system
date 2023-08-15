@@ -63,16 +63,16 @@ public void constructOrderApproval(OrderApprovalStatus orderApprovalStatus) {
 
 }
 
-public void setActive(boolean active) {
-    this.active = active;
-}
-
 public OrderApproval getOrderApproval() {
     return orderApproval;
 }
 
 public boolean isActive() {
     return active;
+}
+
+public void setActive(boolean active) {
+    this.active = active;
 }
 
 public OrderDetail getOrderDetail() {

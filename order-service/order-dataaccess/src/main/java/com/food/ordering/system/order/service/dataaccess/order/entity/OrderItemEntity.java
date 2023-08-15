@@ -38,19 +38,22 @@ private BigDecimal subTotal;
 
 /**
  * Uses id and order as the primary key consists of these two fields.
+ *
  * @param o
  * @return
  */
 @Override
 public boolean equals(Object o) {
-      if( this == o ) return true;
-      if( o == null || getClass() != o.getClass() ) return false;
-      OrderItemEntity that = ( OrderItemEntity ) o;
-      return Objects.equals(id, that.id) && Objects.equals(order, that.order);
+    if( this == o ) return true;
+    if( o == null || getClass() != o.getClass() ) return false;
+    OrderItemEntity that = ( OrderItemEntity ) o;
+    return Objects.equals(id, that.id) && Objects.equals(order, that.order);
 }
 
 @Override
 public int hashCode() {
-      return Objects.hash(id, order);
+    return Objects.hash(id, order);
 }
+
+
 }

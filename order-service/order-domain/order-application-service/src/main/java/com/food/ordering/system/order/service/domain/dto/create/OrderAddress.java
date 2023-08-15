@@ -22,4 +22,6 @@ private final String street;
 private final String postalCode;
 @NotNull
 private final String city;
+
+
 }

@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * SpringBootApplication
  * scanBasePackages: important when working with multiple modules any module in project will be scanned by Spring as
  * long as it starts with "com.food.ordering.system".
- *
  */
 
 
@@ -23,4 +22,6 @@ public class CustomerServiceApplication {
 public static void main(String[] args) {
     SpringApplication.run(CustomerServiceApplication.class, args);
 }
+
+
 }

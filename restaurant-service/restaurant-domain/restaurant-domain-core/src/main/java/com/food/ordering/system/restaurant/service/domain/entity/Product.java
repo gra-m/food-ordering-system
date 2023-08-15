@@ -5,10 +5,10 @@ import com.food.ordering.system.domain.valueobject.Money;
 import com.food.ordering.system.domain.valueobject.ProductId;
 
 public class Product extends BaseEntity<ProductId> {
-    private String name;
-    private Money price;
-    private final int quantity;
-    private boolean available;
+private final int quantity;
+private String name;
+private Money price;
+private boolean available;
 
 private Product(Builder builder) {
     super.setId(Builder.builder().productId);
@@ -18,7 +18,7 @@ private Product(Builder builder) {
     available = builder.available;
 }
 
-public static Builder builder(){
+public static Builder builder() {
     return Builder.builder();
 }
 

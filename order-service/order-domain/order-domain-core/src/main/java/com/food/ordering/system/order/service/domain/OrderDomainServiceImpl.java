@@ -36,15 +36,15 @@ public class OrderDomainServiceImpl implements OrderDomainService {
  * @return An OrderCreatedEvent for further processing
  */
 @Override
-public OrderCreatedEvent validateAndInitiateOrder(Order order, Restaurant restaurant,
+public OrderCreatedEvent validateAndInitiateOrder(Order order,
+                                                  Restaurant restaurant,
                                                   DomainEventPublisher<OrderCreatedEvent> orderCreatedEventDomainEventPublisher) {
-      validateRestaurant(restaurant);
-      setOrderProductInformation(order, restaurant);
-      order.validateOrder();
-      order.initializeOrder();
-      log.info("Order with id: {} is initiated", order.getId().getValue());
-      return new OrderCreatedEvent(order, ZonedDateTime.now(ZoneId.of(UTCBRU)),
-      orderCreatedEventDomainEventPublisher);
+    validateRestaurant(restaurant);
+    setOrderProductInformation(order, restaurant);
+    order.validateOrder();
+    order.initializeOrder();
+    log.info("Order with id: {} is initiated", order.getId().getValue());
+    return new OrderCreatedEvent(order, ZonedDateTime.now(ZoneId.of(UTCBRU)), orderCreatedEventDomainEventPublisher);
 }
 
 /**
@@ -55,11 +55,10 @@ public OrderCreatedEvent validateAndInitiateOrder(Order order, Restaurant restau
  * @return an OrderPaidEvent for further actioning.
  */
 @Override
-public OrderPaidEvent payOrder(Order order,
-                               DomainEventPublisher<OrderPaidEvent> orderPaidEventDomainEventPublisher) {
-      order.pay();
-      log.info("Order no {} has been paid", order.getId().getValue());
-      return new OrderPaidEvent(order, ZonedDateTime.now(ZoneId.of(UTCBRU)), orderPaidEventDomainEventPublisher);
+public OrderPaidEvent payOrder(Order order, DomainEventPublisher<OrderPaidEvent> orderPaidEventDomainEventPublisher) {
+    order.pay();
+    log.info("Order no {} has been paid", order.getId().getValue());
+    return new OrderPaidEvent(order, ZonedDateTime.now(ZoneId.of(UTCBRU)), orderPaidEventDomainEventPublisher);
 }
 
 /**
@@ -75,8 +74,8 @@ public OrderPaidEvent payOrder(Order order,
  */
 @Override
 public void approveOrder(Order order) {
-      order.approve();
-      log.info("Order no {} has been approved", order.getId().getValue());
+    order.approve();
+    log.info("Order no {} has been approved", order.getId().getValue());
 }
 
 /**
@@ -94,12 +93,14 @@ public void approveOrder(Order order) {
  * @param orderCancelledEventDomainEventPublisher
  */
 @Override
-public OrderCancelledEvent cancelOrderPayment(Order order, List<String> failureMessages,
+public OrderCancelledEvent cancelOrderPayment(Order order,
+                                              List<String> failureMessages,
                                               DomainEventPublisher<OrderCancelledEvent> orderCancelledEventDomainEventPublisher) {
-      order.initCancel(failureMessages);
-      log.info("Order payment is cancelling for id: {}", order.getId().getValue());
-      return new OrderCancelledEvent(order, ZonedDateTime.now(ZoneId.of(UTCBRU)),
-      orderCancelledEventDomainEventPublisher);
+    order.initCancel(failureMessages);
+    log.info("Order payment is cancelling for id: {}", order.getId().getValue());
+    return new OrderCancelledEvent(order,
+    ZonedDateTime.now(ZoneId.of(UTCBRU)),
+    orderCancelledEventDomainEventPublisher);
 }
 
 /**
@@ -113,8 +114,8 @@ public OrderCancelledEvent cancelOrderPayment(Order order, List<String> failureM
  */
 @Override
 public void cancelOrder(Order order, List<String> failureMessages) {
-      order.cancel(failureMessages);
-      log.info("Order with id: {} is cancelled", order.getId().getValue());
+    order.cancel(failureMessages);
+    log.info("Order with id: {} is cancelled", order.getId().getValue());
 }
 
 /**
@@ -124,10 +125,10 @@ public void cancelOrder(Order order, List<String> failureMessages) {
  * @param restaurant that needs to be confirmed as active
  */
 private void validateRestaurant(Restaurant restaurant) {
-      if( !restaurant.isActive() ) {
-            throw new OrderDomainException(String.format("Restaurant with id %s is currently not active!",
-                restaurant.getId().getValue()));
-      }
+    if( !restaurant.isActive() ) {
+        throw new OrderDomainException(String.format("Restaurant with id %s is currently not active!",
+        restaurant.getId().getValue()));
+    }
 
 }
 
@@ -142,14 +143,14 @@ private void validateRestaurant(Restaurant restaurant) {
  * @param restaurant the restaurant linked to providing this order to (chosen by) the client
  */
 private void setOrderProductInformation(Order order, Restaurant restaurant) {
-      order.getItems().forEach(orderItem -> restaurant.getProducts().forEach(restaurantProduct -> {
-            Product currentProduct = orderItem.getProduct();
-            if( currentProduct.equals(restaurantProduct) ) {
-                  currentProduct.updateWithConfirmedNameAndPrice(restaurantProduct.getName(),
-                      restaurantProduct.getPrice());
-            }
-      }));
+    order.getItems().forEach(orderItem -> restaurant.getProducts().forEach(restaurantProduct -> {
+        Product currentProduct = orderItem.getProduct();
+        if( currentProduct.equals(restaurantProduct) ) {
+            currentProduct.updateWithConfirmedNameAndPrice(restaurantProduct.getName(), restaurantProduct.getPrice());
+        }
+    }));
 
 }
+
 
 }

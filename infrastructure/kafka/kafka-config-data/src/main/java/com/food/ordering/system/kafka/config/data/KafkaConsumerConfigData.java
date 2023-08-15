@@ -24,4 +24,6 @@ private Long pollTimeoutMs;
 private Integer maxPollRecords;
 private Integer maxPartitionFetchBytesDefault;
 private Integer maxPartitionFetchBytesBoostFactor;
+
+
 }

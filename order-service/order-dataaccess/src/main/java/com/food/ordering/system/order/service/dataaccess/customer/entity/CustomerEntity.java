@@ -10,7 +10,8 @@ import java.util.UUID;
 /**
  * Used to check if a customer exists, so only UUID.
  * This is going to use a Postgresql 'Materialized View'
- * @see  <a href="https://www.postgresql.org/docs/current/rules-materializedviews.html">Materialized Views</a>
+ *
+ * @see <a href="https://www.postgresql.org/docs/current/rules-materializedviews.html">Materialized Views</a>
  */
 @Getter
 @Setter
@@ -23,4 +24,6 @@ public class CustomerEntity {
 
 @Id
 private UUID id;
+
+
 }

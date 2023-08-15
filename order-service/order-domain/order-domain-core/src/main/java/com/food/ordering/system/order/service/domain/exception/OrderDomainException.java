@@ -18,7 +18,7 @@ public class OrderDomainException extends DomainException {
  * @since 1.4
  */
 public OrderDomainException(String message, Throwable cause) {
-      super(message, cause);
+    super(message, cause);
 }
 
 /**
@@ -30,6 +30,8 @@ public OrderDomainException(String message, Throwable cause) {
  *                later retrieval by the {@link #getMessage()} method.
  */
 public OrderDomainException(String message) {
-      super(message);
+    super(message);
 }
+
+
 }

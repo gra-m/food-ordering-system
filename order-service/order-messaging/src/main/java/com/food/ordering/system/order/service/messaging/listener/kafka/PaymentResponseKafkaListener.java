@@ -25,15 +25,15 @@ private final OrderMessagingDataMapper orderMessagingDataMapper;
 
 public PaymentResponseKafkaListener(PaymentResponseMessageListener paymentResponseMessageListener,
                                     OrderMessagingDataMapper orderMessagingDataMapper) {
-      this.paymentResponseMessageListener = paymentResponseMessageListener;
-      this.orderMessagingDataMapper = orderMessagingDataMapper;
+    this.paymentResponseMessageListener = paymentResponseMessageListener;
+    this.orderMessagingDataMapper = orderMessagingDataMapper;
 }
 
 /**
  * Differentiates between different actions based on whether paymentResponseAvroModel received is COMPLETED vs
  * CANCELLED or FAILED. Note, the different Enum types (one created automatically from the .avcs model) cannot be
  * directly compared ==.
- *
+ * <p>
  * note: @KafkaListener makes a kafka listener of a simple method with a single annotation, id and topics set with
  * config.
  * <p>
@@ -45,31 +45,33 @@ public PaymentResponseKafkaListener(PaymentResponseMessageListener paymentRespon
  * @param offsets    A list of Longs that are the offsets
  */
 @Override
-@KafkaListener(id = "${kafka-consumer-config.payment-consumer-group-id}",
-topics = "${order-service.payment-response-topic-name}")
+@KafkaListener(id = "${kafka-consumer-config.payment-consumer-group-id}", topics = "${order-service" +
+".payment-response-topic-name}")
 public void receive(@Payload List<PaymentResponseAvroModel> messages,
                     @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) List<String> keys,
                     @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,
                     @Header(KafkaHeaders.OFFSET) List<Long> offsets) {
-      log.info("{} number of payment responses received with keys:{}, partitions:{} and offsets:{}",
-          messages.size(),
-          keys.toString(),
-          partitions.toString(),
-          offsets.toString());
+    log.info("{} number of payment responses received with keys:{}, partitions:{} and offsets:{}",
+    messages.size(),
+    keys.toString(),
+    partitions.toString(),
+    offsets.toString());
 
-      messages.forEach(paymentResponseAvroModel -> {
-            if( paymentResponseAvroModel.getPaymentStatus().name().equals("COMPLETED") ) {
-                  log.info("Processing successful payment for order id: {}", paymentResponseAvroModel.getOrderId());
-                  paymentResponseMessageListener.paymentCompleted(orderMessagingDataMapper.paymentResponseAvroModelToPaymentResponse(
-                      paymentResponseAvroModel));
-            } else if( paymentResponseAvroModel
-                .getPaymentStatus()
-                .name()
-                .equals("CANCELLED") || paymentResponseAvroModel.getPaymentStatus().name().equals("FAILED") ) {
-                  log.info("Processing unsuccessful payment for orderid: {}", paymentResponseAvroModel.getOrderId());
-                  paymentResponseMessageListener.paymentCancelled(orderMessagingDataMapper.paymentResponseAvroModelToPaymentResponse(
-                      paymentResponseAvroModel));
-            }
-      });
+    messages.forEach(paymentResponseAvroModel -> {
+        if( paymentResponseAvroModel.getPaymentStatus().name().equals("COMPLETED") ) {
+            log.info("Processing successful payment for order id: {}", paymentResponseAvroModel.getOrderId());
+            paymentResponseMessageListener.paymentCompleted(orderMessagingDataMapper.paymentResponseAvroModelToPaymentResponse(
+            paymentResponseAvroModel));
+        } else if( paymentResponseAvroModel.getPaymentStatus().name().equals("CANCELLED") || paymentResponseAvroModel
+        .getPaymentStatus()
+        .name()
+        .equals("FAILED") ) {
+            log.info("Processing unsuccessful payment for orderid: {}", paymentResponseAvroModel.getOrderId());
+            paymentResponseMessageListener.paymentCancelled(orderMessagingDataMapper.paymentResponseAvroModelToPaymentResponse(
+            paymentResponseAvroModel));
+        }
+    });
 }
+
+
 }

@@ -38,24 +38,26 @@ public void publish(OrderRejectedEvent orderRejectedEvent) {
 
     log.info("Received OrderRejectedEvent for order id: {}", orderId);
 
-    try{
+    try {
         RestaurantApprovalResponseAvroModel restaurantApprovalResponseAvroModel =
-        restaurantMessagingDataMapper.orderRejectedEventToRestaurantApprovalResponseAvroModel(orderRejectedEvent);
+        restaurantMessagingDataMapper.orderRejectedEventToRestaurantApprovalResponseAvroModel(
+        orderRejectedEvent);
 
         kafkaProducer.send(restaurantServiceConfigData.getRestaurantApprovalResponseTopicName(),
         orderId,
         restaurantApprovalResponseAvroModel,
-        kafkaMessageHelper.getKafkaCallback(
-        restaurantServiceConfigData.getRestaurantApprovalResponseTopicName(),
+        kafkaMessageHelper.getKafkaCallback(restaurantServiceConfigData.getRestaurantApprovalResponseTopicName(),
         restaurantApprovalResponseAvroModel,
         orderId,
         "RestaurantApprovalResponseAvroModel"));
 
         log.info("RestaurantApprovalAvroModel sent to Kafka at {}", System.nanoTime());
 
-    } catch(Exception e) {
+    }
+    catch( Exception e ) {
         log.error("Error while sending RestaurantApprovalAvroModel message to Kafka with order id: {} error: {}",
-        orderId, e.getMessage());
+        orderId,
+        e.getMessage());
 
     }
 }

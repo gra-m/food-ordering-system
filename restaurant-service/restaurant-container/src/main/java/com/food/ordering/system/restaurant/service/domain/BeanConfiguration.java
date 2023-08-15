@@ -9,4 +9,6 @@ public class BeanConfiguration {
 public RestaurantDomainService restaurantDomainService() {
     return new RestaurantDomainServiceImpl();
 }
+
+
 }

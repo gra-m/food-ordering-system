@@ -16,7 +16,7 @@ public class DomainException extends RuntimeException {
  * @since 1.4
  */
 public DomainException(String message, Throwable cause) {
-      super(message, cause);
+    super(message, cause);
 }
 
 /**
@@ -28,6 +28,8 @@ public DomainException(String message, Throwable cause) {
  *                later retrieval by the {@link #getMessage()} method.
  */
 public DomainException(String message) {
-      super(message);
+    super(message);
 }
+
+
 }

@@ -20,9 +20,8 @@ public class RestaurantApprovalResponseKafkaListener implements KafkaConsumer<Re
 private final RestaurantApprovalResponseMessageListener restaurantApprovalResponseMessageListener;
 private final OrderMessagingDataMapper orderMessagingDataMapper;
 
-public RestaurantApprovalResponseKafkaListener(
-RestaurantApprovalResponseMessageListener restaurantApprovalResponseMessageListener,
-OrderMessagingDataMapper orderMessagingDataMapper) {
+public RestaurantApprovalResponseKafkaListener(RestaurantApprovalResponseMessageListener restaurantApprovalResponseMessageListener,
+                                               OrderMessagingDataMapper orderMessagingDataMapper) {
     this.restaurantApprovalResponseMessageListener = restaurantApprovalResponseMessageListener;
     this.orderMessagingDataMapper = orderMessagingDataMapper;
 }
@@ -38,8 +37,8 @@ OrderMessagingDataMapper orderMessagingDataMapper) {
  * @param offsets    A list of Longs that are the offsets
  */
 @Override
-@KafkaListener(id = "${kafka-consumer-config.restaurant-approval-consumer-group-id}",
-topics = "${order-service.restaurant-approval-response-topic-name}")
+@KafkaListener(id = "${kafka-consumer-config.restaurant-approval-consumer-group-id}", topics = "${order-service" +
+".restaurant-approval-response-topic-name}")
 public void receive(@Payload List<RestaurantApprovalResponseAvroModel> messages,
                     @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) List<String> keys,
                     @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,
@@ -64,4 +63,6 @@ public void receive(@Payload List<RestaurantApprovalResponseAvroModel> messages,
     });
 
 }
+
+
 }

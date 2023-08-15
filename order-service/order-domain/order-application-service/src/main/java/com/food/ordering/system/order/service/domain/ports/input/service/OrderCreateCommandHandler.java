@@ -22,9 +22,9 @@ private final OrderCreatedPaymentRequestMessagePublisher orderCreatedPaymentRequ
 public OrderCreateCommandHandler(OrderCreateHelper orderCreateHelper,
                                  OrderDataMapper orderDataMapper,
                                  OrderCreatedPaymentRequestMessagePublisher orderCreatedPaymentRequestMessagePublisher) {
-      this.orderCreateHelper = orderCreateHelper;
-      this.orderDataMapper = orderDataMapper;
-      this.orderCreatedPaymentRequestMessagePublisher = orderCreatedPaymentRequestMessagePublisher;
+    this.orderCreateHelper = orderCreateHelper;
+    this.orderDataMapper = orderDataMapper;
+    this.orderCreatedPaymentRequestMessagePublisher = orderCreatedPaymentRequestMessagePublisher;
 }
 
 
@@ -36,14 +36,10 @@ public OrderCreateCommandHandler(OrderCreateHelper orderCreateHelper,
  * separated from domain logic.
  */
 public CreateOrderResponse createOrder(CreateOrderCommand createOrderCommand) {
-      OrderCreatedEvent orderCreatedEvent = orderCreateHelper.persistOrder(createOrderCommand);
-      log.info("Order with id {} was created", orderCreatedEvent
-          .getOrder()
-          .getId()
-          .getValue());
-      orderCreatedPaymentRequestMessagePublisher.publish(orderCreatedEvent);
-      return orderDataMapper.orderToCreateOrderResponse(orderCreatedEvent.getOrder(), "Order created " +
-          "successfully");
+    OrderCreatedEvent orderCreatedEvent = orderCreateHelper.persistOrder(createOrderCommand);
+    log.info("Order with id {} was created", orderCreatedEvent.getOrder().getId().getValue());
+    orderCreatedPaymentRequestMessagePublisher.publish(orderCreatedEvent);
+    return orderDataMapper.orderToCreateOrderResponse(orderCreatedEvent.getOrder(), "Order created " + "successfully");
 
 }
 

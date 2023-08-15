@@ -28,6 +28,7 @@ private PaymentOrderStatus paymentOrderStatus;
 
 /**
  * Required to set the PaymentOrderStatus based on the outcome of the business logic in payment-domain module
+ *
  * @param paymentOrderStatus
  */
 public void setPaymentOrderStatus(PaymentOrderStatus paymentOrderStatus) {

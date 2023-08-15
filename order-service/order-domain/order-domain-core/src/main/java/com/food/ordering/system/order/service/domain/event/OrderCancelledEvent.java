@@ -9,10 +9,11 @@ public class OrderCancelledEvent extends OrderEvent {
 
 private final DomainEventPublisher<OrderCancelledEvent> orderCancelledEventDomainEventPublisher;
 
-public OrderCancelledEvent(Order order, ZonedDateTime createdAt,
+public OrderCancelledEvent(Order order,
+                           ZonedDateTime createdAt,
                            DomainEventPublisher<OrderCancelledEvent> orderCancelledEventDomainEventPublisher) {
-      super(order, createdAt);
-      this.orderCancelledEventDomainEventPublisher = orderCancelledEventDomainEventPublisher;
+    super(order, createdAt);
+    this.orderCancelledEventDomainEventPublisher = orderCancelledEventDomainEventPublisher;
 }
 
 /**
@@ -20,7 +21,7 @@ public OrderCancelledEvent(Order order, ZonedDateTime createdAt,
  */
 @Override
 public void fire() {
-      orderCancelledEventDomainEventPublisher.publish(this);
+    orderCancelledEventDomainEventPublisher.publish(this);
 }
 
 

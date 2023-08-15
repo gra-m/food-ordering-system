@@ -12,10 +12,11 @@ public class OrderCreatedEvent extends OrderEvent {
 
 private final DomainEventPublisher<OrderCreatedEvent> orderCreatedEventDomainEventPublisher;
 
-public OrderCreatedEvent(Order order, ZonedDateTime createdAt,
+public OrderCreatedEvent(Order order,
+                         ZonedDateTime createdAt,
                          DomainEventPublisher<OrderCreatedEvent> orderCreatedPaymentRequestMessagePublisherDomainEventPublisher) {
-      super(order, createdAt);
-      this.orderCreatedEventDomainEventPublisher = orderCreatedPaymentRequestMessagePublisherDomainEventPublisher;
+    super(order, createdAt);
+    this.orderCreatedEventDomainEventPublisher = orderCreatedPaymentRequestMessagePublisherDomainEventPublisher;
 }
 
 /**
@@ -23,7 +24,7 @@ public OrderCreatedEvent(Order order, ZonedDateTime createdAt,
  */
 @Override
 public void fire() {
-      orderCreatedEventDomainEventPublisher.publish(this);
+    orderCreatedEventDomainEventPublisher.publish(this);
 
 }
 

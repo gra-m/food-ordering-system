@@ -16,8 +16,8 @@ import java.util.List;
 @Slf4j
 @Component
 public class RestaurantApprovalRequestKafkaListener implements KafkaConsumer<RestaurantApprovalRequestAvroModel> {
-    private final RestaurantApprovalRequestMessageListener restaurantApprovalRequestMessageListener;
-    private final RestaurantMessagingDataMapper restaurantMessagingDataMapper;
+private final RestaurantApprovalRequestMessageListener restaurantApprovalRequestMessageListener;
+private final RestaurantMessagingDataMapper restaurantMessagingDataMapper;
 
 public RestaurantApprovalRequestKafkaListener(RestaurantApprovalRequestMessageListener restaurantApprovalRequestMessageListener,
                                               RestaurantMessagingDataMapper restaurantMessagingDataMapper) {
@@ -28,29 +28,34 @@ public RestaurantApprovalRequestKafkaListener(RestaurantApprovalRequestMessageLi
 
 /**
  * Given a batch of RestaurantApprovalRequestAvroModels have been received by the kafka consumer group/topic of this
- * @KafkaListener convert them to RestaurantApproval objects and pass them to the
- * restaurantApprovalRequestMessageListener for persistence and event firing.
- *
- * note: id/topics configured in microservices container application.yml
  *
  * @param messages   A list of given Type of messages
  * @param keys       A list of Longs that are keys
  * @param partitions A list of Integers that are the partitions
  * @param offsets    A list of Longs that are the offsets
+ * @KafkaListener convert them to RestaurantApproval objects and pass them to the
+ * restaurantApprovalRequestMessageListener for persistence and event firing.
+ * <p>
+ * note: id/topics configured in microservices container application.yml
  */
 @Override
-@KafkaListener(id = "${kafka-consumer-config.restaurant-approval-consumer-group-id}",
-topics = "${restaurant-service.restaurant-approval-request-topic-name}")
+@KafkaListener(id = "${kafka-consumer-config.restaurant-approval-consumer-group-id}", topics = "${restaurant-service" +
+".restaurant-approval-request-topic-name}")
 public void receive(@Payload List<RestaurantApprovalRequestAvroModel> messages,
                     @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) List<String> keys,
                     @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,
                     @Header(KafkaHeaders.OFFSET) List<Long> offsets) {
-    log.info("{} number of order approval requests received with keys {}, partitions {} and offsets {}," +
-    "sending for restaurant approval", messages.size(), keys.toString(), partitions.toString(), offsets.toString());
+    log.info("{} number of order approval requests received with keys {}, partitions {} and offsets {}," + "sending " +
+    "for restaurant approval",
+    messages.size(),
+    keys.toString(),
+    partitions.toString(),
+    offsets.toString());
 
     messages.forEach(restaurantApprovalRequestAvroModel -> {
         log.info("Processing order approval for order id: {}", restaurantApprovalRequestAvroModel.getOrderId());
-        restaurantApprovalRequestMessageListener.approveOrder(restaurantMessagingDataMapper.restaurantApprovalRequestAvroModelToRestaurantApproval(restaurantApprovalRequestAvroModel));
+        restaurantApprovalRequestMessageListener.approveOrder(restaurantMessagingDataMapper.restaurantApprovalRequestAvroModelToRestaurantApproval(
+        restaurantApprovalRequestAvroModel));
     });
 
 }

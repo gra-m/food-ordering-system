@@ -23,4 +23,5 @@ private List<Product> products;
 private BigDecimal price;
 private Instant createdAt;
 
+
 }

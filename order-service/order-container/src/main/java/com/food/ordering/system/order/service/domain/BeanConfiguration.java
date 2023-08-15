@@ -14,10 +14,13 @@ public class BeanConfiguration {
 
 /**
  * Registering OrderDomainService as a SpringBean
+ *
  * @return SpringBean OrderDomainService
  */
 @Bean
 public OrderDomainService orderDomainService() {
     return new OrderDomainServiceImpl();
 }
+
+
 }

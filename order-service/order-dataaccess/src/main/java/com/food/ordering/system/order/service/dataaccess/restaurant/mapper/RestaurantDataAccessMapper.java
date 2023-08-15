@@ -18,12 +18,12 @@ public class RestaurantDataAccessMapper {
 
 /**
  * Given a restaurant, returns a list of its product UUID
+ *
  * @param restaurant that a list of product UUID's is required for
  * @return List of productIDs
- *
  */
 public List<UUID> restaurantToRestaurantProducts(Restaurant restaurant) {
-      return restaurant.getProducts().stream().map(product -> product.getId().getValue()).collect(Collectors.toList());
+    return restaurant.getProducts().stream().map(product -> product.getId().getValue()).collect(Collectors.toList());
 }
 
 /**
@@ -36,22 +36,25 @@ public List<UUID> restaurantToRestaurantProducts(Restaurant restaurant) {
  */
 public Restaurant restaurantEntityToRestaurant(List<RestaurantEntity> restaurantEntities) {
 
-      RestaurantEntity restaurantEntity = restaurantEntities
-          .stream()
-          .findFirst()
-          .orElseThrow(() -> new RestaurantDataAccessException("Restaurant could not be found!"));
+    RestaurantEntity restaurantEntity = restaurantEntities
+    .stream()
+    .findFirst()
+    .orElseThrow(() -> new RestaurantDataAccessException("Restaurant could not be found!"));
 
-      List<Product> restaurantProducts = restaurantEntities
-          .stream()
-          .map(entity -> new Product(new ProductId(entity.getProductId()), entity.getProductName(),
-              new Money(entity.getProductPrice())))
-          .toList();
+    List<Product> restaurantProducts = restaurantEntities
+    .stream()
+    .map(entity -> new Product(new ProductId(entity.getProductId()),
+    entity.getProductName(),
+    new Money(entity.getProductPrice())))
+    .toList();
 
-      return Restaurant.builder()
-          .restaurantId(new RestaurantId(restaurantEntity.getRestaurantId()))
-          .products(restaurantProducts)
-          .active(restaurantEntity.getRestaurantActive())
-          .build();
+    return Restaurant
+    .builder()
+    .restaurantId(new RestaurantId(restaurantEntity.getRestaurantId()))
+    .products(restaurantProducts)
+    .active(restaurantEntity.getRestaurantActive())
+    .build();
 }
+
 
 }

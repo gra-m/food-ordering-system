@@ -21,8 +21,10 @@ public PaymentRequestMessageListenerImpl(PaymentRequestHelper paymentRequestHelp
 }
 
 
-/** Given that the system requires an attempt to complete a payment send a payment request to the payment request
+/**
+ * Given that the system requires an attempt to complete a payment send a payment request to the payment request
  * helper and receive a paymentEvent back
+ *
  * @param paymentRequest the request that has been passed for completion
  */
 @Override
@@ -32,8 +34,10 @@ public void completePayment(PaymentRequest paymentRequest) {
 
 }
 
-/** Given that the system requires an attempt to cancel a payment, send a payment request to paymentRequestHelper and
+/**
+ * Given that the system requires an attempt to cancel a payment, send a payment request to paymentRequestHelper and
  * receive a paymentEvent back
+ *
  * @param paymentRequest the request that has been passed for cancellation
  */
 @Override
@@ -55,7 +59,9 @@ private void fireEvent(PaymentEvent paymentEvent) {
 
     paymentEvent.fire();
 
-    }
+}
+
+
 }
 
 

@@ -11,7 +11,8 @@ public Customer() {
 }
 
 public Customer(UUID id) {
-      super.setId(new CustomerId(id));
+    super.setId(new CustomerId(id));
 }
+
 
 }

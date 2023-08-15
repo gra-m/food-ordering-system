@@ -13,4 +13,5 @@ public CreditHistoryId(UUID value) {
     super(value);
 }
 
+
 }

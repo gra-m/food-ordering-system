@@ -72,8 +72,8 @@ public OrderCancelledEvent rollback(RestaurantApprovalResponse restaurantApprova
     orderCancelledPaymentRequestMessagePublisher);
 
     orderSagaHelper.saveOrder(order);
-    log.info("[SAGA2 rollback restaurantApprovalResponse -to-> OrderCancelledEvent, post-save] Order with id: {} is "
-    + "cancelled", order.getId().getValue());
+    log.info("[SAGA2 rollback restaurantApprovalResponse -to-> OrderCancelledEvent, post-save] Order with id: {} is " + "cancelled",
+    order.getId().getValue());
     return domainEvent;
 }
 

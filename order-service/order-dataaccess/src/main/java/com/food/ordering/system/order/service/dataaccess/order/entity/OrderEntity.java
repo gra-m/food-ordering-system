@@ -42,14 +42,16 @@ private List<OrderItemEntity> items;
 
 @Override
 public boolean equals(Object o) {
-      if( this == o ) return true;
-      if( o == null || getClass() != o.getClass() ) return false;
-      OrderEntity that = ( OrderEntity ) o;
-      return Objects.equals(id, that.id);
+    if( this == o ) return true;
+    if( o == null || getClass() != o.getClass() ) return false;
+    OrderEntity that = ( OrderEntity ) o;
+    return Objects.equals(id, that.id);
 }
 
 @Override
 public int hashCode() {
-      return Objects.hash(id);
+    return Objects.hash(id);
 }
+
+
 }

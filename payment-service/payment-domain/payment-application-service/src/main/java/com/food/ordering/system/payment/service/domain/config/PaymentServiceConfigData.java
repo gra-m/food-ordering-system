@@ -15,4 +15,5 @@ public class PaymentServiceConfigData {
 private String paymentRequestTopicName;
 private String paymentResponseTopicName;
 
+
 }

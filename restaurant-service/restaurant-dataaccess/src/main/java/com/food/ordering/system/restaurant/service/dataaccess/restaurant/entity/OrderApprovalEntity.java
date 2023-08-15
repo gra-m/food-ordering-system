@@ -20,4 +20,6 @@ private UUID restaurantId;
 private UUID orderId;
 @Enumerated(EnumType.STRING)
 private OrderApprovalStatus status;
+
+
 }

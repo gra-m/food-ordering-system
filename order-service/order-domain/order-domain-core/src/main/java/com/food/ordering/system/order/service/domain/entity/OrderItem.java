@@ -21,44 +21,44 @@ private final Money subTotal;
 private OrderId orderId;
 
 private OrderItem(Builder builder) {
-      super.setId(builder.orderItemId);
-      product = builder.product;
-      quantity = builder.quantity;
-      price = builder.price;
-      subTotal = builder.subTotal;
+    super.setId(builder.orderItemId);
+    product = builder.product;
+    quantity = builder.quantity;
+    price = builder.price;
+    subTotal = builder.subTotal;
 }
 
 public static Builder builder() {
-      return new Builder();
+    return new Builder();
 }
 
 /**
  * Only called from Order during orderInitialization, so package private.
  */
 void initializeOrderItem(OrderId orderId, OrderItemId orderItemId) {
-      super.setId(orderItemId);
-      this.orderId = orderId;
+    super.setId(orderItemId);
+    this.orderId = orderId;
 
 }
 
 public OrderId getOrderId() {
-      return orderId;
+    return orderId;
 }
 
 public Product getProduct() {
-      return product;
+    return product;
 }
 
 public int getQuantity() {
-      return quantity;
+    return quantity;
 }
 
 public Money getPrice() {
-      return price;
+    return price;
 }
 
 public Money getSubTotal() {
-      return subTotal;
+    return subTotal;
 }
 
 
@@ -66,7 +66,7 @@ public Money getSubTotal() {
  * @return true if greater than zero, price and product price match and price and subtotal match
  */
 public boolean isPriceValid() {
-      return price.isGreaterThanZero() && price.equals(product.getPrice()) && price.multiply(quantity).equals(subTotal);
+    return price.isGreaterThanZero() && price.equals(product.getPrice()) && price.multiply(quantity).equals(subTotal);
 }
 
 /**
@@ -75,44 +75,47 @@ public boolean isPriceValid() {
  * <p>note, cannot use generic OrderItemId to set base Id, so it is replaced with OrderItemId in the builder</p>
  */
 public static final class Builder {
-      private OrderItemId orderItemId;
-      private Product product;
-      private int quantity;
-      private Money price;
-      private Money subTotal;
+    private OrderItemId orderItemId;
+    private Product product;
+    private int quantity;
+    private Money price;
+    private Money subTotal;
 
-      private Builder() {
-      }
+    private Builder() {
+    }
 
 
+    public Builder orderItemId(OrderItemId val) {
+        orderItemId = val;
+        return this;
+    }
 
-      public Builder orderItemId(OrderItemId val) {
-            orderItemId = val;
-            return this;
-      }
+    public Builder product(Product val) {
+        product = val;
+        return this;
+    }
 
-      public Builder product(Product val) {
-            product = val;
-            return this;
-      }
+    public Builder quantity(int val) {
+        quantity = val;
+        return this;
+    }
 
-      public Builder quantity(int val) {
-            quantity = val;
-            return this;
-      }
+    public Builder price(Money val) {
+        price = val;
+        return this;
+    }
 
-      public Builder price(Money val) {
-            price = val;
-            return this;
-      }
+    public Builder subTotal(Money val) {
+        subTotal = val;
+        return this;
+    }
 
-      public Builder subTotal(Money val) {
-            subTotal = val;
-            return this;
-      }
+    public OrderItem build() {
+        return new OrderItem(this);
+    }
 
-      public OrderItem build() {
-            return new OrderItem(this);
-      }
+
 }
+
+
 }
