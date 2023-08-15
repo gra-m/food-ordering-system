@@ -13,8 +13,7 @@ private final RestaurantId restaurantId;
 private final List<String> failureMessages;
 private final ZonedDateTime createdAt;
 
-
-protected OrderApprovalEvent(OrderApproval orderApproval,
+public OrderApprovalEvent(OrderApproval orderApproval,
                              RestaurantId restaurantId,
                              List<String> failureMessages,
                              ZonedDateTime createdAt) {

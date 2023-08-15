@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -48,7 +48,7 @@ public RestaurantApprovalRequestHelper(RestaurantDomainService restaurantDomainS
 @Transactional
 public OrderApprovalEvent persistOrderApproval(RestaurantApprovalRequest restaurantApprovalRequest) {
     log.info("Processing restaurant approval for order id: {}", restaurantApprovalRequest.getOrderId());
-    List<String> failureMessages = Collections.emptyList();
+    List<String> failureMessages = new ArrayList<>();
     Restaurant restaurant = findRestaurant(restaurantApprovalRequest);
 
     OrderApprovalEvent orderApprovalEvent = restaurantDomainService.validateOrder(restaurant,

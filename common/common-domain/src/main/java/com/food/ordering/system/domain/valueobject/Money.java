@@ -89,7 +89,7 @@ public Money subtract(Money money) {
  * @return new money object representing e.g. a total when a number of items at a specific value are subtotalled
  */
 public Money multiply(int multiplier) {
-    return new Money(this.amount.multiply(new BigDecimal(multiplier)));
+    return new Money(setScale(this.amount.multiply(new BigDecimal(multiplier))));
 }
 
 /**

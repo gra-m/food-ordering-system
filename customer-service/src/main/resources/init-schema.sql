@@ -1,8 +1,8 @@
-DROP SCHEMA if EXISTS customer CASCADE;
+DROP SCHEMA IF EXISTS customer CASCADE;
 
 CREATE SCHEMA customer;
 
-CREATE EXTENSION if NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE customer.customers
 (
@@ -47,9 +47,10 @@ AS
 
 /*TRIGGER*/
 
-DROP trigger  if EXISTS refresh_order_customer_m_view ON customer.customers;
+DROP trigger IF EXISTS refresh_order_customer_m_view ON customer.customers;
 
 CREATE trigger refresh_order_customer_m_view
     after INSERT OR UPDATE OR DELETE OR truncate
-    ON customer.customers FOR each statement
-    EXECUTE PROCEDURE customer.refresh_order_customer_m_view();
+    ON customer.customers
+    FOR each statement
+EXECUTE PROCEDURE customer.refresh_order_customer_m_view();

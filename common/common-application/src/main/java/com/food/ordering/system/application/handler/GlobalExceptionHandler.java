@@ -1,6 +1,5 @@
 package com.food.ordering.system.application.handler;
 
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -43,8 +42,6 @@ public ErrorDTO handleException(Exception exception) {
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public ErrorDTO handleException(ValidationException validationException) {
     ErrorDTO errorDTO;
-    log.error(validationException.getMessage(), validationException);
-
     if( validationException instanceof ConstraintViolationException ) {
         String violations = extractViolationsFromException(( ConstraintViolationException ) validationException);
         log.error(violations, validationException);

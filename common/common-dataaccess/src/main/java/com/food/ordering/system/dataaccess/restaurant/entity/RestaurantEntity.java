@@ -10,9 +10,6 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
-/**
- *
- */
 @IdClass(RestaurantEntityId.class)
 @Getter
 @Setter

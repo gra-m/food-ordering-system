@@ -7,7 +7,6 @@ import com.food.ordering.system.domain.valueobject.RestaurantId;
 import com.food.ordering.system.restaurant.service.domain.valueobject.OrderApprovalId;
 
 public class OrderApproval extends BaseEntity<OrderApprovalId> {
-
 private final RestaurantId restaurantId;
 private final OrderId orderId;
 private final OrderApprovalStatus approvalStatus;
@@ -17,12 +16,6 @@ private OrderApproval(Builder builder) {
     restaurantId = builder.restaurantId;
     orderId = builder.orderId;
     approvalStatus = builder.approvalStatus;
-}
-
-public OrderApproval(RestaurantId restaurantId, OrderId orderId, OrderApprovalStatus approvalStatus) {
-    this.restaurantId = restaurantId;
-    this.orderId = orderId;
-    this.approvalStatus = approvalStatus;
 }
 
 public static Builder builder() {

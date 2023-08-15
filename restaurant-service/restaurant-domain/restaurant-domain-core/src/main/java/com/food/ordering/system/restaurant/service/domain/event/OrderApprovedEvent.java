@@ -19,9 +19,6 @@ public OrderApprovedEvent(OrderApproval orderApproval,
     this.orderApprovedEventDomainEventPublisher = orderApprovedEventDomainEventPublisher;
 }
 
-/**
- *
- */
 @Override
 public void fire() {
     orderApprovedEventDomainEventPublisher.publish(this);
