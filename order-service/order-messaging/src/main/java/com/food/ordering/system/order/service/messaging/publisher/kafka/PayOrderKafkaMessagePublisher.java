@@ -54,7 +54,7 @@ public void publish(OrderPaidEvent domainEvent) {
         orderId,
         "RestaurantApprovalRequestAvroModel"));
 
-        log.info("RestaurantApprovalRequestAvroModel set to kafka for order id: {}", orderId);
+        log.info("RestaurantApprovalRequestAvroModel sent to kafka for order id: {}", orderId);
     }
     catch( Exception e ) {
         log.error("Error while sending RestaurantApprovalRequestAvroModel message to kafka with order id: {}," +

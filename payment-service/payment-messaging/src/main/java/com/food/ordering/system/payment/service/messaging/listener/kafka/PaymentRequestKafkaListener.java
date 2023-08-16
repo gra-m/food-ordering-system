@@ -46,7 +46,7 @@ public PaymentRequestKafkaListener(PaymentRequestMessageListener paymentRequestM
  * /service/domain/ports/input/message/listener/PaymentRequestMessageListenerImpl.java
  */
 @Override
-@KafkaListener(id = "${kafka-consumer-config.payment-consumer-group-id}", topics = "${payment-service" + ".payment" +
+@KafkaListener(id = "${kafka-consumer-config.payment-consumer-group-id}", topics = "${payment-service.payment" +
 "-request-topic-name}")
 public void receive(@Payload List<PaymentRequestAvroModel> messages,
                     @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) List<String> keys,

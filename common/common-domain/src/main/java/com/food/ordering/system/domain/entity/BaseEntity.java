@@ -1,22 +1,15 @@
 package com.food.ordering.system.domain.entity;
 
-
 import java.util.Objects;
 
-/**
- * Note this was first set up with ID, but why? after setting up BaseId for all valueItem Ids...
- * For entities used to service domain core == internal so get/set
- *
- * @param <BaseId>>
- */
-public abstract class BaseEntity<BaseId> {
-private BaseId id;
+public abstract class BaseEntity<ID> {
+private ID id;
 
-public BaseId getId() {
-    return this.id;
+public ID getId() {
+    return id;
 }
 
-public void setId(BaseId id) {
+public void setId(ID id) {
     this.id = id;
 }
 

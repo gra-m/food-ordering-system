@@ -30,7 +30,6 @@ private final OrderApprovalRepository orderApprovalRepository;
 private final OrderApprovedMessagePublisher orderApprovedMessagePublisher;
 private final OrderRejectedMessagePublisher orderRejectedMessagePublisher;
 
-
 public RestaurantApprovalRequestHelper(RestaurantDomainService restaurantDomainService,
                                        RestaurantDataMapper restaurantDataMapper,
                                        RestaurantRepository restaurantRepository,
@@ -62,48 +61,28 @@ public OrderApprovalEvent persistOrderApproval(RestaurantApprovalRequest restaur
 }
 
 private Restaurant findRestaurant(RestaurantApprovalRequest restaurantApprovalRequest) {
-    Restaurant restaurant = getRestaurantFromRestaurantApprovalRequest(restaurantApprovalRequest);
-    RestaurantId restaurantId = restaurant.getId();
-
+    Restaurant restaurant = restaurantDataMapper
+    .restaurantApprovalRequestToRestaurant(restaurantApprovalRequest);
     Optional<Restaurant> restaurantResult = restaurantRepository.findRestaurantInformation(restaurant);
+    if (restaurantResult.isEmpty()) {
+        log.error("Restaurant with id " + restaurant.getId().getValue() + " not found!");
+        throw new RestaurantNotFoundException("Restaurant with id " + restaurant.getId().getValue() +
+        " not found!");
+    }
 
-    Restaurant restaurantEntity = checkRestaurantExistsInDb(restaurantResult, restaurantId);
-
-    return updateRestaurantDomainObjectFromRetrievedEntity(restaurant,
-    restaurantEntity,
-    UUID.fromString(restaurantApprovalRequest.getOrderId()));
-
-}
-
-private Restaurant updateRestaurantDomainObjectFromRetrievedEntity(Restaurant restaurant,
-                                                                   Restaurant restaurantEntity,
-                                                                   UUID orderIdFromApprovalRequest) {
+    Restaurant restaurantEntity = restaurantResult.get();
     restaurant.setActive(restaurantEntity.isActive());
-    restaurant.getOrderDetail().getProducts().forEach(product -> {
-        restaurantEntity.getOrderDetail().getProducts().forEach(p -> {
-            if( p.getId().equals(product.getId()) ) {
-                product.updateWithConfirmedNamePriceAndAvailability(p.getName(), p.getPrice(), p.isAvailable());
-            }
-        });
-    });
+    restaurant.getOrderDetail().getProducts().forEach(product ->
+    restaurantEntity.getOrderDetail().getProducts().forEach(p -> {
+        if (p.getId().equals(product.getId())) {
+            product.updateWithConfirmedNamePriceAndAvailability(p.getName(), p.getPrice(), p.isAvailable());
+        }
+    }));
+    restaurant.getOrderDetail().setId(new OrderId(UUID.fromString(restaurantApprovalRequest.getOrderId())));
 
-    restaurant.getOrderDetail().setId(new OrderId(orderIdFromApprovalRequest));
     return restaurant;
-
 }
-
-private Restaurant getRestaurantFromRestaurantApprovalRequest(RestaurantApprovalRequest restaurantApprovalRequest) {
-    return restaurantDataMapper.restaurantApprovalRequestToRestaurant(restaurantApprovalRequest);
-}
-
-private Restaurant checkRestaurantExistsInDb(Optional<Restaurant> restaurantResult, RestaurantId restaurantId) {
-    if( restaurantResult.isEmpty() ) {
-        log.error("RestaurantApprovalRequestHelper says: Restaurant with id {} not found!", restaurantId.getValue());
-
-        throw new RestaurantNotFoundException(String.format("Restaurant with id %s not found!",
-        restaurantId.getValue()));
-    } else return restaurantResult.get();
 }
 
 
-}
+

@@ -2,6 +2,37 @@
 
 
 
+2023-08-16 14:36:28.761  WARN 242722 --- [-consumer-1-C-1] org.apache.avro.Schema
+
+  : Ignored the com.food.ordering.system.kafka.order.avro.model.Product.id.logicalType property ("uuid"). It should probably be nested inside the "type" for the field.
+
+  "type": "string",
+  "logicalType": "uuid"
+
+  was not wrapped like this:
+
+  "type" : {
+   "type": "string",
+   "logicalType": "uuid"
+  }
+
+
+ ++++++++++++++++++
+Product unavailable is also failing for below reason, products cannot currently be looked up.
+
+ Maven build is giving error that uuid for product should be encapsulated in type, and, coincidentally product Id cannot
+ be retrieved here:
+
+org.springframework.kafka.listener.ListenerExecutionFailedException: Listener method
+'public void com.food.ordering.system.restaurant.messaging.listener.kafka.RestaurantApprovalRequestKafkaListener.receive(java.util.List<com.food.ordering.system.kafka.order.avro.model.RestaurantApprovalRequestAvroModel>,
+java.util.List<java.lang.String>,java.util.List<java.lang.Integer>,java.util.List<java.lang.Long>)'
+threw exception; nested exception is java.lang.NullPointerException:
+Cannot invoke "com.food.ordering.system.domain.valueobject.ProductId.getValue()"
+because the return value of "com.food.ordering.system.restaurant.service.domain.entity.Product.getId()" is null;
+nested exception is java.lang.NullPointerException: Cannot invoke "com.food.ordering.system.domain.valueobject.ProductId.getValue()" because
+ the return value of "com.food.ordering.system.restaurant.service.domain.entity.Product.getId()" is null
+
+
 
 
 
