@@ -4,6 +4,8 @@ import com.food.ordering.system.domain.entity.BaseEntity;
 import com.food.ordering.system.domain.valueobject.Money;
 import com.food.ordering.system.domain.valueobject.ProductId;
 
+import java.util.UUID;
+
 public class Product extends BaseEntity<ProductId> {
 private String name;
 private Money price;
@@ -18,12 +20,17 @@ public Product(ProductId productId) {
       super.setId(productId);
 }
 
+
 public String getName() {
       return name;
 }
 
 public Money getPrice() {
       return price;
+}
+
+public ProductId getId() {
+    return super.getId();
 }
 
 public void updateWithConfirmedNameAndPrice(String name, Money price) {

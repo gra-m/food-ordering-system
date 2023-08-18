@@ -1,6 +1,8 @@
 package com.food.ordering.system.domain.valueobject;
 
 
+import lombok.Getter;
+
 import java.util.Objects;
 
 /**<h3> BaseId of type T gives a lot of flexibility, order id's will not only have to be e.g. UUIDs.
@@ -11,8 +13,18 @@ import java.util.Objects;
  * that may be out of place elsewhere.
  * @param <T>
  */
+@Getter
 public abstract class BaseId<T> {
+<<<<<<< Updated upstream
       private final T value;
+=======
+/**
+ * -- GETTER --
+ *
+ * @return the value as whatever T has been set in a subclass.
+ */
+private final T value;
+>>>>>>> Stashed changes
 
 /**
  * Subclass only access
@@ -22,6 +34,7 @@ protected BaseId(T value) {
             this.value = value;
       }
 
+<<<<<<< Updated upstream
 /**
  *
  * @return the value as whatever T has been set in a subclass.
@@ -30,6 +43,8 @@ public T getValue() {
       return value;
 }
 
+=======
+>>>>>>> Stashed changes
 
 /**
  * Best practice to implement this

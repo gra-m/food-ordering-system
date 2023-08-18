@@ -9,19 +9,28 @@ import com.food.ordering.system.order.service.domain.entity.Order;
 import com.food.ordering.system.order.service.domain.event.OrderCancelledEvent;
 import com.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
 import com.food.ordering.system.order.service.domain.event.OrderPaidEvent;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+<<<<<<< Updated upstream
 
 /**
  * fixme
  * Mapping received order events to PaymentRequestAvroModel objects for Kafka ..
  * Or mapping a model to another required object.
  */
+=======
+@Slf4j
+>>>>>>> Stashed changes
 @Component
 public class OrderMessagingDataMapper {
+private final Logger LOG = LoggerFactory.getLogger(OrderMessagingDataMapper.class);
 
 public RestaurantApprovalResponse approvalResponseAvroModelToApprovalResponse(
 RestaurantApprovalResponseAvroModel restaurantApprovalResponseAvroModel) {
@@ -60,8 +69,9 @@ public PaymentResponse paymentResponseAvroModelToPaymentResponse(PaymentResponse
 public RestaurantApprovalRequestAvroModel orderPaidEventToRestaurantApprovalRequestAvroModel(
 OrderPaidEvent orderPaidEvent) {
     Order order = orderPaidEvent.getOrder();
-    return RestaurantApprovalRequestAvroModel
-    .newBuilder()
+
+    RestaurantApprovalRequestAvroModel restaurantApprovalRequestAvroModel =
+    RestaurantApprovalRequestAvroModel.newBuilder()
     .setId(UUID.randomUUID().toString())
     .setSagaId("")
     .setOrderId(order.getId().getValue().toString())
@@ -72,6 +82,15 @@ OrderPaidEvent orderPaidEvent) {
     .setCreatedAt(orderPaidEvent.getCreatedAt().toInstant())
     .setRestaurantOrderStatus(RestaurantOrderStatus.PAID)
     .build();
+
+    List<Product> retrievedProducts = restaurantApprovalRequestAvroModel.getProducts();
+
+    List<String> ids = retrievedProducts.stream().map(product -> product.getId()).toList();
+
+    //todo remove test log/code
+    LOG.info("XX XXXXXXXXXXXXXXXXXXXXXXXXXXXX The ids of ordered products are {}", ids);
+    return restaurantApprovalRequestAvroModel;
+
 }
 
 private List<Product> createProductListFromItems(Order order) {

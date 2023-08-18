@@ -9,14 +9,20 @@ import com.food.ordering.system.restaurant.service.domain.dto.RestaurantApproval
 import com.food.ordering.system.restaurant.service.domain.entity.Product;
 import com.food.ordering.system.restaurant.service.domain.event.OrderApprovedEvent;
 import com.food.ordering.system.restaurant.service.domain.event.OrderRejectedEvent;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 
+@Slf4j
 @Component
 public class RestaurantMessagingDataMapper {
+private final Logger LOG = LoggerFactory.getLogger(RestaurantMessagingDataMapper.class);
 
 public RestaurantApprovalResponseAvroModel orderApprovedEventToRestaurantApprovalResponseAvroModel(OrderApprovedEvent orderApprovedEvent) {
     return RestaurantApprovalResponseAvroModel
@@ -50,30 +56,44 @@ public RestaurantApprovalResponseAvroModel orderRejectedEventToRestaurantApprova
     .build();
 }
 
+//todo remove testing code
 public RestaurantApprovalRequest restaurantApprovalRequestAvroModelToRestaurantApproval(
 RestaurantApprovalRequestAvroModel restaurantApprovalRequestAvroModel) {
-    return RestaurantApprovalRequest
+
+
+    LOG.info("A: Converting before approval, AvroModels product Ids are: {}",
+    restaurantApprovalRequestAvroModel.getProducts().stream().map(com.food.ordering.system.kafka.order.avro.model.Product::getId).toList());
+
+
+    RestaurantApprovalRequest approvalRequest =
+    RestaurantApprovalRequest
     .builder()
     .id(restaurantApprovalRequestAvroModel.getId())
     .sagaId(restaurantApprovalRequestAvroModel.getSagaId())
     .restaurantId(restaurantApprovalRequestAvroModel.getRestaurantId())
     .orderId(restaurantApprovalRequestAvroModel.getOrderId())
     .restaurantOrderStatus(RestaurantOrderStatus.valueOf(restaurantApprovalRequestAvroModel
-    .getRestaurantOrderStatus()
-    .name()))
+    .getRestaurantOrderStatus().name()))
     .products(restaurantApprovalRequestAvroModel
     .getProducts()
     .stream()
-    .map(avModelproduct -> Product
+    .map(avroModel -> com.food.ordering.system.restaurant.service.domain.entity.Product
     .builder()
-    .productId(new ProductId(UUID.fromString(avModelproduct.getId())))
-    .quantity(avModelproduct.getQuantity())
+    .productId(new ProductId(UUID.fromString(avroModel.getId())))
+    .quantity(avroModel.getQuantity())
     .build())
-    .collect(Collectors.toList()))
+    .toList())
     .price(restaurantApprovalRequestAvroModel.getPrice())
     .createdAt(restaurantApprovalRequestAvroModel.getCreatedAt())
     .build();
+
+
+    List<UUID> productIds= approvalRequest.getProducts().stream().map(product -> product.getId().getValue()).toList();
+    LOG.info("B: After Avro Approval Request converted Approval request product ids are: {}", productIds);
+
+    return approvalRequest;
 }
+
 
 
 }
