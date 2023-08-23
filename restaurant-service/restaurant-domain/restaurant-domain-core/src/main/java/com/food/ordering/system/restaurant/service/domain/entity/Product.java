@@ -11,7 +11,7 @@ private Money price;
 private boolean available;
 
 private Product(Builder builder) {
-    super.setId(Builder.builder().productId);
+    setId(builder.productId);
     name = builder.name;
     price = builder.price;
     quantity = builder.quantity;
