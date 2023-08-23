@@ -40,8 +40,8 @@ public RestaurantApprovalResponseKafkaListener(RestaurantApprovalResponseMessage
 @KafkaListener(id = "${kafka-consumer-config.restaurant-approval-consumer-group-id}", topics = "${order-service" +
 ".restaurant-approval-response-topic-name}")
 public void receive(@Payload List<RestaurantApprovalResponseAvroModel> messages,
-                    @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) List<String> keys,
-                    @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,
+                    @Header(KafkaHeaders.RECEIVED_KEY) List<String> keys,
+                    @Header(KafkaHeaders.RECEIVED_PARTITION) List<Integer> partitions,
                     @Header(KafkaHeaders.OFFSET) List<Long> offsets) {
     log.info("{} number of restaurant approval responses received with keys {}, partitions {} and offsets {}",
     messages.size(),
@@ -56,6 +56,7 @@ public void receive(@Payload List<RestaurantApprovalResponseAvroModel> messages,
             restaurantApprovalResponseAvroModel));
         } else if( restaurantApprovalResponseAvroModel.getOrderApprovalStatus().name().equals("REJECTED") ) {
             log.info("Processing rejected order for order id: {}, with failure messages: {}",
+            restaurantApprovalResponseAvroModel.getOrderId(),
             restaurantApprovalResponseAvroModel.getFailureMessages());
             restaurantApprovalResponseMessageListener.orderRejected(orderMessagingDataMapper.approvalResponseAvroModelToApprovalResponse(
             restaurantApprovalResponseAvroModel));
