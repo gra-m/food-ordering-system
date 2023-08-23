@@ -13,8 +13,8 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>restaurant-domain-core</module>
         <module>restaurant-application-service</module>
     </modules>
-
 
 </project>

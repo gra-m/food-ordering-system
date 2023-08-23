@@ -33,7 +33,8 @@ spring:
     init:
       platform: postgres
       schema-locations: classpath:init-schema.sql
-      mode: always
+      data-locations: classpath:init-data.sql
+      mode: ALWAYS
 # kafka values for kafka config classes: Module Kafka/kafka-config-data com.food.ordering.system.kafka.config.data;
 kafka-config:
   bootstrap-servers: localhost:19092, localhost:29092, localhost:39092
