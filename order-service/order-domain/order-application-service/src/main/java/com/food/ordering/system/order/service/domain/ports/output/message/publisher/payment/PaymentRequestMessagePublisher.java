@@ -5,8 +5,8 @@ import com.food.ordering.system.order.service.domain.outbox.model.payment.OrderP
 
 import java.util.function.BiConsumer;
 
-public interface RestaurantApprovalResponseMessagePublisher {
+public interface PaymentRequestMessagePublisher {
 
-    void publish(OrderPaymentOutboxMessage orderOutboxMessage,
+    void publish(OrderPaymentOutboxMessage orderPaymentOutboxMessage,
                  BiConsumer<OrderPaymentOutboxMessage, OutboxStatus> outboxCallback);
 }

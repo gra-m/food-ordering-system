@@ -1,5 +1,15 @@
 # Steps and info
 
+## 69b.:
+
+<details>
+
+<summary>
+
+</summary>
+
+</details>
+
 ## 69a: Added scheduling to application
 
 <details>

@@ -20,9 +20,10 @@ public class OrderTestConfiguration {
 
 /**
  * Because the domain logic is purposely isolated from any frameworks a 'real' bean has to be provided here.
- *
+ * AWAITS UPDATE for outbox pattern
  * @return
  */
+/*
 @Bean
 public OrderDomainService orderDomainService() {
     return new OrderDomainServiceImpl();
@@ -56,7 +57,7 @@ public CustomerRepository customerRepository() {
 @Bean
 public RestaurantRepository restaurantRepository() {
     return Mockito.mock(RestaurantRepository.class);
+*/
 }
 
 
-}
