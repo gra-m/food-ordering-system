@@ -36,7 +36,7 @@ Accept: application/vnd.api.v1+json
 }
 
 ### 02GET_FromTrackingId - paste trackingID from 01
-GET http://localhost:8181/orders/d2f3d2b0-c9fd-4931-81d0-0b15fede9a9c
+GET http://localhost:8181/orders/28ccf077-135a-49b2-a193-db7ad0939861
 Accept: application/vnd.api.v1+json
 
 ### 03POST_Product Unavailable d215b5f8-0249-4dc5-89a3-51fd148cfb47
@@ -63,3 +63,32 @@ Accept: application/vnd.api.v1+json
   ]
 }
 
+### 04POST_Order customer exceeds credit of 500
+POST http://localhost:8181/orders
+content-type: application/json
+Accept: application/vnd.api.v1+json
+
+{
+  "customerId": "d215b5f8-0249-4dc5-89a3-51fd148cfb41",
+  "restaurantId": "d215b5f8-0249-4dc5-89a3-51fd148cfb45",
+  "address": {
+    "street": "street_1",
+    "postalCode": "1000AB",
+    "city": "Amsterdam"
+  },
+  "price": 550.00,
+  "items": [
+    {
+      "productId": "d215b5f8-0249-4dc5-89a3-51fd148cfb48",
+      "quantity": 1,
+      "price": 50.00,
+      "subTotal": 50.00
+    },
+    {
+      "productId": "d215b5f8-0249-4dc5-89a3-51fd148cfb48",
+      "quantity": 10,
+      "price": 50.00,
+      "subTotal": 500.00
+    }
+  ]
+}
