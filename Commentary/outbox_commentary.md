@@ -1,6 +1,27 @@
 # Steps and info
 
-## 68c.
+## 69a: Added scheduling to application
+
+<details>
+
+<summary>
+enable scheduling with SchedulerConfig bean:
+</summary>
+
+```java
+   /**
+ * Configuration bean created that enables scheduling in application
+ */
+@Configuration
+@EnableScheduling
+public class SchedulerConfig {
+
+```
+
+
+</details>
+
+## 68c.  40ee75469f3bafac6dd25f60880794bb9778cd9f
 
 <details>
 <summary>Saga to outbox statuses mapped in new SagaHelper method:</summary>
