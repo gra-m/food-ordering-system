@@ -17,6 +17,9 @@ private String paymentRequestTopicName;
 private String paymentResponseTopicName;
 private String restaurantApprovalRequestTopicName;
 private String restaurantApprovalResponseTopicName;
+// Required? todo
+private Integer outboxSchedulerFixedRate;
+private Integer outboxSchedulerInitialDelay;
 
 
 }

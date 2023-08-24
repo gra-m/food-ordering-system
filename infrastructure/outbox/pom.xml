@@ -5,20 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.food.ordering.system</groupId>
-        <artifactId>food-ordering-system</artifactId>
+        <artifactId>infrastructure</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>infrastructure</artifactId>
+    <artifactId>outbox</artifactId>
 
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>kafka</module>
-        <module>saga</module>
-        <module>outbox</module>
-    </modules>
-
-
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
 </project>
