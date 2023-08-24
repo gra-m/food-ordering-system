@@ -1,11 +1,31 @@
 # Steps and info
 
-## 68b.
-  
+## 68c.
+
+<details>
+<summary>Saga to outbox statuses mapped in new SagaHelper method:</summary>
+
+```javascript
+      SagaStatus orderStatusToSagaStatus(OrderStatus orderStatus) {
+    switch( orderStatus ) {
+        case PAID ->  {return SagaStatus.PROCESSING;}
+        case APPROVED -> {return SagaStatus.SUCCEEDED;}
+        case CANCELLING -> {return SagaStatus.COMPENSATING;}
+        case CANCELLED -> {return SagaStatus.COMPENSATED;}
+        default -> {return SagaStatus.STARTED;} // PENDING
+    }
+}
+```
+</details>
+
+## 68b.  447504d1c4bce92b10df885a370863d5e5d09585
+
+> At this point code is broken as old saga only message publishers have been deleted.
+> 
 ### Payment and Approval output ports added, old SAGA only ports deleted:
 [new ports and old ports](https://imgur.com/wywotYN.png)
 
-[old ports only](https://imgur.com/DjJ4fdj.png)
+[new ports only](https://imgur.com/DjJ4fdj.png)
 > "Output ports are nothing but interfaces to be implemented in the infrastructure models, the domain layer simply uses these interfaces, injecting them at runtime"
 
 <details>
