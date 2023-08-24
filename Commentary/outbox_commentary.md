@@ -1,4 +1,33 @@
 # Steps and info
+
+## 68b.
+  
+### Payment and Approval output ports added, old SAGA only ports deleted:
+[new ports and old ports](https://imgur.com/wywotYN.png)
+
+[old ports only](https://imgur.com/DjJ4fdj.png)
+> "Output ports are nothing but interfaces to be implemented in the infrastructure models, the domain layer simply uses these interfaces, injecting them at runtime"
+
+<details>
+<summary>outboxCallback using Functional Interface BiConsumer</summary>
+
+### Biconsumer accepts two generic type params and returns nothing
+> It will be implemented in a method that returns void, this method definition will be passed to and called by the publish
+> method this will enable update of outbox status as FAILED or COMPLETED based on the result of the publish operation.
+> Only when status from Kafka producers asynch sent method is known will this be able to be set.
+
+
+```java
+public interface PaymentRequestMessagePublisher {
+
+void publish(OrderPaymentOutboxMessage orderPaymentOutboxMessage, BiConsumer<OrderPaymentOutboxMessage,
+OutboxStatus> outboxCallback);
+}
+```
+</details>
+
+## 68a. 8f8c64e9596c6b72da0d9f588b765c7605df3794 
+[changed/new files](https://imgur.com/ondpYmZ.png)
 ## 67.      a6b4acd66dcfdc40cf5d47f4c7d1dcc13495e4c7
 ### Why two outbox tables are necessary for OrderService:
 > There are two types of events PaymentService/OrderService and they must be segregated:
