@@ -1,5 +1,5 @@
 # Steps and info
-## 67.
+## 67.      a6b4acd66dcfdc40cf5d47f4c7d1dcc13495e4c7
 ### Why two outbox tables are necessary for OrderService:
 > There are two types of events PaymentService/OrderService and they must be segregated:
 - OrderCancelledEvent and OrderCreatedEvent -> Publish to PaymentRequestTopic to trigger payment-service
@@ -19,6 +19,7 @@ CREATE TYPE outbox_status AS ENUM ('STARTED', 'COMPLETED', 'FAILED');
 
 DROP TABLE IF EXISTS "order".payment_outbox CASCADE;
 
+-- 
 CREATE TABLE "order".payment_outbox
 (
     id uuid NOT NULL,
