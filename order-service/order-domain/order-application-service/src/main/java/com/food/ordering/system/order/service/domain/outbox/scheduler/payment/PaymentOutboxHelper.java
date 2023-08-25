@@ -1,7 +1,7 @@
 package com.food.ordering.system.order.service.domain.outbox.scheduler.payment;
 
+import com.food.ordering.system.order.service.domain.exception.OrderDomainException;
 import com.food.ordering.system.order.service.domain.outbox.model.payment.OrderPaymentOutboxMessage;
-import com.food.ordering.system.order.service.domain.ports.output.repository.OrderRepository;
 import com.food.ordering.system.order.service.domain.ports.output.repository.PaymentOutboxRepository;
 import com.food.ordering.system.outbox.OutboxStatus;
 import com.food.ordering.system.saga.SagaStatus;
@@ -33,7 +33,17 @@ OutboxStatus outboxStatus, SagaStatus... sagaStatus) {
 public Optional<OrderPaymentOutboxMessage> getPaymentOutboxMessageBySagaIdAndSagaStatus(UUID sagaId,
                                                                                         SagaStatus... sagaStatus) {
     return paymentOutboxRepository.findByTypeAndSagaIdAndSagaStatus(ORDER_SAGA_NAME, sagaId, sagaStatus);
+}
 
+@Transactional
+public void save(OrderPaymentOutboxMessage orderPaymentOutboxMessage) {
+    OrderPaymentOutboxMessage response = paymentOutboxRepository.save(orderPaymentOutboxMessage);
+    if (response == null) {
+        log.error("Could not save OrderPaymentOutboxMessage with outbox id: {}", orderPaymentOutboxMessage.getId());
+        throw new OrderDomainException(String.format("Could not save OrderPaymentOutboxMessage with id: %s",
+        orderPaymentOutboxMessage.getId()));
+    }
+    log.info("OrderPaymentOutboxMessage saved with outbox id: {}", orderPaymentOutboxMessage.getId());
 }
 
 

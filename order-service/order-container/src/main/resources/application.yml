@@ -10,8 +10,8 @@ order-service:
   payment-response-topic-name: payment-response
   restaurant-approval-request-topic-name: restaurant-approval-request
   restaurant-approval-response-topic-name: restaurant-approval-response
-  outbox-scheduler-fixed-rate: 10000
-  outbox-scheduler-initial-delay: 10000
+  outbox-scheduler-fixed-rate: 10000 # Ideally max 2000
+  outbox-scheduler-initial-delay: 10000 # Ideally max 2000
 # open in view = true:forces persistence context to stay open slowing performance
 # datasource localhost default for postgreSQL = 5432
 # datasource/binaryTransfer = quicker when kept in binary     jdbc server -> postgres server
