@@ -8,9 +8,9 @@ import com.food.ordering.system.payment.service.domain.dto.PaymentRequest;
 import com.food.ordering.system.payment.service.domain.event.PaymentCancelledEvent;
 import com.food.ordering.system.payment.service.domain.event.PaymentCompletedEvent;
 import com.food.ordering.system.payment.service.domain.event.PaymentFailedEvent;
+import java.util.UUID;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
 /**
  * Injected and used where domain and messaging objects need to be converted.
  */

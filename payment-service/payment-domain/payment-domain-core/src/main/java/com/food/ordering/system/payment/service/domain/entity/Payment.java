@@ -1,18 +1,17 @@
 package com.food.ordering.system.payment.service.domain.entity;
 
+import static com.food.ordering.system.domain.DomainConstants.UTCBRU;
+
 import com.food.ordering.system.domain.entity.AggregateRoot;
 import com.food.ordering.system.domain.valueobject.CustomerId;
 import com.food.ordering.system.domain.valueobject.Money;
 import com.food.ordering.system.domain.valueobject.OrderId;
 import com.food.ordering.system.domain.valueobject.PaymentStatus;
 import com.food.ordering.system.payment.service.domain.valueobject.PaymentId;
-
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
-
-import static com.food.ordering.system.domain.DomainConstants.UTCBRU;
 
 public class Payment extends AggregateRoot<PaymentId> {
 private final OrderId orderId;

@@ -5,11 +5,10 @@ import com.food.ordering.system.dataaccess.restaurant.repository.RestaurantJpaRe
 import com.food.ordering.system.order.service.dataaccess.restaurant.mapper.RestaurantDataAccessMapper;
 import com.food.ordering.system.order.service.domain.entity.Restaurant;
 import com.food.ordering.system.order.service.domain.ports.output.repository.RestaurantRepository;
-import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.stereotype.Component;
 
 /**
  * RestaurantRepository [I] is an output port in the domain layer

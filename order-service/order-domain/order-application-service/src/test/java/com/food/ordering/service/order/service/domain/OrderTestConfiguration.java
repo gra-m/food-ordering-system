@@ -1,13 +1,6 @@
 package com.food.ordering.service.order.service.domain;
 
-import com.food.ordering.system.order.service.domain.OrderDomainService;
-import com.food.ordering.system.order.service.domain.OrderDomainServiceImpl;
-import com.food.ordering.system.order.service.domain.ports.output.repository.CustomerRepository;
-import com.food.ordering.system.order.service.domain.ports.output.repository.OrderRepository;
-import com.food.ordering.system.order.service.domain.ports.output.repository.RestaurantRepository;
-import org.mockito.Mockito;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 /**
  * Given there is no main class at present, everything will need to be injected into the spring context that

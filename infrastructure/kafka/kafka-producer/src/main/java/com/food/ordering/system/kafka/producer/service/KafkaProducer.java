@@ -1,11 +1,9 @@
 package com.food.ordering.system.kafka.producer.service;
 
+import java.io.Serializable;
 import org.apache.avro.specific.SpecificRecordBase;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.util.concurrent.ListenableFutureCallback;
-
-import java.io.Serializable;
-
 
 /**
  * Generic interface for sending data to Kafka topics deals with serialization and plugs in to Avro library to use

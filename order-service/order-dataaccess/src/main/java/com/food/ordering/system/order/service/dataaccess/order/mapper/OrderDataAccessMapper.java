@@ -1,5 +1,7 @@
 package com.food.ordering.system.order.service.dataaccess.order.mapper;
 
+import static com.food.ordering.system.order.service.domain.entity.Order.FAILURE_MESSAGE_DELIMITER;
+
 import com.food.ordering.system.domain.valueobject.*;
 import com.food.ordering.system.order.service.dataaccess.order.entity.OrderAddressEntity;
 import com.food.ordering.system.order.service.dataaccess.order.entity.OrderEntity;
@@ -10,15 +12,11 @@ import com.food.ordering.system.order.service.domain.entity.Product;
 import com.food.ordering.system.order.service.domain.valueobject.OrderItemId;
 import com.food.ordering.system.order.service.domain.valueobject.StreetAddress;
 import com.food.ordering.system.order.service.domain.valueobject.TrackingId;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.food.ordering.system.order.service.domain.entity.Order.FAILURE_MESSAGE_DELIMITER;
-
+import org.springframework.stereotype.Component;
 
 /**
  * EntityObjects -> DomainObjects -> EntityObjects..

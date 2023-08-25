@@ -1,7 +1,6 @@
 package com.food.ordering.system.restaurant.service.domain;
 
 import com.food.ordering.system.domain.valueobject.OrderId;
-import com.food.ordering.system.domain.valueobject.RestaurantId;
 import com.food.ordering.system.restaurant.service.domain.dto.RestaurantApprovalRequest;
 import com.food.ordering.system.restaurant.service.domain.entity.Restaurant;
 import com.food.ordering.system.restaurant.service.domain.event.OrderApprovalEvent;
@@ -11,14 +10,13 @@ import com.food.ordering.system.restaurant.service.domain.ports.output.message.p
 import com.food.ordering.system.restaurant.service.domain.ports.output.message.publiser.OrderRejectedMessagePublisher;
 import com.food.ordering.system.restaurant.service.domain.ports.output.repository.OrderApprovalRepository;
 import com.food.ordering.system.restaurant.service.domain.ports.output.repository.RestaurantRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Component

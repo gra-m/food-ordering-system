@@ -9,11 +9,9 @@ import com.food.ordering.system.restaurant.service.domain.dto.RestaurantApproval
 import com.food.ordering.system.restaurant.service.domain.entity.Product;
 import com.food.ordering.system.restaurant.service.domain.event.OrderApprovedEvent;
 import com.food.ordering.system.restaurant.service.domain.event.OrderRejectedEvent;
-import org.springframework.stereotype.Component;
-
 import java.util.UUID;
 import java.util.stream.Collectors;
-
+import org.springframework.stereotype.Component;
 
 @Component
 public class RestaurantMessagingDataMapper {

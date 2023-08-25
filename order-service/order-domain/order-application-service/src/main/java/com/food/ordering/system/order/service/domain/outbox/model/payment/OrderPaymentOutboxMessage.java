@@ -3,12 +3,11 @@ package com.food.ordering.system.order.service.domain.outbox.model.payment;
 import com.food.ordering.system.domain.valueobject.OrderStatus;
 import com.food.ordering.system.outbox.OutboxStatus;
 import com.food.ordering.system.saga.SagaStatus;
+import java.time.ZonedDateTime;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.time.ZonedDateTime;
-import java.util.UUID;
 
 // Maps directly to order-container init-schema.sql CREATE TABLE "order".payment_outbox
 @Getter

@@ -2,6 +2,9 @@ package com.food.ordering.system.kafka.producer;
 
 import com.food.ordering.system.kafka.config.data.KafkaConfigData;
 import com.food.ordering.system.kafka.config.data.KafkaProducerConfigData;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.avro.specific.SpecificRecordBase;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.springframework.context.annotation.Bean;
@@ -9,11 +12,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
-
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-
 
 /**
  * @param <K> Serializable key

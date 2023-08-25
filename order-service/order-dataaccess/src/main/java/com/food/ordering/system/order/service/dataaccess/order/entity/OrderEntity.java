@@ -1,13 +1,12 @@
 package com.food.ordering.system.order.service.dataaccess.order.entity;
 
 import com.food.ordering.system.domain.valueobject.OrderStatus;
-import lombok.*;
-
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import javax.persistence.*;
+import lombok.*;
 
 /**
  * @Enumerated allows use of Java Enum in db, will be postgresql table with enum strings

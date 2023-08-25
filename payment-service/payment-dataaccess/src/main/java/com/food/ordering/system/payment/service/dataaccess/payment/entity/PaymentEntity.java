@@ -1,13 +1,12 @@
 package com.food.ordering.system.payment.service.dataaccess.payment.entity;
 
 import com.food.ordering.system.domain.valueobject.PaymentStatus;
-import lombok.*;
-
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.UUID;
+import javax.persistence.*;
+import lombok.*;
 
 @Getter
 @Setter

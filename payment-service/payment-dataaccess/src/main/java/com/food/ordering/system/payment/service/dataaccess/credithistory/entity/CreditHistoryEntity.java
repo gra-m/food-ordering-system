@@ -1,12 +1,11 @@
 package com.food.ordering.system.payment.service.dataaccess.credithistory.entity;
 
 import com.food.ordering.system.payment.service.domain.valueobject.TransactionType;
-import lombok.*;
-
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
+import javax.persistence.*;
+import lombok.*;
 
 @Getter
 @Setter

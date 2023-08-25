@@ -1,11 +1,10 @@
 package com.food.ordering.system.order.service.dataaccess.customer.entity;
 
-import lombok.*;
-
+import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.UUID;
+import lombok.*;
 
 /**
  * Used to check if a customer exists, so only UUID.

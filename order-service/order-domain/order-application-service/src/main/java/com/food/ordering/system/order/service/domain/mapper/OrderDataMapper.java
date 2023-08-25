@@ -13,11 +13,10 @@ import com.food.ordering.system.order.service.domain.entity.OrderItem;
 import com.food.ordering.system.order.service.domain.entity.Product;
 import com.food.ordering.system.order.service.domain.entity.Restaurant;
 import com.food.ordering.system.order.service.domain.valueobject.StreetAddress;
-import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Component;
 
 /**
  * Given that input Order Data Transfer Objects need to be mapped to domain objects and domain objects need to be

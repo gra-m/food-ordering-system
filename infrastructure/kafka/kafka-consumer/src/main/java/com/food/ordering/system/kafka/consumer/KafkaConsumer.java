@@ -1,8 +1,7 @@
 package com.food.ordering.system.kafka.consumer;
 
-import org.apache.avro.specific.SpecificRecordBase;
-
 import java.util.List;
+import org.apache.avro.specific.SpecificRecordBase;
 
 /**
  * Given that all consumer implementations will implement this interface

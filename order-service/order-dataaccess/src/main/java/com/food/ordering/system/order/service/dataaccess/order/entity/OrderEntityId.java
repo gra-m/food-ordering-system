@@ -1,10 +1,9 @@
 package com.food.ordering.system.order.service.dataaccess.order.entity;
 
 
-import lombok.*;
-
 import java.io.Serializable;
 import java.util.Objects;
+import lombok.*;
 
 /**
  * EntityId class must be serializeable for persistence

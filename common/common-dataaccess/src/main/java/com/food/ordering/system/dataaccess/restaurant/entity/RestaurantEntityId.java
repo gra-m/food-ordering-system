@@ -1,10 +1,9 @@
 package com.food.ordering.system.dataaccess.restaurant.entity;
 
-import lombok.*;
-
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
+import lombok.*;
 
 /**
  * A composite class that is the unique id (primary key) for RestaurantEntity

@@ -1,10 +1,9 @@
 package com.food.ordering.system.restaurant.service.dataaccess.restaurant.entity;
 
 import com.food.ordering.system.domain.valueobject.OrderApprovalStatus;
-import lombok.*;
-
-import javax.persistence.*;
 import java.util.UUID;
+import javax.persistence.*;
+import lombok.*;
 
 @Getter
 @Setter

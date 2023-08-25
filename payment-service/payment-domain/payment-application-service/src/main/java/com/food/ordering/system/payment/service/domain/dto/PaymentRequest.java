@@ -1,12 +1,11 @@
 package com.food.ordering.system.payment.service.domain.dto;
 
 import com.food.ordering.system.domain.valueobject.PaymentOrderStatus;
+import java.math.BigDecimal;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.math.BigDecimal;
-import java.time.Instant;
 
 /**
  * Given Lombok annotations make things easier. and @AllArgsConstructor is required for @Builder.

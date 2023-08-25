@@ -2,7 +2,6 @@ package com.food.ordering.system.order.service.domain.ports.output.message.publi
 
 import com.food.ordering.system.order.service.domain.outbox.model.approval.OrderApprovalOutboxMessage;
 import com.food.ordering.system.outbox.OutboxStatus;
-
 import java.util.function.BiConsumer;
 
 public interface RestaurantApprovalRequestMessagePublisher {

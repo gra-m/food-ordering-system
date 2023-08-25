@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-
 /**
  * Implementation of OrderApplicationService. Encapsulated with package private as both
  * impl and interface are in the same package. This class is simplified with the use of two

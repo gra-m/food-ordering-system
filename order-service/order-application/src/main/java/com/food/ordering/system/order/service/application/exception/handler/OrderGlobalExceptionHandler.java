@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-
 /**
  * Given that an exception of the given kind shown in @ExceptionHandler is thrown, handle it with this
  * OrderGlobalExceptionHandler class
