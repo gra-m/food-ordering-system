@@ -33,7 +33,7 @@ void saveOrder(Order order) {
     orderRepository.save(order);
 }
 
-SagaStatus orderStatusToSagaStatus(OrderStatus orderStatus) {
+public SagaStatus orderStatusToSagaStatus(OrderStatus orderStatus) {
     switch( orderStatus ) {
         case PAID ->  {return SagaStatus.PROCESSING;}
         case APPROVED -> {return SagaStatus.SUCCEEDED;}
