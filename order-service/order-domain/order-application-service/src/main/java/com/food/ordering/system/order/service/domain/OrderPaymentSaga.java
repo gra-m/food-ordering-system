@@ -22,14 +22,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 public class OrderPaymentSaga implements SagaStep<PaymentResponse, OrderPaidEvent, EmptyEvent> {
 private final OrderDomainService orderDomainService;
-private final OrderPaidRestaurantRequestMessagePublisher orderPaidRestaurantRequestMessagePublisher;
 private final OrderSagaHelper orderSagaHelper;
 
 public OrderPaymentSaga(OrderDomainService orderDomainService,
-                        OrderPaidRestaurantRequestMessagePublisher orderPaidRestaurantRequestMessagePublisher,
                         OrderSagaHelper orderSagaHelper) {
     this.orderDomainService = orderDomainService;
-    this.orderPaidRestaurantRequestMessagePublisher = orderPaidRestaurantRequestMessagePublisher;
     this.orderSagaHelper = orderSagaHelper;
 }
 
@@ -47,7 +44,7 @@ public OrderPaidEvent process(PaymentResponse paymentResponse) {
     orderId);
 
     Order order = orderSagaHelper.findOrder(orderId);
-    OrderPaidEvent domainEvent = orderDomainService.payOrder(order, orderPaidRestaurantRequestMessagePublisher);
+    OrderPaidEvent domainEvent = orderDomainService.payOrder(order, );
     orderSagaHelper.saveOrder(order);
     log.info("[SAGA1 process payment-response -to-> OrderPaidEvent post-save] Order with id {} is paid [UUID no " +
     "toString]",

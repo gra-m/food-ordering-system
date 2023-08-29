@@ -31,33 +31,31 @@ public class OrderDomainServiceImpl implements OrderDomainService {
  *
  * @param order                                 the order that has been created by the client
  * @param restaurant                            the restaurant for which the order has been created
- * @param orderCreatedEventDomainEventPublisher
  * @return An OrderCreatedEvent for further processing
  */
 @Override
 public OrderCreatedEvent validateAndInitiateOrder(Order order,
-                                                  Restaurant restaurant,
-                                                  DomainEventPublisher<OrderCreatedEvent> orderCreatedEventDomainEventPublisher) {
+                                                  Restaurant restaurant
+                                                  ) {
     validateRestaurant(restaurant);
     setOrderProductInformation(order, restaurant);
     order.validateOrder();
     order.initializeOrder();
     log.info("Order with id: {} is initiated", order.getId().getValue());
-    return new OrderCreatedEvent(order, ZonedDateTime.now(ZoneId.of(UTCBRU)), orderCreatedEventDomainEventPublisher);
+    return new OrderCreatedEvent(order, ZonedDateTime.now(ZoneId.of(UTCBRU)), );
 }
 
 /**
  * Given that (Order) has been confirmed as paid for
  *
  * @param order                              the order that has been paid
- * @param orderPaidEventDomainEventPublisher
  * @return an OrderPaidEvent for further actioning.
  */
 @Override
-public OrderPaidEvent payOrder(Order order, DomainEventPublisher<OrderPaidEvent> orderPaidEventDomainEventPublisher) {
+public OrderPaidEvent payOrder(Order order, ) {
     order.pay();
     log.info("Order no {} has been paid", order.getId().getValue());
-    return new OrderPaidEvent(order, ZonedDateTime.now(ZoneId.of(UTCBRU)), orderPaidEventDomainEventPublisher);
+    return new OrderPaidEvent(order, ZonedDateTime.now(ZoneId.of(UTCBRU)), );
 }
 
 /**
@@ -89,17 +87,17 @@ public void approveOrder(Order order) {
  *
  * @param order                                   the order that is being rolled back from PAID to CANCELLING
  * @param failureMessages                         -> need failure messages from other services for logs and customer
- * @param orderCancelledEventDomainEventPublisher
+
  */
 @Override
 public OrderCancelledEvent cancelOrderPayment(Order order,
                                               List<String> failureMessages,
-                                              DomainEventPublisher<OrderCancelledEvent> orderCancelledEventDomainEventPublisher) {
+                                              ) {
     order.initCancel(failureMessages);
     log.info("Order payment is cancelling for id: {}", order.getId().getValue());
     return new OrderCancelledEvent(order,
     ZonedDateTime.now(ZoneId.of(UTCBRU)),
-    orderCancelledEventDomainEventPublisher);
+   );
 }
 
 /**
