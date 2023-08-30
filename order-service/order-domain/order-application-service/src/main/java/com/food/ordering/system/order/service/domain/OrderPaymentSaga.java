@@ -1,5 +1,6 @@
 package com.food.ordering.system.order.service.domain;
 
+import com.food.ordering.system.domain.event.DomainEvent;
 import com.food.ordering.system.domain.valueobject.OrderStatus;
 import com.food.ordering.system.order.service.domain.dto.message.PaymentResponse;
 import com.food.ordering.system.order.service.domain.entity.Order;
@@ -80,11 +81,8 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
 
         OrderPaymentOutboxMessage orderPaymentOutboxMessage = orderPaymentOutboxMessageResponse.get();
 
-        log.info("Completing payment for order with id: {}", paymentResponse.getOrderId());
 
-        Order order = orderSagaHelper.findOrder(paymentResponse.getOrderId());
-        OrderPaidEvent domainEvent = orderDomainService.payOrder(order);
-        orderSagaHelper.saveOrder(order);
+        OrderPaidEvent domainEvent = completePaymentForOrder(paymentResponse);
 
         SagaStatus sagaStatus = orderSagaHelper.orderStatusToSagaStatus(domainEvent.getOrder().getOrderStatus());
 
@@ -97,7 +95,7 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
                 OutboxStatus.STARTED,
                 UUID.randomUUID());
 
-        log.info("Order with id {} is paid", order.getId().getValue());
+        log.info("Order with id {} is paid", domainEvent.getOrder().getId().getValue());
     }
 
     /**
@@ -137,5 +135,13 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
 
     }
 
+    private OrderPaidEvent completePaymentForOrder(PaymentResponse paymentResponse){
+        log.info("Completing payment for order with id: {}", paymentResponse.getOrderId());
 
+        Order order = orderSagaHelper.findOrder(paymentResponse.getOrderId());
+        OrderPaidEvent orderPaidEvent = orderDomainService.payOrder(order);
+        orderSagaHelper.saveOrder(order);
+
+        return orderPaidEvent;
+    }
 }
