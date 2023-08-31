@@ -1,11 +1,13 @@
 package com.food.ordering.system.order.service.domain;
 
-import com.food.ordering.system.domain.event.DomainEvent;
 import com.food.ordering.system.domain.valueobject.OrderStatus;
+import com.food.ordering.system.domain.valueobject.PaymentStatus;
 import com.food.ordering.system.order.service.domain.dto.message.PaymentResponse;
 import com.food.ordering.system.order.service.domain.entity.Order;
 import com.food.ordering.system.order.service.domain.event.OrderPaidEvent;
+import com.food.ordering.system.order.service.domain.exception.OrderDomainException;
 import com.food.ordering.system.order.service.domain.mapper.OrderDataMapper;
+import com.food.ordering.system.order.service.domain.outbox.model.approval.OrderApprovalOutboxMessage;
 import com.food.ordering.system.order.service.domain.outbox.model.payment.OrderPaymentOutboxMessage;
 import com.food.ordering.system.order.service.domain.outbox.scheduler.approval.ApprovalOutboxHelper;
 import com.food.ordering.system.order.service.domain.outbox.scheduler.payment.PaymentOutboxHelper;
@@ -117,7 +119,7 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
 
 
     /**
-     * Rollback the action for this SAGA step 1
+     * Can be called if payment is COMPLETED, FAILED or CANCELLED
      *
      * @param paymentResponse PaymentResponseData to be 'rolled back' empty here as this is first step
      * @return EmptyEvent as this is the last rollback in the transaction
@@ -125,14 +127,45 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
     @Override
     @Transactional
     public void rollback(PaymentResponse paymentResponse) {
-        String orderId = paymentResponse.getOrderId();
-        log.info("[SAGA1 rollback payment-response -to-> EmptyEvent pre-save] Cancelling order with id: {}", orderId);
-        Order order = orderSagaHelper.findOrder(orderId);
-        orderDomainService.cancelOrder(order, paymentResponse.getFailureMessages());
-        orderSagaHelper.saveOrder(order);
 
-        log.info("[SAGA1 rollback payment-response -to-> EmptyEvent post-save] order with id: {} cancelled", orderId);
+        Optional<OrderPaymentOutboxMessage> orderPaymentOutboxMessageResponse =
+                paymentOutboxHelper.getPaymentOutboxMessageBySagaIdAndSagaStatus(
+                        UUID.fromString(paymentResponse.getSagaId()),
+                        getCurrentSagaStatus(paymentResponse.getPaymentStatus()));
 
+        boolean rollbackAlreadyCompleted = orderPaymentOutboxMessageResponse.isEmpty();
+
+        if (rollbackAlreadyCompleted) {
+            log.info(String.format("An outbox message with saga id: {} is already roll backed!", paymentResponse.getSagaId()));
+            return;
+        }
+
+        OrderPaymentOutboxMessage orderPaymentOutboxMessage = orderPaymentOutboxMessageResponse.get();
+        Order order = rollbackPaymentForOrder(paymentResponse);
+
+        SagaStatus sagaStatus = orderSagaHelper.orderStatusToSagaStatus(order.getOrderStatus());
+
+        paymentOutboxHelper.save(getUpdatedPaymentOutboxMessage(orderPaymentOutboxMessage, order.getOrderStatus(), sagaStatus));
+
+        boolean cancelledUpdatedApprovalOutboxMessageNeedsToBeCreatedAndSaved = paymentResponse.getPaymentStatus() == PaymentStatus.CANCELLED;
+        if (cancelledUpdatedApprovalOutboxMessageNeedsToBeCreatedAndSaved) {
+            OrderApprovalOutboxMessage updatedToCancelledApprovalOutboxMessage = getUpdatedApprovalOutboxMessage(paymentResponse.getSagaId(), order.getOrderStatus(), sagaStatus);
+            approvalOutboxHelper.save(updatedToCancelledApprovalOutboxMessage);
+        }
+
+        log.info("Order with id: {} cancelled", order.getId());
+
+    }
+
+
+
+
+    private SagaStatus[] getCurrentSagaStatus(PaymentStatus paymentStatus) {
+        return switch (paymentStatus) {
+            case COMPLETED -> new SagaStatus[]  {SagaStatus.STARTED}; //When payment service is triggered for 1st time saga has just started when returned, it is still in the same state
+            case CANCELLED -> new SagaStatus[] {SagaStatus.PROCESSING}; //When payment service is contacted to cancel and rollback a payment order is in middle of SagaProcessing with state 'Processing'
+            case FAILED -> new SagaStatus[] {SagaStatus.STARTED, SagaStatus.PROCESSING};
+        };
     }
 
     private OrderPaidEvent completePaymentForOrder(PaymentResponse paymentResponse){
@@ -144,4 +177,32 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
 
         return orderPaidEvent;
     }
+
+    private Order rollbackPaymentForOrder(PaymentResponse paymentResponse) {
+        String orderId = paymentResponse.getOrderId();
+        log.info("Cancelling order with id: {}", orderId);
+        Order order = orderSagaHelper.findOrder(orderId);
+        orderDomainService.cancelOrder(order, paymentResponse.getFailureMessages());
+        orderSagaHelper.saveOrder(order);
+        return order;
+    }
+
+    private OrderApprovalOutboxMessage getUpdatedApprovalOutboxMessage(String sagaId, OrderStatus orderStatus, SagaStatus sagaStatus) {
+        Optional<OrderApprovalOutboxMessage> orderApprovalOutboxMessageResponse =
+                approvalOutboxHelper.getApprovalOutboxMessageBySagaIdAndSagaStatus(
+                        UUID.fromString(sagaId),
+                        sagaStatus
+                );
+
+        if (orderApprovalOutboxMessageResponse.isEmpty()) {
+            throw new OrderDomainException(String.format("Approval outbox message could not be found in %s status", SagaStatus.COMPENSATING.name()));
+        }
+        OrderApprovalOutboxMessage updatingOrderApprovalOutboxMessage = orderApprovalOutboxMessageResponse.get();
+        updatingOrderApprovalOutboxMessage.setProcessedAt(ZonedDateTime.now(ZoneId.of(UTCBRU)));
+        updatingOrderApprovalOutboxMessage.setOrderStatus(orderStatus);
+        updatingOrderApprovalOutboxMessage.setSagaStatus(sagaStatus);
+
+        return updatingOrderApprovalOutboxMessage;
+    }
+
 }
