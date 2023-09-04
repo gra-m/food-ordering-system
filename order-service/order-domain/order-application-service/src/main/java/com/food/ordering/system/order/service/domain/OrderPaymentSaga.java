@@ -101,7 +101,7 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
     }
 
     /**
-     * To update local retrieve orderPayementOutboxMessage with new status and time-stamp of this action.
+     * To update local retrieve orderPaymentOutboxMessage with new status and time-stamp of this action.
      *
      * @param orderPaymentOutboxMessage
      * @param orderStatus               the orderStatus retrieved from Domain event
@@ -119,7 +119,8 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
 
 
     /**
-     * Can be called if payment is COMPLETED, FAILED or CANCELLED
+     * Can be called if payment is COMPLETED, FAILED or CANCELLED for this reason getCurrentSagaStatus
+     * is required for differentiation.
      *
      * @param paymentResponse PaymentResponseData to be 'rolled back' empty here as this is first step
      * @return EmptyEvent as this is the last rollback in the transaction
@@ -142,7 +143,6 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
 
         OrderPaymentOutboxMessage orderPaymentOutboxMessage = orderPaymentOutboxMessageResponse.get();
         Order order = rollbackPaymentForOrder(paymentResponse);
-
         SagaStatus sagaStatus = orderSagaHelper.orderStatusToSagaStatus(order.getOrderStatus());
 
         paymentOutboxHelper.save(getUpdatedPaymentOutboxMessage(orderPaymentOutboxMessage, order.getOrderStatus(), sagaStatus));
