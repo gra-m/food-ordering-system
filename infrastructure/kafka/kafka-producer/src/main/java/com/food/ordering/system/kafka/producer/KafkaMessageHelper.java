@@ -1,10 +1,13 @@
 package com.food.ordering.system.kafka.producer;
 
+import com.food.ordering.system.outbox.OutboxStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFutureCallback;
+
+import java.util.function.BiConsumer;
 
 @Slf4j
 @Component
@@ -12,26 +15,32 @@ public class KafkaMessageHelper {
 
 
 /**
- * Async callback will at present just confirm that publishing failed with a log error or was successful, in which
- * case the metadata from the SendResult is logged.
+ * Used by all Kafka producers and now set up to update outbox too.
  *
  * @param responseTopicName retrieved from orderServiceConfigData
  * @param avroModel         created in the publish method
- * @return a ListenableFutureCallback, currently just logging [fixme]
+ * @return a ListenableFutureCallback, currently just logging
  */
-public <T> ListenableFutureCallback<SendResult<String, T>> getKafkaCallback(String responseTopicName,
+public <T, U> ListenableFutureCallback<SendResult<String, T>> getKafkaCallback(String responseTopicName,
                                                                             T avroModel,
+                                                                            U outboxMessage,
+                                                                            BiConsumer<U, OutboxStatus> outboxCallback,
                                                                             String orderId,
                                                                             String avroModelName) {
 
     return new ListenableFutureCallback<>() {
         @Override
         public void onFailure(Throwable ex) {
-            log.error("Error while sending {} message {} to topic {} with exception message:\n{}",
+            log.error("Error while sending {} with message {} and outbox type {} to topic {} message:\n{}",
             avroModelName,
             avroModel.toString(),
+            outboxMessage.getClass().getName(),
             responseTopicName,
             ex.getMessage());
+
+            // Here if kafka producer gets a failed response the outbox callback parameter provided by the
+            // bi-consumer interface is called  with FAILED status.
+            outboxCallback.accept(outboxMessage, OutboxStatus.FAILED);
         }
 
         @Override
@@ -44,7 +53,9 @@ public <T> ListenableFutureCallback<SendResult<String, T>> getKafkaCallback(Stri
             metadata.partition(),
             metadata.offset(),
             metadata.timestamp());
-
+            // Here if kafka producer gets a success response the outbox callback parameter provided by the
+            // bi-consumer interface is called  with COMPLETED status.
+            outboxCallback.accept(outboxMessage, OutboxStatus.COMPLETED);
         }
     };
 }
