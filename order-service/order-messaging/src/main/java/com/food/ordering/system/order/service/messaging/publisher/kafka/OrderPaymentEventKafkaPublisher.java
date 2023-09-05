@@ -24,7 +24,6 @@ public class OrderPaymentEventKafkaPublisher implements PaymentRequestMessagePub
     private final OrderMessagingDataMapper orderMessagingDataMapper;
     private final KafkaProducer<String, PaymentRequestAvroModel> kafkaProducer;
     private final OrderServiceConfigData orderServiceConfigData;
-    private final ObjectMapper objectMapper;
     private final KafkaMessageHelper kafkaMessageHelper;
 
     public OrderPaymentEventKafkaPublisher(OrderMessagingDataMapper orderMessagingDataMapper, KafkaProducer<String,
@@ -33,7 +32,6 @@ public class OrderPaymentEventKafkaPublisher implements PaymentRequestMessagePub
         this.orderMessagingDataMapper = orderMessagingDataMapper;
         this.kafkaProducer = kafkaProducer;
         this.orderServiceConfigData = orderServiceConfigData;
-        this.objectMapper = objectMapper;
         this.kafkaMessageHelper = kafkaMessageHelper;
     }
 
@@ -43,7 +41,8 @@ public class OrderPaymentEventKafkaPublisher implements PaymentRequestMessagePub
             OutboxStatus> outboxCallback) {
 
         OrderPaymentEventPayload orderPaymentEventPayload =
-                getOrderPaymentEventPayload(orderPaymentOutboxMessage.getPayload());
+                kafkaMessageHelper.getOrderEventPayload(orderPaymentOutboxMessage.getPayload(),
+                        OrderPaymentEventPayload.class);
 
         String sagaId = orderPaymentOutboxMessage.getSagaId().toString();
         log.info("Received OrderPaymentOutboxMessage for order id: {} and saga id: {}",
@@ -79,12 +78,5 @@ public class OrderPaymentEventKafkaPublisher implements PaymentRequestMessagePub
     }
 
 
-    private OrderPaymentEventPayload getOrderPaymentEventPayload(String payload) {
-        try {
-            return objectMapper.readValue(payload, OrderPaymentEventPayload.class);
-        } catch (JsonProcessingException e) {
-            log.error("Could not read OrderPaymentEventPayload object!", e);
-            throw new OrderDomainException("Could not read OrderPaymentEventPayload object!", e);
-        }
-    }
+
 }
