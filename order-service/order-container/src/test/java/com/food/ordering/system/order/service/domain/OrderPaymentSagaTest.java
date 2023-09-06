@@ -42,8 +42,6 @@ public class OrderPaymentSagaTest {
     private final UUID PAYMENT_ID = UUID.randomUUID();
     private final BigDecimal PRICE = new BigDecimal("100");
 
-    // Already processed message, this test works but only with removal of NOT NULL constraint on created at and type.
-    // Created at, processed at and type are all null at the point of save @ 81. fixme His runnning with @NOTNULL
     @Test
     void testDoublePayment() {
         orderPaymentSaga.process(getPaymentResponse());

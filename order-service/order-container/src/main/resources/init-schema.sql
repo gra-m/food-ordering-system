@@ -75,9 +75,9 @@ CREATE TABLE "order".payment_outbox
 (
     id uuid NOT NULL,
     saga_id uuid NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL ,
     processed_at TIMESTAMP WITH TIME ZONE,
-    type character varying COLLATE pg_catalog."default",
+    type character varying COLLATE pg_catalog."default" NOT NULL,
     payload jsonb NOT NULL,
     outbox_status outbox_status NOT NULL,
     saga_status saga_status NOT NULL,
@@ -95,14 +95,14 @@ CREATE UNIQUE INDEX "payment_outbox_saga_id"
     (type, saga_id, saga_status);*/
 
 DROP TABLE IF EXISTS "order".restaurant_approval_outbox CASCADE;
-   --fixme add NOT NULL back on created_at and type for this and order.payment_outbox see testDoublePayment
+
 CREATE TABLE "order".restaurant_approval_outbox
 (
     id uuid NOT NULL,
     saga_id uuid NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL ,
     processed_at TIMESTAMP WITH TIME ZONE,
-    type character varying COLLATE pg_catalog."default",
+    type character varying COLLATE pg_catalog."default" NOT NULL ,
     payload jsonb NOT NULL,
     outbox_status outbox_status NOT NULL,
     saga_status saga_status NOT NULL,
