@@ -68,6 +68,15 @@ public class OrderOutboxHelper {
                 .build());
     }
 
+    @Transactional
+    public void updateOutboxMessage(OrderOutboxMessage orderOutboxMessage, OutboxStatus outboxStatus) {
+        //update
+        orderOutboxMessage.setOutboxStatus(outboxStatus);
+        //save and log
+        save(orderOutboxMessage);
+        log.info("Order outbox table status is updated as: {}", outboxStatus.name());
+    }
+
     private String createPayload(OrderEventPayload orderEventPayload) {
         try {
             return objectMapper.writeValueAsString(orderEventPayload);
