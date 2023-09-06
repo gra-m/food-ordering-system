@@ -20,7 +20,7 @@ public class PaymentOutboxScheduler implements OutboxScheduler {
   private final PaymentRequestMessagePublisher paymentRequestMessagePublisher;
 
   public PaymentOutboxScheduler(
-      PaymentRequestMessagePublisher paymentrequestmessagepublisher,
+      PaymentRequestMessagePublisher paymentRequestMessagePublisher,
       PaymentOutboxHelper paymentOutboxHelper) {
     this.paymentRequestMessagePublisher = paymentRequestMessagePublisher;
     this.paymentOutboxHelper = paymentOutboxHelper;

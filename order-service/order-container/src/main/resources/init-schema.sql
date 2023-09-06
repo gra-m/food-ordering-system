@@ -75,9 +75,9 @@ CREATE TABLE "order".payment_outbox
 (
     id uuid NOT NULL,
     saga_id uuid NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE,
     processed_at TIMESTAMP WITH TIME ZONE,
-    type character varying COLLATE pg_catalog."default" NOT NULL,
+    type character varying COLLATE pg_catalog."default",
     payload jsonb NOT NULL,
     outbox_status outbox_status NOT NULL,
     saga_status saga_status NOT NULL,
@@ -100,9 +100,9 @@ CREATE TABLE "order".restaurant_approval_outbox
 (
     id uuid NOT NULL,
     saga_id uuid NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE,
     processed_at TIMESTAMP WITH TIME ZONE,
-    type character varying COLLATE pg_catalog."default" NOT NULL,
+    type character varying COLLATE pg_catalog."default",
     payload jsonb NOT NULL,
     outbox_status outbox_status NOT NULL,
     saga_status saga_status NOT NULL,
