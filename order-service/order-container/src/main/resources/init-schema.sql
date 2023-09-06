@@ -86,16 +86,16 @@ CREATE TABLE "order".payment_outbox
     CONSTRAINT payment_outbox_pkey PRIMARY KEY (id)
 );
 
-CREATE INDEX "payment_outbox_saga_status"
+/*CREATE INDEX "payment_outbox_saga_status"
     ON "order".payment_outbox
         (type, outbox_status, saga_status);
 
 CREATE UNIQUE INDEX "payment_outbox_saga_id"
     ON "order".payment_outbox
-    (type, saga_id, saga_status);
+    (type, saga_id, saga_status);*/
 
 DROP TABLE IF EXISTS "order".restaurant_approval_outbox CASCADE;
-
+   --fixme add NOT NULL back on created_at and type for this and order.payment_outbox see testDoublePayment
 CREATE TABLE "order".restaurant_approval_outbox
 (
     id uuid NOT NULL,

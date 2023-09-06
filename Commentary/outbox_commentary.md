@@ -1,5 +1,7 @@
 # Steps and info
-
+## 81. Double pay test working but..
+#### temp fix:
+- TestingOrderPaymentSaga DoublePayment test runs BUT only with removal of NOTNULL on created_at and type in order.payment_outbox/restaurant_approval_outbox
 ## 70.
 
 

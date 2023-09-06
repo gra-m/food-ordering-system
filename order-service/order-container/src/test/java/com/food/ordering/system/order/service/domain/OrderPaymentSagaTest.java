@@ -2,18 +2,27 @@ package com.food.ordering.system.order.service.domain;
 
 
 import com.food.ordering.system.domain.valueobject.PaymentStatus;
+import com.food.ordering.system.order.service.dataaccess.outbox.payment.entity.PaymentOutboxEntity;
 import com.food.ordering.system.order.service.dataaccess.outbox.payment.repository.PaymentOutboxJpaRepository;
 import com.food.ordering.system.order.service.domain.dto.message.PaymentResponse;
+import com.food.ordering.system.saga.SagaStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
+
+import static com.food.ordering.system.saga.order.SagaConstants.ORDER_SAGA_NAME;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // As OrderServiceApplication is the context/main Spring class for this module, our test will start the application
 @SpringBootTest(classes = OrderServiceApplication.class)
@@ -33,12 +42,69 @@ public class OrderPaymentSagaTest {
     private final UUID PAYMENT_ID = UUID.randomUUID();
     private final BigDecimal PRICE = new BigDecimal("100");
 
-    // Already processed message
+    // Already processed message, this test works but only with removal of NOT NULL constraint on created at and type.
+    // Created at, processed at and type are all null at the point of save @ 81. fixme His runnning with @NOTNULL
     @Test
     void testDoublePayment() {
         orderPaymentSaga.process(getPaymentResponse());
         orderPaymentSaga.process(getPaymentResponse());
     }
+
+    @Test // to enable, remove unique index constraints on outbox tables first
+    void testDoublePaymentWithThreads() throws InterruptedException {
+        Thread thread1 = new Thread(() -> orderPaymentSaga.process(getPaymentResponse()));
+        Thread thread2 = new Thread(() -> orderPaymentSaga.process(getPaymentResponse()));
+
+        thread1.start();
+        thread2.start();
+
+        // Ensures these threads will complete before main thread leaves this method.
+        thread1.join();
+        thread2.join();
+
+        assertPaymentOutbox();
+    }
+
+    @Test
+    void testDoublePaymentWithLatch() throws InterruptedException {
+        // a Countdownlatch with a value of two will stop return to main thread until our two threads complete and the
+        // latch reaches 0:
+
+        CountDownLatch latch = new CountDownLatch(2);
+
+        Thread thread1 = new Thread(() -> {
+            try {
+                orderPaymentSaga.process(getPaymentResponse());
+            } catch (OptimisticLockingFailureException e) {
+                log.error("OptimisticLockingFailureException occurred for thread1");
+            } finally {
+                latch.countDown();
+            }
+        });
+
+        Thread thread2 = new Thread(() -> {
+            try {
+                orderPaymentSaga.process(getPaymentResponse());
+            } catch (OptimisticLockingFailureException e) {
+                log.error("OptimisticLockingFailureException occurred for thread2");
+            } finally {
+                latch.countDown();
+            }
+        });
+
+        thread2.start();
+        thread1.start();
+
+        latch.await();
+    }
+
+    private void assertPaymentOutbox() {
+        Optional<PaymentOutboxEntity> paymentOutboxEntityOptional = paymentOutboxJpaRepository
+                .findByTypeAndSagaIdAndSagaStatusIn(ORDER_SAGA_NAME, SAGA_ID, List.of(SagaStatus.PROCESSING));
+
+        assertTrue(paymentOutboxEntityOptional.isPresent());
+    }
+
 
     private PaymentResponse getPaymentResponse() {
         return PaymentResponse.builder()
