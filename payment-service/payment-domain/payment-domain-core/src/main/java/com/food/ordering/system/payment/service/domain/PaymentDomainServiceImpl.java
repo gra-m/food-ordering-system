@@ -28,17 +28,13 @@ public class PaymentDomainServiceImpl implements PaymentDomainService {
  * @param creditEntry
  * @param creditHistories
  * @param failureMessages
- * @param paymentCompletedEventDomainEventPublisher
- * @param paymentFailedEventDomainEventPublisher
  * @return
  */
 @Override
 public PaymentEvent validateAndInitiatePayment(Payment payment,
                                                CreditEntry creditEntry,
                                                List<CreditHistory> creditHistories,
-                                               List<String> failureMessages,
-                                               DomainEventPublisher<PaymentCompletedEvent> paymentCompletedEventDomainEventPublisher,
-                                               DomainEventPublisher<PaymentFailedEvent> paymentFailedEventDomainEventPublisher) {
+                                               List<String> failureMessages) {
     payment.validatePayment(failureMessages);
     payment.initializePayment();
     validateCreditEntry(payment, creditEntry, failureMessages);
@@ -50,15 +46,13 @@ public PaymentEvent validateAndInitiatePayment(Payment payment,
         log.info("Payment initiated for order id: {}", payment.getOrderId().getValue());
         payment.updateStatus(PaymentStatus.COMPLETED);
         return new PaymentCompletedEvent(payment,
-        ZonedDateTime.now(ZoneId.of(UTCBRU)),
-        paymentCompletedEventDomainEventPublisher);
+        ZonedDateTime.now(ZoneId.of(UTCBRU)));
     } else {
         log.info("Payment failed for order id: {}", payment.getOrderId().getValue());
         payment.updateStatus(PaymentStatus.FAILED);
         return new PaymentFailedEvent(payment,
         ZonedDateTime.now(ZoneId.of(UTCBRU)),
-        failureMessages,
-        paymentFailedEventDomainEventPublisher);
+        failureMessages);
     }
 }
 
@@ -125,17 +119,13 @@ private Money getTotalHistoryAmount(List<CreditHistory> creditHistories, Transac
  * @param failureMessages                           at point of entry an empty List of failureMessages if the
  *                                                  CreditHistory to be validated
  *                                                  fails the logic of this method the list will no longer be empty.
- * @param paymentCancelledEventDomainEventPublisher
- * @param paymentFailedEventDomainEventPublisher
  * @return PaymentEvent -> PaymentCancelledEvent || PaymentFailedEvent
  */
 @Override
 public PaymentEvent validateAndCancelPayment(Payment payment,
                                              CreditEntry creditEntry,
                                              List<CreditHistory> creditHistories,
-                                             List<String> failureMessages,
-                                             DomainEventPublisher<PaymentCancelledEvent> paymentCancelledEventDomainEventPublisher,
-                                             DomainEventPublisher<PaymentFailedEvent> paymentFailedEventDomainEventPublisher) {
+                                             List<String> failureMessages) {
     payment.validatePayment(failureMessages);
     addCreditEntry(payment, creditEntry);
     updateCreditHistory(payment, creditHistories, TransactionType.CREDIT);
@@ -145,16 +135,14 @@ public PaymentEvent validateAndCancelPayment(Payment payment,
 
         payment.updateStatus(PaymentStatus.CANCELLED);
         return new PaymentCancelledEvent(payment,
-        ZonedDateTime.now(ZoneId.of(UTCBRU)),
-        paymentCancelledEventDomainEventPublisher);
+        ZonedDateTime.now(ZoneId.of(UTCBRU)));
     } else {
         log.info("Payment cancellation failed for order id: {}", payment.getOrderId().getValue());
 
         payment.updateStatus(PaymentStatus.FAILED);
         return new PaymentFailedEvent(payment,
         ZonedDateTime.now(ZoneId.of(UTCBRU)),
-        failureMessages,
-        paymentFailedEventDomainEventPublisher);
+        failureMessages);
     }
 }
 
@@ -188,6 +176,5 @@ private void updateCreditHistory(Payment payment,
     .transactionType(transactionType)
     .build());
 }
-
 
 }
