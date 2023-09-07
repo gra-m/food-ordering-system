@@ -1,6 +1,7 @@
 package com.food.ordering.system.payment.service.domain;
 
 import com.food.ordering.system.domain.valueobject.CustomerId;
+import com.food.ordering.system.domain.valueobject.PaymentStatus;
 import com.food.ordering.system.outbox.OutboxStatus;
 import com.food.ordering.system.payment.service.domain.dto.PaymentRequest;
 import com.food.ordering.system.payment.service.domain.entity.CreditEntry;
@@ -9,6 +10,7 @@ import com.food.ordering.system.payment.service.domain.entity.Payment;
 import com.food.ordering.system.payment.service.domain.event.PaymentEvent;
 import com.food.ordering.system.payment.service.domain.exception.PaymentApplicationServiceException;
 import com.food.ordering.system.payment.service.domain.mapper.PaymentDataMapper;
+import com.food.ordering.system.payment.service.domain.outbox.model.OrderOutboxMessage;
 import com.food.ordering.system.payment.service.domain.outbox.scheduler.OrderOutboxHelper;
 import com.food.ordering.system.payment.service.domain.ports.output.message.publisher.PaymentResponseMessagePublisher;
 import com.food.ordering.system.payment.service.domain.ports.output.repository.CreditEntryRepository;
@@ -71,6 +73,13 @@ public class PaymentRequestHelper
     @Transactional
     public void persistCancelPayment(PaymentRequest paymentRequest)
     {
+        if(publishIfOutboxMessageProcessedForPayment(paymentRequest, PaymentStatus.CANCELLED))
+        {
+            log.info("An outbox message with saga id: {} is already saved to database",
+                    paymentRequest.getSagaId());
+            return;
+        }
+
         log.info("Received payment rollback event for order id: {}", paymentRequest.getOrderId());
 
         Optional<Payment> paymentResponse =
@@ -96,6 +105,14 @@ public class PaymentRequestHelper
                 failureMessages);
         persistDbObjects(payment, creditEntry, creditHistories, failureMessages);
 
+        // save cancelled payment to local outbox table, it will be retrieved from there as scheduled:
+        orderOutboxHelper.saveOrderOutboxMessage(
+                paymentDataMapper.paymentEventToOrderEventPayload(paymentEvent),
+                paymentEvent.getPayment().getPaymentStatus(),
+                OutboxStatus.STARTED,
+                UUID.fromString(paymentRequest.getSagaId())
+        );
+
     }
 
     /**
@@ -113,6 +130,14 @@ public class PaymentRequestHelper
     @Transactional
     public void persistPayment(PaymentRequest paymentRequest)
     {
+       if(publishIfOutboxMessageProcessedForPayment(paymentRequest, PaymentStatus.COMPLETED))
+       {
+           log.info("An outbox message with saga id: {} is already saved to database",
+                   paymentRequest.getSagaId());
+           return;
+       }
+
+
         log.info("Received payment complete event for order id: {}", paymentRequest.getOrderId());
 
         Payment payment = paymentDataMapper.paymentRequestModelToPayment(paymentRequest);
@@ -175,6 +200,28 @@ public class PaymentRequestHelper
         }
 
         return creditEntry.get();
+    }
+
+    /**
+     * If already in Outbox table -> Publish again rather than trying to persist again.
+     * @param paymentRequest
+     * @param paymentStatus
+     * @return
+     */
+    private boolean publishIfOutboxMessageProcessedForPayment(PaymentRequest paymentRequest,
+                                                              PaymentStatus paymentStatus)
+    {
+        Optional<OrderOutboxMessage> orderOutboxMessage =
+                orderOutboxHelper.getCompletedOrderOutboxMessageBySagaIdAndPaymentStatus(
+                        UUID.fromString(paymentRequest.getSagaId()),
+                        paymentStatus);
+
+        // Sending a conjured OrderOutboxMessage and OutboxStatus to updateOutboxMessage
+        if(orderOutboxMessage.isPresent()) {
+            paymentResponseMessagePublisher.publish(orderOutboxMessage.get(), (orderOutboxMessage1, outboxStatus) -> orderOutboxHelper.updateOutboxMessage(orderOutboxMessage1, outboxStatus));
+            return true;
+        }
+        return false;
     }
 
 

@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -35,7 +34,7 @@ public class OrderOutboxHelper {
     }
 
     @Transactional(readOnly = true)
-    public Optional<OrderOutboxMessage> setCompletedOrderOutboxMessageBySagaIdAndPaymentStatus(UUID sagaId,
+    public Optional<OrderOutboxMessage> getCompletedOrderOutboxMessageBySagaIdAndPaymentStatus(UUID sagaId,
                                                                                                PaymentStatus paymentStatus) {
         return orderOutboxRepository.findByTypeAndSagaIdAndPaymentStatusAndOutboxStatus(ORDER_SAGA_NAME, sagaId,
                 paymentStatus, OutboxStatus.COMPLETED);
