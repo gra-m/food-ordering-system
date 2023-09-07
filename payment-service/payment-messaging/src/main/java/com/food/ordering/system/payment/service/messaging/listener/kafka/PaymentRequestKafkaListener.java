@@ -3,10 +3,17 @@ package com.food.ordering.system.payment.service.messaging.listener.kafka;
 import com.food.ordering.system.domain.valueobject.PaymentOrderStatus;
 import com.food.ordering.system.kafka.consumer.KafkaConsumer;
 import com.food.ordering.system.kafka.order.avro.model.PaymentRequestAvroModel;
+import com.food.ordering.system.payment.service.domain.exception.PaymentApplicationServiceException;
+import com.food.ordering.system.payment.service.domain.exception.PaymentNotFoundException;
 import com.food.ordering.system.payment.service.domain.ports.input.message.listener.PaymentRequestMessageListener;
 import com.food.ordering.system.payment.service.messaging.mapper.PaymentMessagingDataMapper;
+
+import java.sql.SQLException;
 import java.util.List;
+
 import lombok.extern.slf4j.Slf4j;
+import org.postgresql.util.PSQLState;
+import org.springframework.dao.DataAccessException;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
@@ -60,26 +67,59 @@ public void receive(@Payload List<PaymentRequestAvroModel> messages,
 
     //Changed to .equals name() here as well
     messages.forEach(paymentRequestAvroModel -> {
-        if( paymentRequestAvroModel.getPaymentOrderStatus().name().equals(PaymentOrderStatus.PENDING.name()) ) {
-            log.info("Processing payment for order id: {}", paymentRequestAvroModel.getOrderId());
+        try {
+            if( paymentRequestAvroModel.getPaymentOrderStatus().name().equals(PaymentOrderStatus.PENDING.name()) ) {
+                log.info("Processing payment for order id: {}", paymentRequestAvroModel.getOrderId());
 
-            paymentRequestMessageListener.completePayment(paymentMessagingDataMapper.paymentRequestAvroModelToPaymentRequest(
-            paymentRequestAvroModel));
+                paymentRequestMessageListener.completePayment(paymentMessagingDataMapper.paymentRequestAvroModelToPaymentRequest(
+                paymentRequestAvroModel));
 
-        } else if( paymentRequestAvroModel
-        .getPaymentOrderStatus()
-        .name()
-        .equals(PaymentOrderStatus.CANCELLED.name()) ) {
-            log.info("Cancelling payment for order id: {}", paymentRequestAvroModel.getOrderId());
+            } else if( paymentRequestAvroModel
+            .getPaymentOrderStatus()
+            .name()
+            .equals(PaymentOrderStatus.CANCELLED.name()) ) {
+                log.info("Cancelling payment for order id: {}", paymentRequestAvroModel.getOrderId());
 
-            paymentRequestMessageListener.cancelPayment(paymentMessagingDataMapper.paymentRequestAvroModelToPaymentRequest(
-            paymentRequestAvroModel));
-
+                paymentRequestMessageListener.cancelPayment(paymentMessagingDataMapper.paymentRequestAvroModelToPaymentRequest(
+                paymentRequestAvroModel));
+            }
+        } catch (DataAccessException e) {
+            if (isNotUniqueViolation(e, paymentRequestAvroModel.getOrderId()))
+            {
+                throw new PaymentApplicationServiceException("Throwing DataAccessException in " +
+                        "PaymentRequestKafkaListener: " + e.getMessage(), e);
+            }
+        } catch(PaymentNotFoundException e) {
+            //NO-OP for PaymentNotFoundException
+            log.error("No payment found for order id: {}", paymentRequestAvroModel.getOrderId());
         }
 
     });
 
 }
+
+    /**
+     * UNIQUE_VIOLATION works with postgres dependency where optimistic locking is not available as there is NO
+     * EXISTING RECORD. Instead Ali uses unique constraint on the index and catches if the same operation is tried
+     * twice.
+     * @param e
+     * @param orderId
+     * @return
+     */
+    private boolean isNotUniqueViolation(DataAccessException e, String orderId)
+    {
+        SQLException sqlException = (SQLException) e.getRootCause();
+        if (sqlException != null && sqlException.getSQLState() != null)
+            if (sqlException.getSQLState().equals(PSQLState.UNIQUE_VIOLATION.getState()))
+            {
+              // NO-OP for unique restraint exception
+              log.error("Caught unique constraint exception with sql state: {} in PaymentRequestKafkListener for " +
+                      "order id: {}",
+                      sqlException.getSQLState(), orderId);
+              return false;
+            }
+        return true;
+    }
 
 
 }
