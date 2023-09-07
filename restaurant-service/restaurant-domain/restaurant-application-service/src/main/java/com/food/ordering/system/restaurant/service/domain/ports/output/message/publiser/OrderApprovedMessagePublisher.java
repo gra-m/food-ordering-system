@@ -8,7 +8,8 @@ import com.food.ordering.system.restaurant.service.domain.event.OrderApprovedEve
  * .OrderApprovedKafkaMessagePublisher.
  * So, implementation to another messaging service possible there.
  */
-public interface OrderApprovedMessagePublisher extends DomainEventPublisher<OrderApprovedEvent> {
+public interface OrderApprovedMessagePublisher extends DomainEventPublisher<OrderApprovedEvent>
+{
 
 
 }

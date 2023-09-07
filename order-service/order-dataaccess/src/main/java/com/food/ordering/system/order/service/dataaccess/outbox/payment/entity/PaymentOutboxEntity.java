@@ -18,7 +18,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @Table(name = "payment_outbox")
 @Entity
-public class PaymentOutboxEntity {
+public class PaymentOutboxEntity
+{
     @Id
     private UUID id;
     private UUID sagaId;
@@ -37,7 +38,8 @@ public class PaymentOutboxEntity {
 
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o)
+    {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PaymentOutboxEntity that = (PaymentOutboxEntity) o;
@@ -45,7 +47,8 @@ public class PaymentOutboxEntity {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         return Objects.hash(id);
     }
 

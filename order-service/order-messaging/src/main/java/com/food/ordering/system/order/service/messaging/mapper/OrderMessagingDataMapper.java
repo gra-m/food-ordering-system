@@ -5,24 +5,20 @@ import com.food.ordering.system.domain.valueobject.PaymentStatus;
 import com.food.ordering.system.kafka.order.avro.model.*;
 import com.food.ordering.system.order.service.domain.dto.message.PaymentResponse;
 import com.food.ordering.system.order.service.domain.dto.message.RestaurantApprovalResponse;
-import com.food.ordering.system.order.service.domain.entity.Order;
-import com.food.ordering.system.order.service.domain.event.OrderCancelledEvent;
-import com.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
-import com.food.ordering.system.order.service.domain.event.OrderPaidEvent;
-
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
 import com.food.ordering.system.order.service.domain.outbox.model.approval.OrderApprovalEventPayload;
 import com.food.ordering.system.order.service.domain.outbox.model.payment.OrderPaymentEventPayload;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 @Component
-public class OrderMessagingDataMapper {
+public class OrderMessagingDataMapper
+{
 
 
-    public PaymentResponse paymentResponseAvroModelToPaymentResponse(PaymentResponseAvroModel paymentResponseAvroModel) {
+    public PaymentResponse paymentResponseAvroModelToPaymentResponse(PaymentResponseAvroModel paymentResponseAvroModel)
+    {
 
         return PaymentResponse
                 .builder()
@@ -39,7 +35,8 @@ public class OrderMessagingDataMapper {
     }
 
 
-    public RestaurantApprovalResponse approvalResponseAvroModelToApprovalResponse(RestaurantApprovalResponseAvroModel restaurantApprovalResponseAvroModel) {
+    public RestaurantApprovalResponse approvalResponseAvroModelToApprovalResponse(RestaurantApprovalResponseAvroModel restaurantApprovalResponseAvroModel)
+    {
 
         return RestaurantApprovalResponse
                 .builder()
@@ -56,7 +53,8 @@ public class OrderMessagingDataMapper {
     }
 
     public PaymentRequestAvroModel orderPaymentEventToPaymentRequestAvroModel(String sagaId, OrderPaymentEventPayload
-                                                                              orderPaymentEventPayload) {
+            orderPaymentEventPayload)
+    {
         return PaymentRequestAvroModel.newBuilder()
                 .setId(UUID.randomUUID().toString())
                 .setSagaId(sagaId)
@@ -69,7 +67,8 @@ public class OrderMessagingDataMapper {
     }
 
     public RestaurantApprovalRequestAvroModel orderApprovalEventToRestaurantApprovalEventAvroModel(String sagaId,
-                                                                               OrderApprovalEventPayload orderApprovalEventPayload) {
+                                                                                                   OrderApprovalEventPayload orderApprovalEventPayload)
+    {
         return RestaurantApprovalRequestAvroModel.newBuilder()
                 .setId(UUID.randomUUID().toString())
                 .setSagaId(sagaId)

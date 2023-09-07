@@ -1,7 +1,5 @@
 package com.food.ordering.system.order.service.domain.outbox.scheduler.approval;
 
-import static com.food.ordering.system.saga.order.SagaConstants.ORDER_SAGA_NAME;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.food.ordering.system.domain.valueobject.OrderStatus;
@@ -11,22 +9,25 @@ import com.food.ordering.system.order.service.domain.outbox.model.approval.Order
 import com.food.ordering.system.order.service.domain.ports.output.repository.ApprovalOutboxRepository;
 import com.food.ordering.system.outbox.OutboxStatus;
 import com.food.ordering.system.saga.SagaStatus;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import static com.food.ordering.system.saga.order.SagaConstants.ORDER_SAGA_NAME;
 
 @Slf4j
 @Component
-public class ApprovalOutboxHelper {
+public class ApprovalOutboxHelper
+{
     private final ApprovalOutboxRepository approvalOutboxRepository;
     private final ObjectMapper objectMapper;
 
-    public ApprovalOutboxHelper(ApprovalOutboxRepository approvalOutboxRepository, ObjectMapper objectMapper) {
+    public ApprovalOutboxHelper(ApprovalOutboxRepository approvalOutboxRepository, ObjectMapper objectMapper)
+    {
         this.approvalOutboxRepository = approvalOutboxRepository;
         this.objectMapper = objectMapper;
     }
@@ -34,20 +35,23 @@ public class ApprovalOutboxHelper {
     @Transactional(readOnly = true)
     public Optional<List<OrderApprovalOutboxMessage>>
     getApprovalOutboxMessagesByOutboxStatusAndSagaStatus(
-            OutboxStatus outboxStatus, SagaStatus... sagaStatus) {
+            OutboxStatus outboxStatus, SagaStatus... sagaStatus)
+    {
         return approvalOutboxRepository.findByTypeAndOutboxStatusAndSagaStatus(
                 ORDER_SAGA_NAME, outboxStatus, sagaStatus);
     }
 
     @Transactional(readOnly = true)
     public Optional<OrderApprovalOutboxMessage> getApprovalOutboxMessageBySagaIdAndSagaStatus(
-            UUID sagaId, SagaStatus... sagaStatus) {
+            UUID sagaId, SagaStatus... sagaStatus)
+    {
         return approvalOutboxRepository.findByTypeAndSagaIdAndSagaStatus(
                 ORDER_SAGA_NAME, sagaId, sagaStatus);
     }
 
     @Transactional
-    public void save(OrderApprovalOutboxMessage orderApprovalOutboxMessage) {
+    public void save(OrderApprovalOutboxMessage orderApprovalOutboxMessage)
+    {
         OrderApprovalOutboxMessage response = approvalOutboxRepository.save(orderApprovalOutboxMessage);
 
         if (response == null) {
@@ -65,7 +69,8 @@ public class ApprovalOutboxHelper {
 
     @Transactional
     public void deleteApprovalOutboxMessageByOutboxStatusAndSagaStatus(OutboxStatus outboxStatus,
-                                                                       SagaStatus... sagaStatus) {
+                                                                       SagaStatus... sagaStatus)
+    {
         approvalOutboxRepository.deleteByTypeAndOutboxStatusAndSagaStatus(ORDER_SAGA_NAME, outboxStatus, sagaStatus);
     }
 
@@ -74,7 +79,8 @@ public class ApprovalOutboxHelper {
                                           OrderStatus orderStatus,
                                           SagaStatus sagaStatus,
                                           OutboxStatus outboxStatus,
-                                          UUID sagaId) {
+                                          UUID sagaId)
+    {
         save(OrderApprovalOutboxMessage.builder()
                 .outboxStatus(outboxStatus)
                 .id(UUID.randomUUID())
@@ -88,7 +94,8 @@ public class ApprovalOutboxHelper {
                 .build());
     }
 
-    private String createPayload(OrderApprovalEventPayload orderApprovalEventPayload) {
+    private String createPayload(OrderApprovalEventPayload orderApprovalEventPayload)
+    {
         try {
             return objectMapper.writeValueAsString(orderApprovalEventPayload);
         } catch (JsonProcessingException e) {

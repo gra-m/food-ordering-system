@@ -12,16 +12,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication(scanBasePackages = "com.food.ordering.system")
-public class CustomerServiceApplication {
+public class CustomerServiceApplication
+{
 
-/**
- * This class and any args are passed to SpringApplication.run to start the application
- *
- * @param args as required for the business logic of this Spring microservice tbc
- */
-public static void main(String[] args) {
-    SpringApplication.run(CustomerServiceApplication.class, args);
-}
+    /**
+     * This class and any args are passed to SpringApplication.run to start the application
+     *
+     * @param args as required for the business logic of this Spring microservice tbc
+     */
+    public static void main(String[] args)
+    {
+        SpringApplication.run(CustomerServiceApplication.class, args);
+    }
 
 
 }

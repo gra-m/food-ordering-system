@@ -19,20 +19,22 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * new basePackage scan required:
  */
 @EnableJpaRepositories(basePackages = {"com.food.ordering.system.order.service.dataaccess", "com.food.ordering.system" +
-".dataaccess"})
+        ".dataaccess"})
 @EntityScan(basePackages = {"com.food.ordering.system.order.service.dataaccess", "com.food.ordering.system.dataaccess"})
 @SpringBootApplication(scanBasePackages = "com.food.ordering.system")
-public class OrderServiceApplication {
+public class OrderServiceApplication
+{
 
 
-/**
- * This class and any args are passed to SpringApplication.run
- *
- * @param args as required for the business logic of this Spring microservice
- */
-public static void main(String[] args) {
-    SpringApplication.run(OrderServiceApplication.class, args);
-}
+    /**
+     * This class and any args are passed to SpringApplication.run
+     *
+     * @param args as required for the business logic of this Spring microservice
+     */
+    public static void main(String[] args)
+    {
+        SpringApplication.run(OrderServiceApplication.class, args);
+    }
 
 
 }

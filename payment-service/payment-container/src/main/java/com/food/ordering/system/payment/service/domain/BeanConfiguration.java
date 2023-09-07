@@ -8,12 +8,14 @@ import org.springframework.context.annotation.Configuration;
  * Because it does not depend on Spring it has to be made available as a Spring Bean through @Configuration
  */
 @Configuration
-public class BeanConfiguration {
+public class BeanConfiguration
+{
 
-@Bean
-public PaymentDomainService paymentDomainService() {
-    return new PaymentDomainServiceImpl();
-}
+    @Bean
+    public PaymentDomainService paymentDomainService()
+    {
+        return new PaymentDomainServiceImpl();
+    }
 
 
 }

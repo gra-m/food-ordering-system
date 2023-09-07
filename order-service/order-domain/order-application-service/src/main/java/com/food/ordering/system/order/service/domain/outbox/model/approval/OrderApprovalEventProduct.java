@@ -9,7 +9,10 @@ import lombok.Getter;
 @Builder
 @Getter
 @AllArgsConstructor
-public class OrderApprovalEventProduct {
-  @JsonProperty private String id;
-  @JsonProperty private Integer quantity;
+public class OrderApprovalEventProduct
+{
+    @JsonProperty
+    private String id;
+    @JsonProperty
+    private Integer quantity;
 }

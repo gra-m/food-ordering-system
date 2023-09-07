@@ -15,7 +15,8 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @Builder
-public class OrderEventPayload {
+public class OrderEventPayload
+{
     @JsonProperty
     private String paymentId;
     @JsonProperty

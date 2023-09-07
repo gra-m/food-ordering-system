@@ -16,15 +16,14 @@ import com.food.ordering.system.payment.service.domain.ports.output.message.publ
 import com.food.ordering.system.payment.service.domain.ports.output.repository.CreditEntryRepository;
 import com.food.ordering.system.payment.service.domain.ports.output.repository.CreditHistoryRepository;
 import com.food.ordering.system.payment.service.domain.ports.output.repository.PaymentRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Given that database events have been persisted here with the help of this helper class -> fire domain events.
@@ -73,8 +72,7 @@ public class PaymentRequestHelper
     @Transactional
     public void persistCancelPayment(PaymentRequest paymentRequest)
     {
-        if(publishIfOutboxMessageProcessedForPayment(paymentRequest, PaymentStatus.CANCELLED))
-        {
+        if (publishIfOutboxMessageProcessedForPayment(paymentRequest, PaymentStatus.CANCELLED)) {
             log.info("An outbox message with saga id: {} is already saved to database",
                     paymentRequest.getSagaId());
             return;
@@ -130,12 +128,11 @@ public class PaymentRequestHelper
     @Transactional
     public void persistPayment(PaymentRequest paymentRequest)
     {
-       if(publishIfOutboxMessageProcessedForPayment(paymentRequest, PaymentStatus.COMPLETED))
-       {
-           log.info("An outbox message with saga id: {} is already saved to database",
-                   paymentRequest.getSagaId());
-           return;
-       }
+        if (publishIfOutboxMessageProcessedForPayment(paymentRequest, PaymentStatus.COMPLETED)) {
+            log.info("An outbox message with saga id: {} is already saved to database",
+                    paymentRequest.getSagaId());
+            return;
+        }
 
 
         log.info("Received payment complete event for order id: {}", paymentRequest.getOrderId());
@@ -204,6 +201,7 @@ public class PaymentRequestHelper
 
     /**
      * If already in Outbox table -> Publish again rather than trying to persist again.
+     *
      * @param paymentRequest
      * @param paymentStatus
      * @return
@@ -217,8 +215,10 @@ public class PaymentRequestHelper
                         paymentStatus);
 
         // Sending a conjured OrderOutboxMessage and OutboxStatus to updateOutboxMessage
-        if(orderOutboxMessage.isPresent()) {
-            paymentResponseMessagePublisher.publish(orderOutboxMessage.get(), (orderOutboxMessage1, outboxStatus) -> orderOutboxHelper.updateOutboxMessage(orderOutboxMessage1, outboxStatus));
+        if (orderOutboxMessage.isPresent()) {
+            paymentResponseMessagePublisher.publish(orderOutboxMessage.get(),
+                    (orderOutboxMessage1, outboxStatus) -> orderOutboxHelper.updateOutboxMessage(orderOutboxMessage1,
+                            outboxStatus));
             return true;
         }
         return false;

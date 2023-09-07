@@ -9,7 +9,8 @@ package com.food.ordering.system.domain.event;
  *
  * @param <T> is of type entity, the origin of the domain event
  */
-public interface DomainEvent<T> {
+public interface DomainEvent<T>
+{
 
 
 }

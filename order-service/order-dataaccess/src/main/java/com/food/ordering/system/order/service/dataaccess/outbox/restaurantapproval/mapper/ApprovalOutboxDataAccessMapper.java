@@ -5,7 +5,8 @@ import com.food.ordering.system.order.service.domain.outbox.model.approval.Order
 import org.springframework.stereotype.Component;
 
 @Component
-public class ApprovalOutboxDataAccessMapper {
+public class ApprovalOutboxDataAccessMapper
+{
 
     public ApprovalOutboxEntity orderCreatedOutboxMessageToOutboxEntity(OrderApprovalOutboxMessage orderApprovalOutboxMessage)
     {
@@ -22,7 +23,8 @@ public class ApprovalOutboxDataAccessMapper {
                 .build();
     }
 
-    public OrderApprovalOutboxMessage approvalOutboxEntityToOrderApprovalOutboxMessage(ApprovalOutboxEntity approvalOutboxEntity) {
+    public OrderApprovalOutboxMessage approvalOutboxEntityToOrderApprovalOutboxMessage(ApprovalOutboxEntity approvalOutboxEntity)
+    {
         return OrderApprovalOutboxMessage.builder()
                 .id(approvalOutboxEntity.getId())
                 .sagaId(approvalOutboxEntity.getSagaId())

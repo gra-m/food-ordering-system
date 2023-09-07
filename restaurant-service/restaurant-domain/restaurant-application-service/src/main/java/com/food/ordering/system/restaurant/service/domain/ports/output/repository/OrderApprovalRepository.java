@@ -2,8 +2,9 @@ package com.food.ordering.system.restaurant.service.domain.ports.output.reposito
 
 import com.food.ordering.system.restaurant.service.domain.entity.OrderApproval;
 
-public interface OrderApprovalRepository {
-OrderApproval save(OrderApproval orderApproval);
+public interface OrderApprovalRepository
+{
+    OrderApproval save(OrderApproval orderApproval);
 
 
 }

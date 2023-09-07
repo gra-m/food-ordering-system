@@ -16,34 +16,38 @@ import org.springframework.validation.annotation.Validated;
 @Slf4j
 @Validated
 @Service
-class OrderApplicationServiceImpl implements OrderApplicationService {
+class OrderApplicationServiceImpl implements OrderApplicationService
+{
 
-private final OrderCreateCommandHandler orderCreateCommandHandler;
-private final OrderTrackCommandHandler orderTrackCommandHandler;
+    private final OrderCreateCommandHandler orderCreateCommandHandler;
+    private final OrderTrackCommandHandler orderTrackCommandHandler;
 
-public OrderApplicationServiceImpl(OrderCreateCommandHandler orderCreateCommandHandler,
-                                   OrderTrackCommandHandler orderTrackCommandHandler) {
-    this.orderCreateCommandHandler = orderCreateCommandHandler;
-    this.orderTrackCommandHandler = orderTrackCommandHandler;
-}
+    public OrderApplicationServiceImpl(OrderCreateCommandHandler orderCreateCommandHandler,
+                                       OrderTrackCommandHandler orderTrackCommandHandler)
+    {
+        this.orderCreateCommandHandler = orderCreateCommandHandler;
+        this.orderTrackCommandHandler = orderTrackCommandHandler;
+    }
 
-/**
- * @param createOrderCommand
- * @return
- */
-@Override
-public CreateOrderResponse createOrder(CreateOrderCommand createOrderCommand) {
-    return orderCreateCommandHandler.createOrder(createOrderCommand);
-}
+    /**
+     * @param createOrderCommand
+     * @return
+     */
+    @Override
+    public CreateOrderResponse createOrder(CreateOrderCommand createOrderCommand)
+    {
+        return orderCreateCommandHandler.createOrder(createOrderCommand);
+    }
 
-/**
- * @param trackOrderQuery
- * @return
- */
-@Override
-public TrackOrderResponse trackOrder(TrackOrderQuery trackOrderQuery) {
-    return orderTrackCommandHandler.trackOrder(trackOrderQuery);
-}
+    /**
+     * @param trackOrderQuery
+     * @return
+     */
+    @Override
+    public TrackOrderResponse trackOrder(TrackOrderQuery trackOrderQuery)
+    {
+        return orderTrackCommandHandler.trackOrder(trackOrderQuery);
+    }
 
 
 }

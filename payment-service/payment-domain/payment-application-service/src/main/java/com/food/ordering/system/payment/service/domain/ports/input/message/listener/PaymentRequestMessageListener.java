@@ -9,11 +9,12 @@ import com.food.ordering.system.payment.service.domain.dto.PaymentRequest;
  * Input ports == Implemented in PaymentRequestMessageListenerImpl the payment-application-service
  * whereas output ports are implemented in infrastructure (currently kafka) via payment-messaging
  */
-public interface PaymentRequestMessageListener {
+public interface PaymentRequestMessageListener
+{
 
-void completePayment(PaymentRequest paymentRequest);
+    void completePayment(PaymentRequest paymentRequest);
 
-void cancelPayment(PaymentRequest paymentRequest);
+    void cancelPayment(PaymentRequest paymentRequest);
 
 
 }

@@ -14,7 +14,8 @@ import java.util.UUID;
  * Injected and used where domain and messaging objects need to be converted.
  */
 @Component
-public class PaymentMessagingDataMapper {
+public class PaymentMessagingDataMapper
+{
 
     public PaymentResponseAvroModel orderEvenPayloadToPaymentResponseAvroModel(String sagaId,
                                                                                OrderEventPayload orderEventPayload)
@@ -32,25 +33,26 @@ public class PaymentMessagingDataMapper {
                 .build();
     }
 
-/**
- * To send data to domain layer payment-domain/payment-application-service it must be converted to a domain 'entity'
- * == The domain layer does not need to know about AvroModels.
- *
- * @param paymentRequestAvroModel the payment request received from Kafka
- * @return PaymentRequest a payment request in the form the domain layer needs.
- */
-public PaymentRequest paymentRequestAvroModelToPaymentRequest(PaymentRequestAvroModel paymentRequestAvroModel) {
-    return PaymentRequest
-    .builder()
-    .id(paymentRequestAvroModel.getId())
-    .sagaId(paymentRequestAvroModel.getSagaId())
-    .customerId(paymentRequestAvroModel.getCustomerId())
-    .orderId(paymentRequestAvroModel.getOrderId())
-    .price(paymentRequestAvroModel.getPrice())
-    .createdAt(paymentRequestAvroModel.getCreatedAt())
-    .paymentOrderStatus(PaymentOrderStatus.valueOf(paymentRequestAvroModel.getPaymentOrderStatus().name()))
-    .build();
-}
+    /**
+     * To send data to domain layer payment-domain/payment-application-service it must be converted to a domain 'entity'
+     * == The domain layer does not need to know about AvroModels.
+     *
+     * @param paymentRequestAvroModel the payment request received from Kafka
+     * @return PaymentRequest a payment request in the form the domain layer needs.
+     */
+    public PaymentRequest paymentRequestAvroModelToPaymentRequest(PaymentRequestAvroModel paymentRequestAvroModel)
+    {
+        return PaymentRequest
+                .builder()
+                .id(paymentRequestAvroModel.getId())
+                .sagaId(paymentRequestAvroModel.getSagaId())
+                .customerId(paymentRequestAvroModel.getCustomerId())
+                .orderId(paymentRequestAvroModel.getOrderId())
+                .price(paymentRequestAvroModel.getPrice())
+                .createdAt(paymentRequestAvroModel.getCreatedAt())
+                .paymentOrderStatus(PaymentOrderStatus.valueOf(paymentRequestAvroModel.getPaymentOrderStatus().name()))
+                .build();
+    }
 
 
 }

@@ -11,14 +11,15 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface OrderOutboxJpaRepository extends JpaRepository<OrderOutboxEntity, UUID> {
+public interface OrderOutboxJpaRepository extends JpaRepository<OrderOutboxEntity, UUID>
+{
 
     Optional<List<OrderOutboxEntity>> findByTypeAndOutboxStatus(String type, OutboxStatus outboxStatus);
 
     Optional<OrderOutboxEntity> findByTypeAndSagaIdAndPaymentStatusAndOutboxStatus(String type,
-                                                                                      UUID sagaId,
-                                                                                      PaymentStatus paymentStatus,
-                                                                                      OutboxStatus outboxStatus);
+                                                                                   UUID sagaId,
+                                                                                   PaymentStatus paymentStatus,
+                                                                                   OutboxStatus outboxStatus);
 
     void deleteByTypeAndOutboxStatus(String type, OutboxStatus outboxStatus);
 

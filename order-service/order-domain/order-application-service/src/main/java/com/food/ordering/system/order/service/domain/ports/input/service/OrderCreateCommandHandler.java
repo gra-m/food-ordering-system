@@ -15,7 +15,8 @@ import java.util.UUID;
 
 @Slf4j
 @Component
-public class OrderCreateCommandHandler {
+public class OrderCreateCommandHandler
+{
     private final OrderCreateHelper orderCreateHelper;
     private final OrderDataMapper orderDataMapper;
     private final PaymentOutboxHelper paymentOutboxHelper;
@@ -24,7 +25,8 @@ public class OrderCreateCommandHandler {
     public OrderCreateCommandHandler(OrderCreateHelper orderCreateHelper,
                                      OrderDataMapper orderDataMapper,
                                      PaymentOutboxHelper paymentOutboxHelper,
-                                     OrderSagaHelper orderSagaHelper) {
+                                     OrderSagaHelper orderSagaHelper)
+    {
         this.orderCreateHelper = orderCreateHelper;
         this.orderDataMapper = orderDataMapper;
         this.paymentOutboxHelper = paymentOutboxHelper;
@@ -39,10 +41,12 @@ public class OrderCreateCommandHandler {
      * separated from domain logic.
      */
     @Transactional
-    public CreateOrderResponse createOrder(CreateOrderCommand createOrderCommand) {
+    public CreateOrderResponse createOrder(CreateOrderCommand createOrderCommand)
+    {
         OrderCreatedEvent orderCreatedEvent = orderCreateHelper.persistOrder(createOrderCommand);
         log.info("Order with id {} was created", orderCreatedEvent.getOrder().getId().getValue());
-        CreateOrderResponse createOrderResponse = orderDataMapper.orderToCreateOrderResponse(orderCreatedEvent.getOrder(), "order created successfully");
+        CreateOrderResponse createOrderResponse =
+                orderDataMapper.orderToCreateOrderResponse(orderCreatedEvent.getOrder(), "order created successfully");
 
         paymentOutboxHelper.savePaymentOutboxMessage(orderDataMapper.orderCreatedEventToOrderPaymentEventPayload(orderCreatedEvent),
                 orderCreatedEvent.getOrder().getOrderStatus(),

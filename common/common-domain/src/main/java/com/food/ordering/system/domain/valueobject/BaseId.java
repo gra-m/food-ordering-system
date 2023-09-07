@@ -13,47 +13,52 @@ import java.util.Objects;
  *
  * @param <T>
  */
-public abstract class BaseId<T> {
-private final T value;
+public abstract class BaseId<T>
+{
+    private final T value;
 
-/**
- * Subclass only access
- *
- * @param value generic T will be set as whatever it is in the extending subclass.
- */
-protected BaseId(T value) {
-    this.value = value;
-}
+    /**
+     * Subclass only access
+     *
+     * @param value generic T will be set as whatever it is in the extending subclass.
+     */
+    protected BaseId(T value)
+    {
+        this.value = value;
+    }
 
-/**
- * @return the value as whatever T has been set in a subclass.
- */
-public T getValue() {
-    return value;
-}
+    /**
+     * @return the value as whatever T has been set in a subclass.
+     */
+    public T getValue()
+    {
+        return value;
+    }
 
 
-/**
- * Best practice to implement this
- *
- * @param o any object passed for comparison
- * @return true if objects are equal
- */
-@Override
-public boolean equals(Object o) {
-    if( this == o ) return true;
-    if( o == null || getClass() != o.getClass() ) return false;
-    BaseId<?> baseId = ( BaseId<?> ) o;
-    return Objects.equals(value, baseId.value);
-}
+    /**
+     * Best practice to implement this
+     *
+     * @param o any object passed for comparison
+     * @return true if objects are equal
+     */
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BaseId<?> baseId = (BaseId<?>) o;
+        return Objects.equals(value, baseId.value);
+    }
 
-/**
- * Best practice to implement this,
- */
-@Override
-public int hashCode() {
-    return Objects.hash(value);
-}
+    /**
+     * Best practice to implement this,
+     */
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(value);
+    }
 
 
 }

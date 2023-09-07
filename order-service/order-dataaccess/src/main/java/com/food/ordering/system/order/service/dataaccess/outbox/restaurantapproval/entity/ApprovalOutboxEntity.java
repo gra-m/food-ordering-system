@@ -14,9 +14,10 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table (name = "restaurant_approval_outbox")
+@Table(name = "restaurant_approval_outbox")
 @Entity
-public class ApprovalOutboxEntity {
+public class ApprovalOutboxEntity
+{
 
     @Id
     private UUID id;
@@ -35,7 +36,8 @@ public class ApprovalOutboxEntity {
     private int version;
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o)
+    {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ApprovalOutboxEntity that = (ApprovalOutboxEntity) o;
@@ -43,7 +45,8 @@ public class ApprovalOutboxEntity {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         return id.hashCode();
     }
 }

@@ -15,7 +15,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
-public class OrderOutboxRepositoryImpl implements OrderOutboxRepository {
+public class OrderOutboxRepositoryImpl implements OrderOutboxRepository
+{
     private final OrderOutboxJpaRepository orderOutboxJpaRepository;
     private final OrderOutboxDataAccessMapper orderOutboxDataAccessMapper;
 
@@ -39,7 +40,7 @@ public class OrderOutboxRepositoryImpl implements OrderOutboxRepository {
     @Override
     public Optional<List<OrderOutboxMessage>> findByTypeAndOutboxStatus(String sagaType, OutboxStatus outboxStatus)
     {
-        return Optional.of(orderOutboxJpaRepository.findByTypeAndOutboxStatus(sagaType,outboxStatus)
+        return Optional.of(orderOutboxJpaRepository.findByTypeAndOutboxStatus(sagaType, outboxStatus)
                 .orElseThrow(() -> new OrderOutboxNotFoundException(
                         "Approval outbox object cannot be found for saga type" + sagaType))
                 .stream()
@@ -53,12 +54,14 @@ public class OrderOutboxRepositoryImpl implements OrderOutboxRepository {
                                                                                            PaymentStatus paymentStatus,
                                                                                            OutboxStatus outboxStatus)
     {
-        return orderOutboxJpaRepository.findByTypeAndSagaIdAndPaymentStatusAndOutboxStatus(sagaType, sagaId, paymentStatus, outboxStatus)
+        return orderOutboxJpaRepository.findByTypeAndSagaIdAndPaymentStatusAndOutboxStatus(sagaType, sagaId,
+                        paymentStatus, outboxStatus)
                 .map(orderOutboxDataAccessMapper::orderOutboxEntityToOrderOutboxMessage);
     }
 
     @Override
-    public void deleteByTypeAndOutboxStatus(String sagaType, OutboxStatus outboxStatus) {
+    public void deleteByTypeAndOutboxStatus(String sagaType, OutboxStatus outboxStatus)
+    {
         orderOutboxJpaRepository.deleteByTypeAndOutboxStatus(sagaType, outboxStatus);
 
     }

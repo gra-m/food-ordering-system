@@ -23,30 +23,35 @@ import static com.food.ordering.system.saga.order.SagaConstants.ORDER_SAGA_NAME;
 
 @Slf4j
 @Component
-public class OrderOutboxHelper {
+public class OrderOutboxHelper
+{
     private final OrderOutboxRepository orderOutboxRepository;
     private final ObjectMapper objectMapper;
 
 
-    public OrderOutboxHelper(OrderOutboxRepository orderOutboxRepository, ObjectMapper objectMapper) {
+    public OrderOutboxHelper(OrderOutboxRepository orderOutboxRepository, ObjectMapper objectMapper)
+    {
         this.orderOutboxRepository = orderOutboxRepository;
         this.objectMapper = objectMapper;
     }
 
     @Transactional(readOnly = true)
     public Optional<OrderOutboxMessage> getCompletedOrderOutboxMessageBySagaIdAndPaymentStatus(UUID sagaId,
-                                                                                               PaymentStatus paymentStatus) {
+                                                                                               PaymentStatus paymentStatus)
+    {
         return orderOutboxRepository.findByTypeAndSagaIdAndPaymentStatusAndOutboxStatus(ORDER_SAGA_NAME, sagaId,
                 paymentStatus, OutboxStatus.COMPLETED);
     }
 
     @Transactional(readOnly = true)
-    public Optional<List<OrderOutboxMessage>> getOrderOutboxMessageByOutboxStatus(OutboxStatus outboxStatus) {
+    public Optional<List<OrderOutboxMessage>> getOrderOutboxMessageByOutboxStatus(OutboxStatus outboxStatus)
+    {
         return orderOutboxRepository.findByTypeAndOutboxStatus(ORDER_SAGA_NAME, outboxStatus);
     }
 
     @Transactional
-    public void deleteOrderOutboxMessageByOutboxStatus(OutboxStatus outboxStatus) {
+    public void deleteOrderOutboxMessageByOutboxStatus(OutboxStatus outboxStatus)
+    {
         orderOutboxRepository.deleteByTypeAndOutboxStatus(ORDER_SAGA_NAME, outboxStatus);
     }
 
@@ -54,7 +59,8 @@ public class OrderOutboxHelper {
     public void saveOrderOutboxMessage(OrderEventPayload orderEventPayload,
                                        PaymentStatus paymentStatus,
                                        OutboxStatus outboxStatus,
-                                       UUID sagaId) {
+                                       UUID sagaId)
+    {
         save(OrderOutboxMessage.builder()
                 .id(UUID.randomUUID()) //it is a new outbox object
                 .sagaId(sagaId)
@@ -68,7 +74,8 @@ public class OrderOutboxHelper {
     }
 
     @Transactional
-    public void updateOutboxMessage(OrderOutboxMessage orderOutboxMessage, OutboxStatus outboxStatus) {
+    public void updateOutboxMessage(OrderOutboxMessage orderOutboxMessage, OutboxStatus outboxStatus)
+    {
         //update
         orderOutboxMessage.setOutboxStatus(outboxStatus);
         //save and log
@@ -76,7 +83,8 @@ public class OrderOutboxHelper {
         log.info("Order outbox table status is updated as: {}", outboxStatus.name());
     }
 
-    private String createPayload(OrderEventPayload orderEventPayload) {
+    private String createPayload(OrderEventPayload orderEventPayload)
+    {
         try {
             return objectMapper.writeValueAsString(orderEventPayload);
         } catch (JsonProcessingException e) {
@@ -85,14 +93,15 @@ public class OrderOutboxHelper {
         }
     }
 
-    private void save(OrderOutboxMessage orderOutboxMessage) {
+    private void save(OrderOutboxMessage orderOutboxMessage)
+    {
         OrderOutboxMessage response = orderOutboxRepository.save(orderOutboxMessage);
 
         if (response == null) {
             log.error("Could not save order output message!");
             throw new PaymentDomainException("Could not saveOrderOutboxMessage!");
         }
-    log.info("Order OUtbox message is saved with id {}", orderOutboxMessage.getId());
+        log.info("Order OUtbox message is saved with id {}", orderOutboxMessage.getId());
     }
 
 }

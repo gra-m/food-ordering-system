@@ -29,7 +29,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Slf4j
 @Sql(value = {"classpath:sql/OrderPaymentSagaTestSetUp.sql"}) // target sql test resources
 @Sql(value = {"classpath:sql/OrderPaymentSagaTestCleanUp.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-public class OrderPaymentSagaTest {
+public class OrderPaymentSagaTest
+{
     @Autowired
     private OrderPaymentSaga orderPaymentSaga;
 
@@ -43,13 +44,16 @@ public class OrderPaymentSagaTest {
     private final BigDecimal PRICE = new BigDecimal("100");
 
     @Test
-    void testDoublePayment() {
+    void testDoublePayment()
+    {
         orderPaymentSaga.process(getPaymentResponse());
         orderPaymentSaga.process(getPaymentResponse());
     }
 
-    @Test // to enable, remove unique index constraints on outbox tables first
-    void testDoublePaymentWithThreads() throws InterruptedException {
+    @Test
+        // to enable, remove unique index constraints on outbox tables first
+    void testDoublePaymentWithThreads() throws InterruptedException
+    {
         Thread thread1 = new Thread(() -> orderPaymentSaga.process(getPaymentResponse()));
         Thread thread2 = new Thread(() -> orderPaymentSaga.process(getPaymentResponse()));
 
@@ -64,13 +68,15 @@ public class OrderPaymentSagaTest {
     }
 
     @Test
-    void testDoublePaymentWithLatch() throws InterruptedException {
+    void testDoublePaymentWithLatch() throws InterruptedException
+    {
         // a Countdownlatch with a value of two will stop return to main thread until our two threads complete and the
         // latch reaches 0:
 
         CountDownLatch latch = new CountDownLatch(2);
 
-        Thread thread1 = new Thread(() -> {
+        Thread thread1 = new Thread(() ->
+        {
             try {
                 orderPaymentSaga.process(getPaymentResponse());
             } catch (OptimisticLockingFailureException e) {
@@ -80,7 +86,8 @@ public class OrderPaymentSagaTest {
             }
         });
 
-        Thread thread2 = new Thread(() -> {
+        Thread thread2 = new Thread(() ->
+        {
             try {
                 orderPaymentSaga.process(getPaymentResponse());
             } catch (OptimisticLockingFailureException e) {
@@ -96,7 +103,8 @@ public class OrderPaymentSagaTest {
         latch.await();
     }
 
-    private void assertPaymentOutbox() {
+    private void assertPaymentOutbox()
+    {
         Optional<PaymentOutboxEntity> paymentOutboxEntityOptional = paymentOutboxJpaRepository
                 .findByTypeAndSagaIdAndSagaStatusIn(ORDER_SAGA_NAME, SAGA_ID, List.of(SagaStatus.PROCESSING));
 
@@ -104,7 +112,8 @@ public class OrderPaymentSagaTest {
     }
 
 
-    private PaymentResponse getPaymentResponse() {
+    private PaymentResponse getPaymentResponse()
+    {
         return PaymentResponse.builder()
                 .id(UUID.randomUUID().toString())
                 .sagaId(SAGA_ID.toString())

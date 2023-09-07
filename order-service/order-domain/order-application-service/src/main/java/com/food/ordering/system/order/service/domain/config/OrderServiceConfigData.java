@@ -11,15 +11,16 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Configuration
 @ConfigurationProperties(prefix = "order-service")
-public class OrderServiceConfigData {
+public class OrderServiceConfigData
+{
 
-private String paymentRequestTopicName;
-private String paymentResponseTopicName;
-private String restaurantApprovalRequestTopicName;
-private String restaurantApprovalResponseTopicName;
-// Required? todo
-private Integer outboxSchedulerFixedRate;
-private Integer outboxSchedulerInitialDelay;
+    private String paymentRequestTopicName;
+    private String paymentResponseTopicName;
+    private String restaurantApprovalRequestTopicName;
+    private String restaurantApprovalResponseTopicName;
+    // Required? todo
+    private Integer outboxSchedulerFixedRate;
+    private Integer outboxSchedulerInitialDelay;
 
 
 }

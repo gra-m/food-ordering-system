@@ -7,14 +7,16 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @EnableJpaRepositories(basePackages = {"com.food.ordering.system.restaurant.service.dataaccess", "com.food.ordering" +
-".system.dataaccess"})
+        ".system.dataaccess"})
 @EntityScan(basePackages = {"com.food.ordering.system.restaurant.service.dataaccess", "com.food.ordering.system" +
-".dataaccess"})
+        ".dataaccess"})
 @SpringBootApplication(scanBasePackages = "com.food.ordering.system")
-public class RestaurantServiceApplication {
-public static void main(String[] args) {
-    SpringApplication.run(RestaurantServiceApplication.class, args);
-}
+public class RestaurantServiceApplication
+{
+    public static void main(String[] args)
+    {
+        SpringApplication.run(RestaurantServiceApplication.class, args);
+    }
 
 
 }

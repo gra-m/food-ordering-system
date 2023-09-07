@@ -1,6 +1,5 @@
 package com.food.ordering.system.payment.service.domain;
 
-import com.food.ordering.system.domain.valueobject.PaymentOrderStatus;
 import com.food.ordering.system.domain.valueobject.PaymentStatus;
 import com.food.ordering.system.outbox.OutboxStatus;
 import com.food.ordering.system.payment.service.dataaccess.outbox.entity.OrderOutboxEntity;
@@ -38,7 +37,8 @@ public class PaymentRequestMessageListenerTest
     private final static BigDecimal PRICE = new BigDecimal("100");
 
     @Test
-    void testDoublePayment() {
+    void testDoublePayment()
+    {
         String sagaId = UUID.randomUUID().toString();
         paymentRequestMessageListener.completePayment(getPaymentRequest(sagaId));
 
@@ -46,14 +46,13 @@ public class PaymentRequestMessageListenerTest
             //attempt same payment again, this should throw DataAccessException with sqlstate reason Violation of unique
             // constraint exception
             paymentRequestMessageListener.completePayment(getPaymentRequest(sagaId));
-        
+
         } catch (DataAccessException e) {
             log.error("DataAccessException occurred with sql state: {}",
                     ((PSQLException) Objects.requireNonNull(e.getRootCause())).getSQLState());
         }
 
         assertOrderOutbox(sagaId);
-
 
 
     }

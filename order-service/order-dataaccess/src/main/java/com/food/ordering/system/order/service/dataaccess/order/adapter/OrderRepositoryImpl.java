@@ -6,61 +6,67 @@ import com.food.ordering.system.order.service.dataaccess.order.repository.OrderJ
 import com.food.ordering.system.order.service.domain.entity.Order;
 import com.food.ordering.system.order.service.domain.ports.output.repository.OrderRepository;
 import com.food.ordering.system.order.service.domain.valueobject.TrackingId;
-import java.util.Optional;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 /**
  * Implements output port OrderRepository but not @Repository
  * Spring managed through use of @Component, not a typical Repository (otherwise @Repository) but an adapter class:
  */
 @Component
-public class OrderRepositoryImpl implements OrderRepository {
+public class OrderRepositoryImpl implements OrderRepository
+{
 
-private final OrderDataAccessMapper orderDataAccessMapper;
-private final OrderJpaRepository orderJpaRepository;
+    private final OrderDataAccessMapper orderDataAccessMapper;
+    private final OrderJpaRepository orderJpaRepository;
 
-public OrderRepositoryImpl(OrderJpaRepository orderJpaRepository, OrderDataAccessMapper orderDataAccessMapper) {
-    this.orderJpaRepository = orderJpaRepository;
-    this.orderDataAccessMapper = orderDataAccessMapper;
-}
+    public OrderRepositoryImpl(OrderJpaRepository orderJpaRepository, OrderDataAccessMapper orderDataAccessMapper)
+    {
+        this.orderJpaRepository = orderJpaRepository;
+        this.orderDataAccessMapper = orderDataAccessMapper;
+    }
 
-/**
- * @param order Order
- * @return order Order
- */
-@Override
-public Order save(Order order) {
-    return orderDataAccessMapper.orderEntityToOrder(orderJpaRepository.save(orderDataAccessMapper.orderToOrderEntity(
-    order)));
-}
+    /**
+     * @param order Order
+     * @return order Order
+     */
+    @Override
+    public Order save(Order order)
+    {
+        return orderDataAccessMapper.orderEntityToOrder(orderJpaRepository.save(orderDataAccessMapper.orderToOrderEntity(
+                order)));
+    }
 
-/**
- * @param orderId
- * @return
- */
-@Override
-public Optional<Order> findById(OrderId orderId) {
-    return orderJpaRepository
-    .findById(orderId.getValue())
-    .map(orderEntity -> orderDataAccessMapper.orderEntityToOrder(orderEntity));
-}
+    /**
+     * @param orderId
+     * @return
+     */
+    @Override
+    public Optional<Order> findById(OrderId orderId)
+    {
+        return orderJpaRepository
+                .findById(orderId.getValue())
+                .map(orderEntity -> orderDataAccessMapper.orderEntityToOrder(orderEntity));
+    }
 
-/**
- * Interesting mapping method is carried out on optional, so, must be resolved automatically within map to pass to?
- *
- * @param trackingId the trackingId for the order
- * @return an optional Order domain object
- */
-@Override
-public Optional<Order> findByTrackingId(TrackingId trackingId) {
+    /**
+     * Interesting mapping method is carried out on optional, so, must be resolved automatically within map to pass to?
+     *
+     * @param trackingId the trackingId for the order
+     * @return an optional Order domain object
+     */
+    @Override
+    public Optional<Order> findByTrackingId(TrackingId trackingId)
+    {
       /* I changed back to optional --->
       return Optional.of(orderDataAccessMapper.orderEntityToOrder(orderJpaRepository.findByTrackingId(trackingId
       .getValue()).get()));
       return orderJpaRepository.findByTrackingId(trackingId.getValue()).map(optionalOrderEntity ->
       orderDataAccessMapper.orderEntityToOrder(optionalOrderEntity) );*/
-    return orderJpaRepository.findByTrackingId(trackingId.getValue()).map(orderDataAccessMapper::orderEntityToOrder);
+        return orderJpaRepository.findByTrackingId(trackingId.getValue()).map(orderDataAccessMapper::orderEntityToOrder);
 
-}
+    }
 
 
 }

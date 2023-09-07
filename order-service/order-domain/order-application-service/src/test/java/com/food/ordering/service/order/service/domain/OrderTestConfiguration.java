@@ -16,7 +16,8 @@ import org.springframework.context.annotation.Bean;
  * @SpringBootApplication Mocks are returned from calls to required classes
  */
 @SpringBootApplication(scanBasePackages = "com.food.ordering.system")
-public class OrderTestConfiguration {
+public class OrderTestConfiguration
+{
 
     /**
      * Because the domain logic is purposely isolated from any frameworks a 'real' bean has to be provided here.
@@ -25,7 +26,8 @@ public class OrderTestConfiguration {
      * @return
      */
 
-    public OrderDomainService orderDomainService() {
+    public OrderDomainService orderDomainService()
+    {
         return new OrderDomainServiceImpl();
     }
 
@@ -33,38 +35,45 @@ public class OrderTestConfiguration {
 // and OrderCancelledPaymentRequestMessagePublisher
 
     @Bean
-    public PaymentRequestMessagePublisher orderCreatedPaymentRequestMessagePublisher() {
+    public PaymentRequestMessagePublisher orderCreatedPaymentRequestMessagePublisher()
+    {
         return Mockito.mock(PaymentRequestMessagePublisher.class);
     }
 
     // Prior to outbox was OrderPaidRestaurantRequestMessagePublisher
     @Bean
-    public RestaurantApprovalRequestMessagePublisher restaurantApprovalRequestMessagePublisher() {
+    public RestaurantApprovalRequestMessagePublisher restaurantApprovalRequestMessagePublisher()
+    {
         return Mockito.mock(RestaurantApprovalRequestMessagePublisher.class);
     }
 
     @Bean
-    public OrderRepository orderRepository() {
+    public OrderRepository orderRepository()
+    {
         return Mockito.mock(OrderRepository.class);
     }
 
     @Bean
-    public CustomerRepository customerRepository() {
+    public CustomerRepository customerRepository()
+    {
         return Mockito.mock(CustomerRepository.class);
     }
 
     @Bean
-    public RestaurantRepository restaurantRepository() {
+    public RestaurantRepository restaurantRepository()
+    {
         return Mockito.mock(RestaurantRepository.class);
     }
 
     // New Outbox Repositories
     @Bean
-    public PaymentOutboxRepository paymentOutboxRepository() {
+    public PaymentOutboxRepository paymentOutboxRepository()
+    {
         return Mockito.mock(PaymentOutboxRepository.class);
     }
 
-    public ApprovalOutboxRepository approvalOutboxRepository() {
+    public ApprovalOutboxRepository approvalOutboxRepository()
+    {
         return Mockito.mock(ApprovalOutboxRepository.class);
     }
 

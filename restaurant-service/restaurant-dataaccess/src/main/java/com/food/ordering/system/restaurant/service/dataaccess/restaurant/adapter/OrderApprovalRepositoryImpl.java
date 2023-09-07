@@ -7,28 +7,31 @@ import com.food.ordering.system.restaurant.service.domain.ports.output.repositor
 import org.springframework.stereotype.Component;
 
 @Component
-public class OrderApprovalRepositoryImpl implements OrderApprovalRepository {
+public class OrderApprovalRepositoryImpl implements OrderApprovalRepository
+{
 
-private final OrderApprovalJpaRepository orderApprovalJpaRepository;
-private final RestaurantDataAccessMapper restaurantDataAccessMapper;
-
-
-public OrderApprovalRepositoryImpl(OrderApprovalJpaRepository orderApprovalJpaRepository,
-                                   RestaurantDataAccessMapper restaurantDataAccessMapper) {
-    this.orderApprovalJpaRepository = orderApprovalJpaRepository;
-    this.restaurantDataAccessMapper = restaurantDataAccessMapper;
-}
+    private final OrderApprovalJpaRepository orderApprovalJpaRepository;
+    private final RestaurantDataAccessMapper restaurantDataAccessMapper;
 
 
-/**
- * @param orderApproval
- * @return
- */
-@Override
-public OrderApproval save(OrderApproval orderApproval) {
-    return restaurantDataAccessMapper.orderApprovalEntityToOrderApproval(orderApprovalJpaRepository.save(
-    restaurantDataAccessMapper.orderApprovalToOrderApprovalEntity(orderApproval)));
-}
+    public OrderApprovalRepositoryImpl(OrderApprovalJpaRepository orderApprovalJpaRepository,
+                                       RestaurantDataAccessMapper restaurantDataAccessMapper)
+    {
+        this.orderApprovalJpaRepository = orderApprovalJpaRepository;
+        this.restaurantDataAccessMapper = restaurantDataAccessMapper;
+    }
+
+
+    /**
+     * @param orderApproval
+     * @return
+     */
+    @Override
+    public OrderApproval save(OrderApproval orderApproval)
+    {
+        return restaurantDataAccessMapper.orderApprovalEntityToOrderApproval(orderApprovalJpaRepository.save(
+                restaurantDataAccessMapper.orderApprovalToOrderApprovalEntity(orderApproval)));
+    }
 
 
 }

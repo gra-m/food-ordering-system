@@ -4,35 +4,39 @@ import com.food.ordering.system.order.service.dataaccess.customer.mapper.Custome
 import com.food.ordering.system.order.service.dataaccess.customer.repository.CustomerJpaRepository;
 import com.food.ordering.system.order.service.domain.entity.Customer;
 import com.food.ordering.system.order.service.domain.ports.output.repository.CustomerRepository;
+import org.springframework.stereotype.Component;
+
 import java.util.Optional;
 import java.util.UUID;
-import org.springframework.stereotype.Component;
 
 /**
  *
  */
 @Component
-public class CustomerRepositoryImpl implements CustomerRepository {
+public class CustomerRepositoryImpl implements CustomerRepository
+{
 
-CustomerJpaRepository customerJpaRepository;
-CustomerDataAccessMapper customerDataAccessMapper;
+    CustomerJpaRepository customerJpaRepository;
+    CustomerDataAccessMapper customerDataAccessMapper;
 
-public CustomerRepositoryImpl(CustomerJpaRepository customerJpaRepository,
-                              CustomerDataAccessMapper customerDataAccessMapper) {
-    this.customerJpaRepository = customerJpaRepository;
-    this.customerDataAccessMapper = customerDataAccessMapper;
-}
+    public CustomerRepositoryImpl(CustomerJpaRepository customerJpaRepository,
+                                  CustomerDataAccessMapper customerDataAccessMapper)
+    {
+        this.customerJpaRepository = customerJpaRepository;
+        this.customerDataAccessMapper = customerDataAccessMapper;
+    }
 
-/**
- * method to confirm existence of customer.
- *
- * @param customerId id to check existence of
- * @return
- */
-@Override
-public Optional<Customer> findCustomer(UUID customerId) {
-    return customerJpaRepository.findById(customerId).map(customerDataAccessMapper::customerEntityToCustomer);
-}
+    /**
+     * method to confirm existence of customer.
+     *
+     * @param customerId id to check existence of
+     * @return
+     */
+    @Override
+    public Optional<Customer> findCustomer(UUID customerId)
+    {
+        return customerJpaRepository.findById(customerId).map(customerDataAccessMapper::customerEntityToCustomer);
+    }
 
 
 }

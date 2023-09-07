@@ -11,9 +11,10 @@ import com.food.ordering.system.domain.event.DomainEvent;
  *
  * @param <T> OrderCancelled/Created/PaidEvent via
  */
-public interface DomainEventPublisher<T extends DomainEvent> {
+public interface DomainEventPublisher<T extends DomainEvent>
+{
 
-void publish(T domainEvent);
+    void publish(T domainEvent);
 
 
 }

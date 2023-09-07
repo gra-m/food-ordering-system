@@ -15,12 +15,14 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-public class OrderOutboxScheduler implements OutboxScheduler {
+public class OrderOutboxScheduler implements OutboxScheduler
+{
     private final OrderOutboxHelper orderOutboxHelper;
     private final PaymentResponseMessagePublisher paymentResponseMessagePublisher;
 
     public OrderOutboxScheduler(OrderOutboxHelper orderOutboxHelper,
-                                PaymentResponseMessagePublisher paymentResponseMessagePublisher) {
+                                PaymentResponseMessagePublisher paymentResponseMessagePublisher)
+    {
         this.orderOutboxHelper = orderOutboxHelper;
         this.paymentResponseMessagePublisher = paymentResponseMessagePublisher;
     }
@@ -30,7 +32,8 @@ public class OrderOutboxScheduler implements OutboxScheduler {
     @Scheduled(
             fixedDelayString = "${payment-service.outbox-scheduler-fixed-rate}",
             initialDelayString = "${payment-service.outbox-scheduler-initial-delay}")
-    public void processOutboxMessage() {
+    public void processOutboxMessage()
+    {
         // Scheduled scoop of all started messages
         Optional<List<OrderOutboxMessage>> outboxMessagesResponse =
                 orderOutboxHelper.getOrderOutboxMessageByOutboxStatus(OutboxStatus.STARTED);
@@ -38,15 +41,16 @@ public class OrderOutboxScheduler implements OutboxScheduler {
         // if scoop catches:
         if (outboxMessagesResponse.isPresent() && outboxMessagesResponse.get().size() > 0) {
             // get list and log:
-            List<OrderOutboxMessage> outboxMessages  = outboxMessagesResponse.get();
+            List<OrderOutboxMessage> outboxMessages = outboxMessagesResponse.get();
             log.info("Received {} OrderOutboxMessage with ids {}, sending to kafka!", outboxMessages.size(),
                     outboxMessages.stream().map(outboxMessage -> outboxMessage.getId()
-                            .toString())
+                                    .toString())
                             .collect(Collectors.joining(",")));
             // publish all outbox messages with the callback bi-consumer:
             outboxMessages.forEach(orderOutboxMessage ->
                     paymentResponseMessagePublisher.publish(orderOutboxMessage,
-                            (OrderOutboxMessage orderOutboxMessage1, OutboxStatus outboxStatus) -> {
+                            (OrderOutboxMessage orderOutboxMessage1, OutboxStatus outboxStatus) ->
+                            {
                                 orderOutboxHelper.updateOutboxMessage(orderOutboxMessage1, outboxStatus);
                             }));
             // log

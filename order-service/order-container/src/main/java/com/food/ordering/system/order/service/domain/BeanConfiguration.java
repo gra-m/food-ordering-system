@@ -10,17 +10,19 @@ import org.springframework.context.annotation.Configuration;
  */
 
 @Configuration
-public class BeanConfiguration {
+public class BeanConfiguration
+{
 
-/**
- * Registering OrderDomainService as a SpringBean
- *
- * @return SpringBean OrderDomainService
- */
-@Bean
-public OrderDomainService orderDomainService() {
-    return new OrderDomainServiceImpl();
-}
+    /**
+     * Registering OrderDomainService as a SpringBean
+     *
+     * @return SpringBean OrderDomainService
+     */
+    @Bean
+    public OrderDomainService orderDomainService()
+    {
+        return new OrderDomainServiceImpl();
+    }
 
 
 }

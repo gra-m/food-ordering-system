@@ -6,6 +6,7 @@ package com.food.ordering.system.domain.valueobject;
  * <p>
  * OrderApprovalStatus.APPROVED/REJECTED is used in the response object
  */
-public enum RestaurantOrderStatus {
+public enum RestaurantOrderStatus
+{
     PAID
 }

@@ -5,9 +5,11 @@ import com.food.ordering.system.payment.service.domain.outbox.model.OrderOutboxM
 import org.springframework.stereotype.Component;
 
 @Component
-public class OrderOutboxDataAccessMapper {
+public class OrderOutboxDataAccessMapper
+{
 
-    public OrderOutboxEntity orderOutboxMessageToOutboxEntity(OrderOutboxMessage orderOutboxMessage) {
+    public OrderOutboxEntity orderOutboxMessageToOutboxEntity(OrderOutboxMessage orderOutboxMessage)
+    {
         return OrderOutboxEntity.builder()
                 .id(orderOutboxMessage.getId())
                 .sagaId(orderOutboxMessage.getSagaId())
@@ -20,7 +22,8 @@ public class OrderOutboxDataAccessMapper {
                 .build();
     }
 
-    public OrderOutboxMessage orderOutboxEntityToOrderOutboxMessage(OrderOutboxEntity orderOutboxEntity) {
+    public OrderOutboxMessage orderOutboxEntityToOrderOutboxMessage(OrderOutboxEntity orderOutboxEntity)
+    {
         return OrderOutboxMessage.builder()
                 .id(orderOutboxEntity.getId())
                 .sagaId(orderOutboxEntity.getSagaId())

@@ -1,5 +1,6 @@
 package com.food.ordering.system.domain.valueobject;
 
-public enum PaymentStatus {
+public enum PaymentStatus
+{
     COMPLETED, CANCELLED, FAILED
 }

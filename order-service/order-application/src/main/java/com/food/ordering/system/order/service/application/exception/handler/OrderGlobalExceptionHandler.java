@@ -19,42 +19,46 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @Slf4j
 @ControllerAdvice
-public class OrderGlobalExceptionHandler extends GlobalExceptionHandler {
+public class OrderGlobalExceptionHandler extends GlobalExceptionHandler
+{
 
-/**
- * Given that an exception of OrderDomainException.class is thrown return @ResponseStatus BAD_REQUEST and an ErrorDTO
- * wrapped as a html response via use of @ResponseBody
- *
- * @param orderDomainException has been thrown from within order domain
- * @return ErrorDTO
- */
-@ResponseBody
-@ExceptionHandler(value = {OrderDomainException.class})
-@ResponseStatus(HttpStatus.BAD_REQUEST)
-public ErrorDTO handleException(OrderDomainException orderDomainException) {
+    /**
+     * Given that an exception of OrderDomainException.class is thrown return @ResponseStatus BAD_REQUEST and an
+     * ErrorDTO
+     * wrapped as a html response via use of @ResponseBody
+     *
+     * @param orderDomainException has been thrown from within order domain
+     * @return ErrorDTO
+     */
+    @ResponseBody
+    @ExceptionHandler(value = {OrderDomainException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorDTO handleException(OrderDomainException orderDomainException)
+    {
 
-    log.error(orderDomainException.getMessage(), orderDomainException);
+        log.error(orderDomainException.getMessage(), orderDomainException);
 
-    return ErrorDTO
-    .builder()
-    .code(HttpStatus.BAD_REQUEST.getReasonPhrase())
-    .message(orderDomainException.getMessage())
-    .build();
-}
+        return ErrorDTO
+                .builder()
+                .code(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                .message(orderDomainException.getMessage())
+                .build();
+    }
 
-@ResponseBody
-@ExceptionHandler(value = {OrderNotFoundException.class})
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public ErrorDTO handleException(OrderNotFoundException orderNotFoundException) {
+    @ResponseBody
+    @ExceptionHandler(value = {OrderNotFoundException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorDTO handleException(OrderNotFoundException orderNotFoundException)
+    {
 
-    log.error(orderNotFoundException.getMessage(), orderNotFoundException);
+        log.error(orderNotFoundException.getMessage(), orderNotFoundException);
 
-    return ErrorDTO
-    .builder()
-    .code(HttpStatus.NOT_FOUND.getReasonPhrase())
-    .message(orderNotFoundException.getMessage())
-    .build();
-}
+        return ErrorDTO
+                .builder()
+                .code(HttpStatus.NOT_FOUND.getReasonPhrase())
+                .message(orderNotFoundException.getMessage())
+                .build();
+    }
 
 
 }

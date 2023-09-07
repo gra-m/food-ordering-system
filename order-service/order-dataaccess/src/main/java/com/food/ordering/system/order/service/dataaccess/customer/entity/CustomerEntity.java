@@ -1,10 +1,11 @@
 package com.food.ordering.system.order.service.dataaccess.customer.entity;
 
-import java.util.UUID;
+import lombok.*;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import lombok.*;
+import java.util.UUID;
 
 /**
  * Used to check if a customer exists, so only UUID.
@@ -19,10 +20,11 @@ import lombok.*;
 @AllArgsConstructor
 @Table(name = "order_customer_m_view", schema = "customer")
 @Entity
-public class CustomerEntity {
+public class CustomerEntity
+{
 
-@Id
-private UUID id;
+    @Id
+    private UUID id;
 
 
 }

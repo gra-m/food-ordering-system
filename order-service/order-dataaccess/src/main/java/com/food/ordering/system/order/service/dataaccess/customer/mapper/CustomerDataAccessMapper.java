@@ -5,11 +5,13 @@ import com.food.ordering.system.order.service.domain.entity.Customer;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CustomerDataAccessMapper {
+public class CustomerDataAccessMapper
+{
 
-public Customer customerEntityToCustomer(CustomerEntity customerEntity) {
-    return new Customer(customerEntity.getId());
-}
+    public Customer customerEntityToCustomer(CustomerEntity customerEntity)
+    {
+        return new Customer(customerEntity.getId());
+    }
 
 
 }

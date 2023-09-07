@@ -15,7 +15,8 @@ import java.util.UUID;
 @Builder
 @Table(name = "order_outbox")
 @Entity
-public class OrderOutboxEntity {
+public class OrderOutboxEntity
+{
     @Id
     private UUID id;
     private UUID sagaId;
@@ -31,7 +32,8 @@ public class OrderOutboxEntity {
     private int version;
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o)
+    {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
@@ -41,7 +43,8 @@ public class OrderOutboxEntity {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         return id.hashCode();
     }
 }

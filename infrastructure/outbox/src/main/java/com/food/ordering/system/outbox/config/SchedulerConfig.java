@@ -8,7 +8,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  */
 @Configuration
 @EnableScheduling
-public class SchedulerConfig {
+public class SchedulerConfig
+{
 
 /*
 Example only: Spring starter json is enough for our needs, but if extra configuration mapping is required:

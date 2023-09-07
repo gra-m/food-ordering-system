@@ -57,7 +57,8 @@ public class PaymentEventKafkaPublisher implements PaymentResponseMessagePublish
                     .orderEvenPayloadToPaymentResponseAvroModel(sagaId, orderEventPayload);
 
             // create callback
-            ListenableFutureCallback<SendResult<String, PaymentResponseAvroModel>> callback = kafkaMessageHelper.getKafkaCallback(
+            ListenableFutureCallback<SendResult<String, PaymentResponseAvroModel>> callback =
+                    kafkaMessageHelper.getKafkaCallback(
                     paymentServiceConfigData.getPaymentResponseTopicName(),
                     paymentResponseAvroModel,
                     orderOutboxMessage,
@@ -79,7 +80,7 @@ public class PaymentEventKafkaPublisher implements PaymentResponseMessagePublish
                     sagaId);
         } catch (Exception e) {
             log.error("Error while sending PaymentRequestAvroModel message to kafka with order id: {} saga id: {}" +
-                    "and error:\n{} ",
+                            "and error:\n{} ",
                     orderEventPayload.getOrderId(),
                     sagaId,
                     e.getMessage());

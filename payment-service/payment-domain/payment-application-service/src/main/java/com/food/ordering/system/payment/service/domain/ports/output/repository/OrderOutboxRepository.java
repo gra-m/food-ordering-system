@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface OrderOutboxRepository {
+public interface OrderOutboxRepository
+{
     OrderOutboxMessage save(OrderOutboxMessage orderOutboxMessage);
 
     Optional<List<OrderOutboxMessage>> findByTypeAndOutboxStatus(String type, OutboxStatus status);
@@ -19,7 +20,6 @@ public interface OrderOutboxRepository {
                                                                                     OutboxStatus outboxStatus);
 
     void deleteByTypeAndOutboxStatus(String type, OutboxStatus status);
-
 
 
 }

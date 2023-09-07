@@ -7,25 +7,29 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class PaymentRequestMessageListenerImpl implements PaymentRequestMessageListener {
+public class PaymentRequestMessageListenerImpl implements PaymentRequestMessageListener
+{
 
-private final PaymentRequestHelper paymentRequestHelper;
-
-
-public PaymentRequestMessageListenerImpl(PaymentRequestHelper paymentRequestHelper) {
-    this.paymentRequestHelper = paymentRequestHelper;
-}
+    private final PaymentRequestHelper paymentRequestHelper;
 
 
-@Override
-public void completePayment(PaymentRequest paymentRequest) {
-    paymentRequestHelper.persistPayment(paymentRequest);
-}
+    public PaymentRequestMessageListenerImpl(PaymentRequestHelper paymentRequestHelper)
+    {
+        this.paymentRequestHelper = paymentRequestHelper;
+    }
 
-@Override
-public void cancelPayment(PaymentRequest paymentRequest) {
-    paymentRequestHelper.persistCancelPayment(paymentRequest);
-}
+
+    @Override
+    public void completePayment(PaymentRequest paymentRequest)
+    {
+        paymentRequestHelper.persistPayment(paymentRequest);
+    }
+
+    @Override
+    public void cancelPayment(PaymentRequest paymentRequest)
+    {
+        paymentRequestHelper.persistCancelPayment(paymentRequest);
+    }
 
 }
 
