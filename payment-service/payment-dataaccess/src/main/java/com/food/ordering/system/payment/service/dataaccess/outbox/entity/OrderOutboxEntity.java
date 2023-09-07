@@ -25,7 +25,7 @@ public class OrderOutboxEntity {
     private String payload;
     @Enumerated(EnumType.STRING)
     private OutboxStatus outboxStatus;
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
     @Version
     private int version;
