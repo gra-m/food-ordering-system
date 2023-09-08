@@ -3,6 +3,7 @@ package com.food.ordering.service.order.service.domain;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.food.ordering.system.domain.valueobject.*;
+import com.food.ordering.system.order.service.domain.OrderApprovalSaga;
 import com.food.ordering.system.order.service.domain.dto.create.CreateOrderCommand;
 import com.food.ordering.system.order.service.domain.dto.create.CreateOrderResponse;
 import com.food.ordering.system.order.service.domain.dto.create.OrderAddress;
@@ -64,6 +65,8 @@ public class OrderApplicationServiceTest
     private OrderDataMapper orderDataMapper;
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private OrderApprovalSaga orderApprovalSaga;
 //endregion
 
     //region AutowiredMockBeansFromOrderTestConfiguration
@@ -191,7 +194,7 @@ public class OrderApplicationServiceTest
     {
         OrderDomainException orderDomainException = assertThrows(OrderDomainException.class,
                 () -> orderApplicationService.createOrder(createOrderCommandWrongPrice));
-        assertEquals("Total price: 250.00 is not equal to Order Items Total: 200.00!",
+        assertEquals("Total price: 250.00 is not equal to Order items total: 200.00!",
                 orderDomainException.getMessage());
     }
 

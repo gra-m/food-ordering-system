@@ -21,15 +21,11 @@ public class RestaurantDomainServiceImpl implements RestaurantDomainService
     /**
      * @param restaurant
      * @param failureMessages
-     * @param orderApprovedEventDomainEventPublisher
-     * @param orderRejectedEventDomainEventPublisher
      * @return
      */
     @Override
     public OrderApprovalEvent validateOrder(Restaurant restaurant,
-                                            List<String> failureMessages,
-                                            DomainEventPublisher<OrderApprovedEvent> orderApprovedEventDomainEventPublisher,
-                                            DomainEventPublisher<OrderRejectedEvent> orderRejectedEventDomainEventPublisher)
+                                            List<String> failureMessages)
     {
         restaurant.validateOrder(failureMessages);
         log.info("Validating order with id: {}", restaurant.getOrderDetail().getId().getValue());
@@ -41,8 +37,7 @@ public class RestaurantDomainServiceImpl implements RestaurantDomainService
             return new OrderApprovedEvent(restaurant.getOrderApproval(),
                     restaurant.getId(),
                     failureMessages,
-                    ZonedDateTime.now(ZoneId.of(UTCBRU)),
-                    orderApprovedEventDomainEventPublisher);
+                    ZonedDateTime.now(ZoneId.of(UTCBRU)));
         } else {
             log.info("Order id: {} is rejected", restaurant.getOrderDetail().getId().getValue());
             restaurant.constructOrderApproval(OrderApprovalStatus.REJECTED);
@@ -50,8 +45,7 @@ public class RestaurantDomainServiceImpl implements RestaurantDomainService
             return new OrderRejectedEvent(restaurant.getOrderApproval(),
                     restaurant.getId(),
                     failureMessages,
-                    ZonedDateTime.now(ZoneId.of(UTCBRU)),
-                    orderRejectedEventDomainEventPublisher);
+                    ZonedDateTime.now(ZoneId.of(UTCBRU)));
         }
     }
 

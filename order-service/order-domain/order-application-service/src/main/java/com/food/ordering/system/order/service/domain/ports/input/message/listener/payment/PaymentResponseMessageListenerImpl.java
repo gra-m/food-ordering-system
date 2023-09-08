@@ -27,7 +27,7 @@ public class PaymentResponseMessageListenerImpl implements PaymentResponseMessag
     public void paymentCompleted(PaymentResponse paymentResponse)
     {
         orderPaymentSaga.process(paymentResponse);
-        log.info("Order payetn Saga process operation is completed for order id: {}", paymentResponse.getOrderId());
+        log.info("OrderPaymentSaga process operation is completed for order id: {}", paymentResponse.getOrderId());
     }
 
     /**

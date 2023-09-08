@@ -26,6 +26,7 @@ public class OrderTestConfiguration
      * @return
      */
 
+    @Bean
     public OrderDomainService orderDomainService()
     {
         return new OrderDomainServiceImpl();
@@ -72,6 +73,7 @@ public class OrderTestConfiguration
         return Mockito.mock(PaymentOutboxRepository.class);
     }
 
+    @Bean
     public ApprovalOutboxRepository approvalOutboxRepository()
     {
         return Mockito.mock(ApprovalOutboxRepository.class);
