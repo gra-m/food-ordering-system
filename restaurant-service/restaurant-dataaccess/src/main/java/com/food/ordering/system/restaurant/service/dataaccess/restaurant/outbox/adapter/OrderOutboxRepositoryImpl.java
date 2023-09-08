@@ -6,12 +6,13 @@ import com.food.ordering.system.restaurant.service.dataaccess.restaurant.outbox.
 import com.food.ordering.system.restaurant.service.dataaccess.restaurant.outbox.repository.OrderOutboxJpaRepository;
 import com.food.ordering.system.restaurant.service.domain.outbox.model.OrderOutboxMessage;
 import com.food.ordering.system.restaurant.service.domain.ports.output.repository.OrderOutboxRepository;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
+@Component
 public class OrderOutboxRepositoryImpl implements OrderOutboxRepository
 {
     private final OrderOutboxJpaRepository orderOutboxJpaRepository;

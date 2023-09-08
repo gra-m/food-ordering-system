@@ -2,6 +2,7 @@ package com.food.ordering.system.restaurant.service.domain.ports.output.reposito
 
 import com.food.ordering.system.outbox.OutboxStatus;
 import com.food.ordering.system.restaurant.service.domain.outbox.model.OrderOutboxMessage;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
