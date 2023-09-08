@@ -1,37 +1,61 @@
 package com.food.ordering.system.restaurant.service.dataaccess.restaurant.outbox.adapter;
 
-import com.food.ordering.system.domain.valueobject.PaymentStatus;
 import com.food.ordering.system.outbox.OutboxStatus;
-import com.food.ordering.system.payment.service.domain.outbox.model.OrderOutboxMessage;
-import com.food.ordering.system.payment.service.domain.ports.output.repository.OrderOutboxRepository;
+import com.food.ordering.system.restaurant.service.dataaccess.restaurant.outbox.exception.OrderOutboxNotFoundException;
+import com.food.ordering.system.restaurant.service.dataaccess.restaurant.outbox.mapper.OrderOutboxDataAccessMapper;
+import com.food.ordering.system.restaurant.service.dataaccess.restaurant.outbox.repository.OrderOutboxJpaRepository;
+import com.food.ordering.system.restaurant.service.domain.outbox.model.OrderOutboxMessage;
+import com.food.ordering.system.restaurant.service.domain.ports.output.repository.OrderOutboxRepository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class OrderOutboxRepositoryImpl implements OrderOutboxRepository
 {
-    @Override
-    public OrderOutboxMessage save(OrderOutboxMessage orderOutboxMessage)
+    private final OrderOutboxJpaRepository orderOutboxJpaRepository;
+    private final OrderOutboxDataAccessMapper orderOutboxDataAccessMapper;
+
+    public OrderOutboxRepositoryImpl(OrderOutboxJpaRepository orderOutboxJpaRepository, OrderOutboxDataAccessMapper orderOutboxDataAccessMapper)
     {
-        return null;
+        this.orderOutboxJpaRepository = orderOutboxJpaRepository;
+        this.orderOutboxDataAccessMapper = orderOutboxDataAccessMapper;
+    }
+
+
+    @Override
+    public OrderOutboxMessage save(OrderOutboxMessage orderPaymentOutboxMessage)
+    {
+        return orderOutboxDataAccessMapper
+                .orderOutboxEntityToOrderOutboxMessage(orderOutboxJpaRepository
+                        .save(orderOutboxDataAccessMapper
+                                .orderOutboxMessageToOutboxEntity(orderPaymentOutboxMessage)));
     }
 
     @Override
-    public Optional<List<OrderOutboxMessage>> findByTypeAndOutboxStatus(String type, OutboxStatus status)
+    public Optional<List<OrderOutboxMessage>> findByTypeAndOutboxStatus(String sagaType, OutboxStatus outboxStatus)
     {
-        return Optional.empty();
+        return Optional.of(orderOutboxJpaRepository.findByTypeAndOutboxStatus(sagaType, outboxStatus)
+                .orElseThrow(() ->
+                        new OrderOutboxNotFoundException(String.format(
+                                "Approval outbox object cannot be found for sagaType %s", sagaType)))
+                .stream()
+                .map(orderOutboxEntity -> orderOutboxDataAccessMapper.orderOutboxEntityToOrderOutboxMessage(orderOutboxEntity))
+                .collect(Collectors.toList()));
     }
 
     @Override
-    public Optional<OrderOutboxMessage> findByTypeAndSagaIdAndPaymentStatusAndOutboxStatus(String type, UUID sagaId, PaymentStatus paymentStatus, OutboxStatus outboxStatus)
+    public Optional<OrderOutboxMessage> findByTypeAndSagaIdAndOutboxStatus(String type, UUID sagaId, OutboxStatus outboxStatus)
     {
-        return Optional.empty();
+        return orderOutboxJpaRepository.findByTypeAndSagaIdAndOutboxStatus(type, sagaId, outboxStatus)
+                .map(orderOutboxEntity -> orderOutboxDataAccessMapper.orderOutboxEntityToOrderOutboxMessage(orderOutboxEntity));
     }
 
     @Override
-    public void deleteByTypeAndOutboxStatus(String type, OutboxStatus status)
+    public void deleteByTypeAndOutboxStatus(String type, OutboxStatus outboxStatus)
     {
-
+        orderOutboxJpaRepository.deleteByTypeAndOutboxStatus(type, outboxStatus);
     }
+
 }

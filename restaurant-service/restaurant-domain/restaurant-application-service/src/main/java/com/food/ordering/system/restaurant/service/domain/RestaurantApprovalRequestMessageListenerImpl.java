@@ -17,16 +17,11 @@ public class RestaurantApprovalRequestMessageListenerImpl implements RestaurantA
         this.restaurantApprovalRequestHelper = restaurantApprovalRequestHelper;
     }
 
-    /**
-     * @param restaurantApprovalRequest
-     */
     @Override
     public void approveOrder(RestaurantApprovalRequest restaurantApprovalRequest)
     {
         OrderApprovalEvent orderApprovalEvent = restaurantApprovalRequestHelper.persistOrderApproval(
                 restaurantApprovalRequest);
-        orderApprovalEvent.fire();
-
     }
 
 

@@ -1,7 +1,5 @@
 package com.food.ordering.system.restaurant.service.dataaccess.restaurant.outbox.mapper;
 
-// fixme model not created yet.
-import com.food.ordering.system.payment.service.domain.outbox.model.OrderOutboxMessage;
 import com.food.ordering.system.restaurant.service.dataaccess.restaurant.outbox.entity.OrderOutboxEntity;
 import com.food.ordering.system.restaurant.service.domain.outbox.model.OrderOutboxMessage;
 import org.springframework.stereotype.Component;
@@ -18,7 +16,7 @@ public class OrderOutboxDataAccessMapper
                 .type(orderOutboxMessage.getType())
                 .payload(orderOutboxMessage.getPayload())
                 .outboxStatus(orderOutboxMessage.getOutboxStatus())
-                .orderApprovalStatus(orderOutboxMessage.getApprovalStatus())
+                .approvalStatus(orderOutboxMessage.getApprovalStatus())
                 .version(orderOutboxMessage.getVersion())
                 .build();
 
